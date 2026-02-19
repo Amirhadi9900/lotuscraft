@@ -10,6 +10,7 @@ type GalleryItem = {
   category: string;
   src: string;
   alt: string;
+  contain?: boolean;
 };
 
 const galleryItems: GalleryItem[] = [
@@ -33,10 +34,10 @@ const galleryItems: GalleryItem[] = [
   { id: 18, category: "crafts", src: "/images/craft-9.jpeg", alt: "Custom craft creation" },
   { id: 19, category: "crafts", src: "/images/craft-10.jpeg", alt: "Handmade decorative piece" },
   { id: 20, category: "crafts", src: "/images/craft-11.jpeg", alt: "Custom craft creation" },
-  { id: 21, category: "sewing", src: "/images/sew-1.jpeg", alt: "Professional sewing work" },
-  { id: 22, category: "sewing", src: "/images/sew-2.jpeg", alt: "Professional sewing work" },
-  { id: 23, category: "sewing", src: "/images/sew-3.jpeg", alt: "Professional sewing work" },
-  { id: 24, category: "sewing", src: "/images/sew-4.jpeg", alt: "Professional sewing work" },
+  { id: 21, category: "sewing", src: "/images/sew-1.jpeg", alt: "Professional sewing work", contain: true },
+  { id: 22, category: "sewing", src: "/images/sew-2.jpeg", alt: "Professional sewing work", contain: true },
+  { id: 23, category: "sewing", src: "/images/sew-3.jpeg", alt: "Professional sewing work", contain: true },
+  { id: 24, category: "sewing", src: "/images/sew-4.jpeg", alt: "Professional sewing work", contain: true },
 ];
 
 const categories = ["all", "sewing", "laundry", "crafts"];
@@ -105,13 +106,13 @@ export default function GalleryPage() {
               return (
                 <div
                   key={item.id}
-                  className="group relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden border border-gold-200 hover:shadow-xl transition-all duration-300"
+                  className={`group relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden border border-gold-200 hover:shadow-xl transition-all duration-300 ${item.contain ? "bg-charcoal-50" : ""}`}
                 >
                   <Image
                     src={item.src}
                     alt={item.alt}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className={`${item.contain ? "object-contain p-1" : "object-cover"} group-hover:scale-105 transition-transform duration-500`}
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-charcoal-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

@@ -191,14 +191,18 @@ export default function ServicesPage() {
       {/* Image strip between sections */}
       <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10">
         <div className="grid grid-cols-4 gap-2 sm:gap-3 rounded-xl sm:rounded-2xl overflow-hidden">
-          {["/images/sew-4.jpeg", "/images/craft-3.jpeg", "/images/rug-6.jpeg", "/images/craft-7.jpeg"].map(
-            (src, i) => (
-              <div key={i} className="relative aspect-square overflow-hidden rounded-lg sm:rounded-xl">
+          {[
+            { src: "/images/sew-4.jpeg", contain: true },
+            { src: "/images/craft-3.jpeg", contain: false },
+            { src: "/images/rug-6.jpeg", contain: false },
+            { src: "/images/craft-7.jpeg", contain: false },
+          ].map((img, i) => (
+              <div key={i} className={`relative aspect-square overflow-hidden rounded-lg sm:rounded-xl ${img.contain ? "bg-charcoal-50" : ""}`}>
                 <Image
-                  src={src}
+                  src={img.src}
                   alt="Lotus Craft work"
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  className={`${img.contain ? "object-contain p-1" : "object-cover"} hover:scale-105 transition-transform duration-500`}
                   sizes="25vw"
                 />
               </div>

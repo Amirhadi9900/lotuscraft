@@ -138,12 +138,12 @@ export default function HomePage() {
           <div className="grid grid-cols-3 gap-2 sm:gap-4 rounded-xl sm:rounded-2xl overflow-hidden">
             {["/images/sew-1.jpeg", "/images/sew-2.jpeg", "/images/sew-3.jpeg"].map(
               (src, i) => (
-                <div key={i} className="relative aspect-4/3 overflow-hidden">
+                <div key={i} className="relative aspect-4/3 overflow-hidden bg-charcoal-50">
                   <Image
                     src={src}
                     alt="Professional sewing by Lotus Craft"
                     fill
-                    className="object-cover hover:scale-105 transition-transform duration-500"
+                    className="object-contain p-1 hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 33vw, 33vw"
                   />
                 </div>
