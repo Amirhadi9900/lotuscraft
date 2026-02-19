@@ -1,0 +1,295 @@
+import nodemailer from "nodemailer";
+
+// ─── SMTP Transporter (singleton) ──────────────────────────────
+
+let transporter: nodemailer.Transporter | null = null;
+
+function getTransporter(): nodemailer.Transporter {
+  if (!transporter) {
+    const host = process.env.SMTP_HOST;
+    const port = parseInt(process.env.SMTP_PORT || "465", 10);
+    const secure = process.env.SMTP_SECURE === "true";
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+
+    if (!host || !user || !pass) {
+      throw new Error(
+        "Missing SMTP configuration. Check .env.local for SMTP_HOST, SMTP_USER, SMTP_PASS."
+      );
+    }
+
+    transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure,
+      auth: { user, pass },
+    });
+  }
+  return transporter;
+}
+
+// ─── Types ─────────────────────────────────────────────────────
+
+interface ContactSubmission {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  service: string;
+  preferredContact: string;
+  inquiryType: string;
+  businessName: string;
+  industry: string;
+}
+
+// ─── Label maps ────────────────────────────────────────────────
+
+const SERVICE_LABELS: Record<string, string> = {
+  sewing: "Sewing & Alterations",
+  laundry: "Laundry & Dry Cleaning",
+  rug_washing: "Rug Washing",
+  crafts: "Custom Crafts",
+  b2b_contract: "Contract-Based Laundry (B2B)",
+  other: "Other / General Inquiry",
+};
+
+const CONTACT_LABELS: Record<string, string> = {
+  email: "Email",
+  phone: "Phone",
+  either: "No preference",
+};
+
+const INDUSTRY_LABELS: Record<string, string> = {
+  hotel: "Hotel",
+  hostel: "Hostel",
+  motel: "Motel",
+  restaurant: "Restaurant / Café",
+  spa: "Spa / Wellness",
+  healthcare: "Healthcare / Clinic",
+  retail: "Retail / Fashion",
+  other_business: "Other",
+};
+
+// ─── Build HTML email ──────────────────────────────────────────
+
+function buildEmailHtml(data: ContactSubmission): string {
+  const serviceLabel = SERVICE_LABELS[data.service] || "Not specified";
+  const contactLabel = CONTACT_LABELS[data.preferredContact] || "Not specified";
+  const industryLabel = INDUSTRY_LABELS[data.industry] || "";
+  const isB2B = data.inquiryType === "business";
+  const inquiryLabel = isB2B ? "Business (B2B)" : "Individual (B2C)";
+  const escapedMessage = data.message
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\n/g, "<br>");
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background-color:#f8f6f3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8f6f3;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#1a1625;padding:32px 40px;border-radius:16px 16px 0 0;text-align:center;">
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#d4a843;letter-spacing:0.5px;">
+                Lotus Craft
+              </h1>
+              <p style="margin:6px 0 0;font-size:13px;color:#a09cae;">
+                New Contact Form Submission
+              </p>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="background-color:#ffffff;padding:36px 40px;">
+
+              <!-- Greeting -->
+              <p style="margin:0 0 24px;font-size:15px;color:#4a4458;line-height:1.6;">
+                You have received a new message from the Lotus Craft website contact form.
+              </p>
+
+              <!-- Info Table -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
+                <tr>
+                  <td style="padding:14px 16px;background-color:${isB2B ? "#eef0f5" : "#faf8f5"};border-left:3px solid ${isB2B ? "#4a5568" : "#d4a843"};border-radius:6px;">
+                    <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Inquiry Type</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:600;">${inquiryLabel}</p>
+                  </td>
+                </tr>
+                <tr><td style="height:8px;"></td></tr>
+                ${isB2B && data.businessName ? `<tr>
+                  <td style="padding:14px 16px;background-color:#eef0f5;border-left:3px solid #4a5568;border-radius:6px;">
+                    <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Business Name</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:500;">${data.businessName}</p>
+                  </td>
+                </tr>
+                <tr><td style="height:8px;"></td></tr>` : ""}
+                ${isB2B && industryLabel ? `<tr>
+                  <td style="padding:14px 16px;background-color:#eef0f5;border-left:3px solid #4a5568;border-radius:6px;">
+                    <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Industry</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:500;">${industryLabel}</p>
+                  </td>
+                </tr>
+                <tr><td style="height:8px;"></td></tr>` : ""}
+                <tr>
+                  <td style="padding:14px 16px;background-color:#faf8f5;border-left:3px solid #d4a843;border-radius:6px;">
+                    <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Name</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:500;">${data.name}</p>
+                  </td>
+                </tr>
+                <tr><td style="height:8px;"></td></tr>
+                <tr>
+                  <td style="padding:14px 16px;background-color:#faf8f5;border-left:3px solid #d4a843;border-radius:6px;">
+                    <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Email</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;">
+                      <a href="mailto:${data.email}" style="color:#d4a843;text-decoration:none;">${data.email}</a>
+                    </p>
+                  </td>
+                </tr>
+                <tr><td style="height:8px;"></td></tr>
+                ${data.phone ? `<tr>
+                  <td style="padding:14px 16px;background-color:#faf8f5;border-left:3px solid #d4a843;border-radius:6px;">
+                    <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Phone</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;">
+                      <a href="tel:${data.phone}" style="color:#d4a843;text-decoration:none;">${data.phone}</a>
+                    </p>
+                  </td>
+                </tr>
+                <tr><td style="height:8px;"></td></tr>` : ""}
+                <tr>
+                  <td style="padding:14px 16px;background-color:#faf8f5;border-left:3px solid #d4a843;border-radius:6px;">
+                    <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Service Interested In</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:500;">${serviceLabel}</p>
+                  </td>
+                </tr>
+                <tr><td style="height:8px;"></td></tr>
+                <tr>
+                  <td style="padding:14px 16px;background-color:#faf8f5;border-left:3px solid #d4a843;border-radius:6px;">
+                    <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Preferred Contact Method</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:500;">${contactLabel}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Message -->
+              <div style="padding:20px;background-color:#faf8f5;border-radius:10px;border:1px solid #eee8df;">
+                <p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Message</p>
+                <p style="margin:0;font-size:14px;color:#2d2840;line-height:1.7;">
+                  ${escapedMessage}
+                </p>
+              </div>
+
+              <!-- Reply Button -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;">
+                <tr>
+                  <td align="center">
+                    <a href="mailto:${data.email}?subject=Re: Your inquiry to Lotus Craft" style="display:inline-block;padding:12px 32px;background-color:#d4a843;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;border-radius:50px;">
+                      Reply to ${data.name}
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#f0ede8;padding:24px 40px;border-radius:0 0 16px 16px;text-align:center;">
+              <p style="margin:0 0 4px;font-size:12px;color:#8a8698;">
+                This email was sent from the Lotus Craft website contact form.
+              </p>
+              <p style="margin:0;font-size:11px;color:#a09cae;">
+                ${new Date().toLocaleDateString("en-GB", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+                at ${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`.trim();
+}
+
+// ─── Build plain text fallback ─────────────────────────────────
+
+function buildEmailText(data: ContactSubmission): string {
+  const serviceLabel = SERVICE_LABELS[data.service] || "Not specified";
+  const contactLabel = CONTACT_LABELS[data.preferredContact] || "Not specified";
+  const industryLabel = INDUSTRY_LABELS[data.industry] || "";
+  const isB2B = data.inquiryType === "business";
+
+  return [
+    "NEW CONTACT FORM SUBMISSION — Lotus Craft",
+    "━".repeat(48),
+    "",
+    `Inquiry Type:       ${isB2B ? "Business (B2B)" : "Individual (B2C)"}`,
+    isB2B && data.businessName ? `Business Name:      ${data.businessName}` : null,
+    isB2B && industryLabel ? `Industry:           ${industryLabel}` : null,
+    "",
+    `Name:               ${data.name}`,
+    `Email:              ${data.email}`,
+    data.phone ? `Phone:              ${data.phone}` : null,
+    `Service:            ${serviceLabel}`,
+    `Preferred Contact:  ${contactLabel}`,
+    "",
+    "━".repeat(48),
+    "MESSAGE:",
+    "━".repeat(48),
+    "",
+    data.message,
+    "",
+    "━".repeat(48),
+    `Sent on ${new Date().toLocaleDateString("en-GB")} at ${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}`,
+  ]
+    .filter((line) => line !== null)
+    .join("\n");
+}
+
+// ─── Send contact email ────────────────────────────────────────
+
+export async function sendContactEmail(
+  data: ContactSubmission
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const transport = getTransporter();
+    const to = process.env.CONTACT_EMAIL_TO || process.env.SMTP_USER;
+
+    if (!to) {
+      throw new Error("No recipient email configured (CONTACT_EMAIL_TO).");
+    }
+
+    const serviceLabel = SERVICE_LABELS[data.service] || "General";
+    const isB2B = data.inquiryType === "business";
+    const subjectPrefix = isB2B ? "B2B Inquiry" : "New Inquiry";
+    const businessSuffix = isB2B && data.businessName ? ` (${data.businessName})` : "";
+
+    await transport.sendMail({
+      from: `"Lotus Craft Website" <${process.env.SMTP_USER}>`,
+      to,
+      replyTo: data.email,
+      subject: `${subjectPrefix}: ${serviceLabel} — from ${data.name}${businessSuffix}`,
+      text: buildEmailText(data),
+      html: buildEmailHtml(data),
+    });
+
+    return { success: true };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown email error";
+    console.error("[Email] Failed to send:", message);
+    return { success: false, error: message };
+  }
+}

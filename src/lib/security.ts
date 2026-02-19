@@ -1,0 +1,276 @@
+/**
+ * Security utilities for form protection.
+ * Multi-layered defense against bots, spam, and abuse.
+ */
+
+// ─── Input Sanitization ────────────────────────────────────────────
+
+/** Escape HTML entities to prevent XSS */
+export function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
+/** Strip all HTML tags from input */
+export function stripHtml(input: string): string {
+  return input.replace(/<[^>]*>/g, "");
+}
+
+/** Sanitize and normalize input: strip HTML then escape residuals */
+export function sanitizeInput(input: string): string {
+  return escapeHtml(stripHtml(input)).trim();
+}
+
+// ─── Field Limits (single source of truth) ─────────────────────────
+
+export const FIELD_LIMITS = {
+  name: { min: 2, max: 50 },
+  email: { min: 5, max: 80 },
+  phone: { min: 6, max: 20 },
+  message: { min: 10, max: 5000 },
+} as const;
+
+// ─── Validation ────────────────────────────────────────────────────
+
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+const PHONE_REGEX = /^[+]?[\d\s()\-]{6,20}$/;
+
+export function isValidEmail(email: string): boolean {
+  return (
+    email.length >= FIELD_LIMITS.email.min &&
+    email.length <= FIELD_LIMITS.email.max &&
+    EMAIL_REGEX.test(email)
+  );
+}
+
+export function isValidPhone(phone: string): boolean {
+  if (!phone) return true;
+  if (phone.length > FIELD_LIMITS.phone.max) return false;
+  return PHONE_REGEX.test(phone);
+}
+
+export function isValidName(name: string): boolean {
+  if (name.length < FIELD_LIMITS.name.min || name.length > FIELD_LIMITS.name.max) return false;
+  const urlPattern = /https?:\/\//i;
+  if (urlPattern.test(name)) return false;
+  const scriptPattern = /<script|javascript:|on\w+\s*=/i;
+  if (scriptPattern.test(name)) return false;
+  return true;
+}
+
+export function isValidMessage(message: string): boolean {
+  return (
+    message.length >= FIELD_LIMITS.message.min &&
+    message.length <= FIELD_LIMITS.message.max
+  );
+}
+
+// ─── Spam Detection ────────────────────────────────────────────────
+
+export interface SpamResult {
+  isSpam: boolean;
+  reason?: string;
+}
+
+export function detectSpam(text: string): SpamResult {
+  const urlPattern = /https?:\/\/[^\s]+/gi;
+  const urls = text.match(urlPattern);
+  if (urls && urls.length > 2) {
+    return { isSpam: true, reason: "excessive_urls" };
+  }
+
+  const spamKeywords = [
+    /\b(viagra|cialis|casino|lottery|prize|winner|crypto\s*airdrop)\b/i,
+    /\b(click here|buy now|free money|earn \$|make money fast)\b/i,
+    /\b(SEO services|backlinks|web traffic|guaranteed results)\b/i,
+  ];
+  for (const pattern of spamKeywords) {
+    if (pattern.test(text)) {
+      return { isSpam: true, reason: "spam_keywords" };
+    }
+  }
+
+  const injectionPatterns = [
+    /<script\b/i,
+    /javascript\s*:/i,
+    /on(click|load|error|mouseover|focus)\s*=/i,
+    /data\s*:\s*text\/html/i,
+    /\beval\s*\(/i,
+    /\bdocument\.(cookie|location|write)/i,
+    /\bwindow\.(location|open)\b/i,
+  ];
+  for (const pattern of injectionPatterns) {
+    if (pattern.test(text)) {
+      return { isSpam: true, reason: "injection_attempt" };
+    }
+  }
+
+  if (text.length > 30) {
+    const upperCount = (text.match(/[A-Z]/g) || []).length;
+    const letterCount = (text.match(/[a-zA-Z]/g) || []).length;
+    if (letterCount > 0 && upperCount / letterCount > 0.75) {
+      return { isSpam: true, reason: "excessive_caps" };
+    }
+  }
+
+  const words = text.toLowerCase().split(/\s+/);
+  if (words.length > 5) {
+    const wordCounts = new Map<string, number>();
+    for (const word of words) {
+      wordCounts.set(word, (wordCounts.get(word) || 0) + 1);
+    }
+    const maxRepeat = Math.max(...wordCounts.values());
+    if (maxRepeat > words.length * 0.5 && maxRepeat > 5) {
+      return { isSpam: true, reason: "repetitive_content" };
+    }
+  }
+
+  return { isSpam: false };
+}
+
+// ─── Rate Limiting (in-memory; use Redis in production) ────────────
+
+interface RateLimitEntry {
+  count: number;
+  resetAt: number;
+}
+
+const rateLimitStore = new Map<string, RateLimitEntry>();
+let lastCleanup = Date.now();
+
+function cleanupRateLimitStore() {
+  const now = Date.now();
+  if (now - lastCleanup < 60_000) return;
+  lastCleanup = now;
+  for (const [key, entry] of rateLimitStore) {
+    if (entry.resetAt < now) {
+      rateLimitStore.delete(key);
+    }
+  }
+}
+
+export function checkRateLimit(
+  identifier: string,
+  maxRequests = 5,
+  windowMs = 15 * 60 * 1000
+): { allowed: boolean; remaining: number; resetAt: number } {
+  cleanupRateLimitStore();
+  const now = Date.now();
+  const entry = rateLimitStore.get(identifier);
+
+  if (!entry || entry.resetAt < now) {
+    const resetAt = now + windowMs;
+    rateLimitStore.set(identifier, { count: 1, resetAt });
+    return { allowed: true, remaining: maxRequests - 1, resetAt };
+  }
+
+  if (entry.count >= maxRequests) {
+    return { allowed: false, remaining: 0, resetAt: entry.resetAt };
+  }
+
+  entry.count++;
+  return {
+    allowed: true,
+    remaining: maxRequests - entry.count,
+    resetAt: entry.resetAt,
+  };
+}
+
+// ─── Security Token Validation ─────────────────────────────────────
+
+export interface TokenValidation {
+  valid: boolean;
+  reason?: string;
+}
+
+export function validateSecurityToken(token: unknown): TokenValidation {
+  if (!token || typeof token !== "string") {
+    return { valid: false, reason: "missing_token" };
+  }
+
+  try {
+    const dotIndex = token.indexOf(".");
+    if (dotIndex === -1) {
+      return { valid: false, reason: "invalid_format" };
+    }
+
+    const timestampStr = token.substring(0, dotIndex);
+    const randomPart = token.substring(dotIndex + 1);
+
+    const timestamp = parseInt(timestampStr, 10);
+    if (isNaN(timestamp) || timestamp <= 0) {
+      return { valid: false, reason: "invalid_timestamp" };
+    }
+
+    const now = Date.now();
+    const age = now - timestamp;
+
+    if (age < 3000) {
+      return { valid: false, reason: "too_fast" };
+    }
+
+    if (age > 60 * 60 * 1000) {
+      return { valid: false, reason: "token_expired" };
+    }
+
+    if (!/^[a-f0-9]{32,64}$/.test(randomPart)) {
+      return { valid: false, reason: "invalid_nonce" };
+    }
+
+    return { valid: true };
+  } catch {
+    return { valid: false, reason: "parse_error" };
+  }
+}
+
+// ─── Request Header Validation ─────────────────────────────────────
+
+export function validateRequestHeaders(headers: Headers): {
+  valid: boolean;
+  reason?: string;
+} {
+  const contentType = headers.get("content-type");
+  if (!contentType?.includes("application/json")) {
+    return { valid: false, reason: "invalid_content_type" };
+  }
+
+  const userAgent = headers.get("user-agent");
+  if (!userAgent || userAgent.length < 10) {
+    return { valid: false, reason: "missing_user_agent" };
+  }
+
+  const botPatterns = [
+    /bot(?!.*googlebot)/i,
+    /spider/i,
+    /crawl/i,
+    /scraper/i,
+    /curl/i,
+    /wget/i,
+    /python-requests/i,
+    /http-client/i,
+  ];
+  for (const pattern of botPatterns) {
+    if (pattern.test(userAgent)) {
+      return { valid: false, reason: "bot_user_agent" };
+    }
+  }
+
+  return { valid: true };
+}
+
+// ─── Origin Validation ─────────────────────────────────────────────
+
+export function validateOrigin(headers: Headers): boolean {
+  const origin = headers.get("origin");
+  const host = headers.get("host");
+  if (!origin || !host) return true;
+  const originHost = origin.replace(/^https?:\/\//, "").split(":")[0];
+  const requestHost = host.split(":")[0];
+  return originHost === requestHost;
+}
