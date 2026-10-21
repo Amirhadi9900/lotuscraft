@@ -5,7 +5,7 @@
  *  1. HTTP method restriction (POST only)
  *  2. Request header validation (Content-Type, User-Agent, bot detection)
  *  3. Origin/Referer validation (CSRF protection)
- *  4. IP-based rate limiting (5 requests per 15 minutes)
+ *  4. Per-instance rate limit backstop (the enforced limit is the edge rule below)
  *  5. Honeypot field detection (silent rejection)
  *  6. Security token validation (time-based + nonce)
  *  7. Input type & length validation
@@ -46,7 +46,18 @@ export async function POST(request: NextRequest) {
   const ip = getClientIp(request);
 
   try {
-    // ── Layer 1: Rate Limiting ──────────────────────────────────
+    // ── Layer 1: Rate limiting (per-instance backstop) ──────────
+    // The enforced limit is a Vercel Firewall rule at the edge:
+    //   If      Path equals /api/contact  AND  Method equals POST
+    //   Then    Rate Limit — Fixed window · 600s · 5 requests · key: IP
+    //   Action  429 (default)
+    // Hobby permits one rate-limit rule, so it is spent on this endpoint.
+    //
+    // This in-memory counter is only a backstop: every serverless isolate keeps
+    // its own Map, so it cannot constrain an attacker across instances.
+    //
+    // `ip` is a usable key only because Vercel's edge overwrites
+    // x-forwarded-for. Revisit if this is ever self-hosted behind a proxy.
     const rateCheck = checkRateLimit(ip, 5, 15 * 60 * 1000);
     if (!rateCheck.allowed) {
       return NextResponse.json(

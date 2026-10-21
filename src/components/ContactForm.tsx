@@ -35,6 +35,32 @@ function clientSanitize(input: string): string {
   return input.replace(/<[^>]*>/g, "").replace(/[<>]/g, "");
 }
 
+/**
+ * A 429 can originate from Vercel's edge rate limiter rather than our handler,
+ * in which case the body is not JSON. Never parse it unguarded.
+ */
+async function readJsonSafe(response: Response): Promise<{
+  error?: string;
+  fields?: Record<string, string>;
+  retryAfter?: number;
+}> {
+  const text = await response.text().catch(() => "");
+  if (!text) return {};
+  try {
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
+// Matches the edge rate-limit window configured in the Vercel Firewall.
+const FALLBACK_RETRY_SECONDS = 600;
+
+function parseRetryAfter(value: string | null): number {
+  const seconds = Number(value);
+  return Number.isFinite(seconds) && seconds > 0 ? seconds : FALLBACK_RETRY_SECONDS;
+}
+
 // ─── Validation patterns ───────────────────────────────────────────
 
 const EMAIL_RE =
@@ -214,9 +240,16 @@ export default function ContactForm() {
       });
 
       if (response.status === 429) {
-        const data = await response.json();
-        const retryMin = data.retryAfter ? Math.ceil(data.retryAfter / 60) : 15;
-        setErrors({ general: t("validation.rate_limited", { minutes: retryMin }) });
+        // A 429 can come from Vercel's edge rate limiter, whose body is not
+        // JSON, so never assume the payload parses.
+        const data = await readJsonSafe(response);
+        const retrySeconds =
+          data.retryAfter ?? parseRetryAfter(response.headers.get("retry-after"));
+        setErrors({
+          general: t("validation.rate_limited", {
+            minutes: Math.ceil(retrySeconds / 60),
+          }),
+        });
         return;
       }
       if (response.status === 403) {
@@ -226,7 +259,7 @@ export default function ContactForm() {
         return;
       }
       if (!response.ok) {
-        const data = await response.json();
+        const data = await readJsonSafe(response);
         if (data.fields) {
           const fieldErrors: FormErrors = {};
           for (const [field, code] of Object.entries(data.fields)) {

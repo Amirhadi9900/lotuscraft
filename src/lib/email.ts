@@ -1,10 +1,10 @@
-import nodemailer from "nodemailer";
+import { createTransport, type Transporter } from "nodemailer";
 
 // ─── SMTP Transporter (singleton) ──────────────────────────────
 
-let transporter: nodemailer.Transporter | null = null;
+let transporter: Transporter | null = null;
 
-function getTransporter(): nodemailer.Transporter {
+function getTransporter(): Transporter {
   if (!transporter) {
     const host = process.env.SMTP_HOST;
     const port = parseInt(process.env.SMTP_PORT || "465", 10);
@@ -18,7 +18,7 @@ function getTransporter(): nodemailer.Transporter {
       );
     }
 
-    transporter = nodemailer.createTransport({
+    transporter = createTransport({
       host,
       port,
       secure,
