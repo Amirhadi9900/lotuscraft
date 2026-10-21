@@ -1,4 +1,6 @@
 import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import { pageMetadata, resolveLocale } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import Hero from "@/components/Hero";
@@ -35,6 +37,18 @@ const laundryIcons: Record<string, typeof Scissors> = {
   bedding_home: Home,
 };
 
+// Categories with a dedicated landing page link there; the rest stay anchored on the hub.
+const categoryPages: Record<string, string> = {
+  general: "/korjausompelu",
+  jackets_dresses: "/korjausompelu",
+  trousers: "/korjausompelu",
+  jeans: "/korjausompelu",
+  rug_washing: "/mattopesu",
+  everyday_garments: "/kuivapesu",
+  outerwear_jackets: "/kuivapesu",
+  formal_silk: "/kuivapesu",
+};
+
 function ServiceCard({
   category,
   icons,
@@ -52,7 +66,7 @@ function ServiceCard({
 
   return (
     <Link
-      href={`/services#${anchor}`}
+      href={categoryPages[category.id] ?? `/services#${anchor}`}
       className="group bg-white rounded-2xl p-5 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gold-100 hover:border-gold-300"
     >
       <div className="flex items-start justify-between mb-3 sm:mb-4">
@@ -76,6 +90,15 @@ function ServiceCard({
       </div>
     </Link>
   );
+}
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return pageMetadata(resolveLocale(locale), "home", "/");
 }
 
 export default function HomePage() {
@@ -141,7 +164,7 @@ export default function HomePage() {
                 <div key={i} className="relative aspect-4/3 overflow-hidden bg-charcoal-50">
                   <Image
                     src={src}
-                    alt="Professional sewing by Lotus Craft"
+                    alt={t("images.sewing_home")}
                     fill
                     className="object-contain p-1 hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 33vw, 33vw"

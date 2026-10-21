@@ -1,6 +1,17 @@
 import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import { pageMetadata, resolveLocale } from "@/lib/seo";
 import ContactForm from "@/components/ContactForm";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageMetadata(resolveLocale(locale), "contact", "/contact");
+}
 
 export default function ContactPage() {
   const t = useTranslations("contact");

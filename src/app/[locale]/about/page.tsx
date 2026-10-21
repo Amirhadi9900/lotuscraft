@@ -1,7 +1,18 @@
 import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import { pageMetadata, resolveLocale } from "@/lib/seo";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Star, Heart, Leaf, Users, ArrowRight } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageMetadata(resolveLocale(locale), "about", "/about");
+}
 
 export default function AboutPage() {
   const t = useTranslations();
@@ -47,7 +58,7 @@ export default function AboutPage() {
                 <div className="relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden">
                   <Image
                     src="/images/craft-1.jpeg"
-                    alt="Lotus Craft handmade creation"
+                    alt={t("images.handmade_creation")}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 50vw, 25vw"
@@ -56,7 +67,7 @@ export default function AboutPage() {
                 <div className="relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden mt-6 sm:mt-8">
                   <Image
                     src="/images/rug-7.jpeg"
-                    alt="Professional rug washing"
+                    alt={t("images.rug_washing")}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 50vw, 25vw"
@@ -65,7 +76,7 @@ export default function AboutPage() {
                 <div className="relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden">
                   <Image
                     src="/images/rug-4.jpeg"
-                    alt="Professional rug washing"
+                    alt={t("images.rug_washing")}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 50vw, 25vw"
@@ -74,7 +85,7 @@ export default function AboutPage() {
                 <div className="relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden mt-6 sm:mt-8">
                   <Image
                     src="/images/craft-5.jpeg"
-                    alt="Lotus Craft handmade creation"
+                    alt={t("images.handmade_creation")}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 50vw, 25vw"

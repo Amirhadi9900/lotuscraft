@@ -1,115 +1,26 @@
 import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import { pageMetadata, resolveLocale } from "@/lib/seo";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { sewingCategories, laundryCategories } from "@/data/pricing";
-import type { Category, Service } from "@/data/pricing";
+import { CategorySection } from "@/components/PriceTable";
 import {
   Scissors,
-  Shirt,
   ArrowRight,
   Info,
   Droplets,
-  Sparkles,
-  Home,
-  ShieldCheck,
   Building2,
   Palette,
 } from "lucide-react";
 
-const sewingIcons: Record<string, typeof Scissors> = {
-  general: Scissors,
-  jackets_dresses: Shirt,
-  trousers: Scissors,
-  jeans: Scissors,
-};
-
-const laundryIcons: Record<string, typeof Droplets> = {
-  rug_washing: Home,
-  everyday_garments: Shirt,
-  outerwear_jackets: ShieldCheck,
-  formal_silk: Sparkles,
-  bedding_home: Home,
-};
-
-function PriceDisplay({
-  service,
-  unit,
-  t,
+export async function generateMetadata({
+  params,
 }: {
-  service: Service;
-  unit?: string;
-  t: ReturnType<typeof useTranslations>;
-}) {
-  const unitLabel = unit === "m2" ? t("services.per_m2") : "";
-
-  if (service.priceMax) {
-    return (
-      <span className="text-gold-700 text-sm sm:text-base font-semibold whitespace-nowrap">
-        {service.price}–{service.priceMax} {t("services.currency")}
-        {unitLabel ? ` ${unitLabel}` : ""}
-      </span>
-    );
-  }
-
-  return (
-    <span className="text-gold-700 text-sm sm:text-base font-semibold whitespace-nowrap">
-      {unit ? "" : `${t("services.from")} `}
-      {service.price} {t("services.currency")}
-      {unitLabel ? ` ${unitLabel}` : ""}
-    </span>
-  );
-}
-
-function CategorySection({
-  category,
-  icons,
-  t,
-}: {
-  category: Category;
-  icons: Record<string, typeof Scissors>;
-  t: ReturnType<typeof useTranslations>;
-}) {
-  const IconComponent = icons[category.id] || Scissors;
-
-  return (
-    <div id={category.id} className="scroll-mt-24 sm:scroll-mt-28">
-      <div className="flex items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gold-50 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0">
-          <IconComponent className="text-gold-600 w-5 h-5 sm:w-6 sm:h-6" />
-        </div>
-        <div>
-          <h3 className="text-xl sm:text-2xl font-bold text-charcoal-900">
-            {t(`services.categories.${category.id}`)}
-          </h3>
-          <p className="text-charcoal-500 text-xs sm:text-sm mt-0.5 sm:mt-1">
-            {t(`services.category_descriptions.${category.id}`)}
-          </p>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-xl sm:rounded-2xl border border-gold-100 overflow-hidden shadow-sm">
-        <div className="divide-y divide-charcoal-100">
-          {category.services.map((service, index) => (
-            <div
-              key={service.id}
-              className={`flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 transition-colors hover:bg-gold-50/50 ${
-                index % 2 === 0 ? "bg-white" : "bg-charcoal-50/30"
-              }`}
-            >
-              <span className="text-charcoal-800 text-sm sm:text-base font-medium pr-3">
-                {t(`services.items.${service.id}`)}
-              </span>
-              <PriceDisplay
-                service={service}
-                unit={category.unit}
-                t={t}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageMetadata(resolveLocale(locale), "services", "/services");
 }
 
 export default function ServicesPage() {
@@ -151,7 +62,7 @@ export default function ServicesPage() {
       {/* ── Sewing & Alterations ─────────────────────────────── */}
       <section id="sewing-section" className="pt-12 sm:pt-20 pb-8 sm:pb-12 scroll-mt-20">
         <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-8 sm:mb-12">
+          <div className="flex items-center gap-3 mb-4 sm:mb-6">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-charcoal-900 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0">
               <Scissors className="text-gold-400 w-5 h-5 sm:w-6 sm:h-6" />
             </div>
@@ -165,14 +76,22 @@ export default function ServicesPage() {
             </div>
           </div>
 
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 sm:mb-12">
+            {["korjausompelu"].map((key) => (
+              <Link
+                key={key}
+                href={`/${key}`}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-gold-700 hover:text-gold-600"
+              >
+                {t(`servicePages.${key}.nav`)}
+                <ArrowRight size={16} />
+              </Link>
+            ))}
+          </div>
+
           <div className="space-y-10 sm:space-y-14">
             {sewingCategories.map((category) => (
-              <CategorySection
-                key={category.id}
-                category={category}
-                icons={sewingIcons}
-                t={t}
-              />
+              <CategorySection key={category.id} category={category} />
             ))}
           </div>
 
@@ -200,7 +119,7 @@ export default function ServicesPage() {
               <div key={i} className={`relative aspect-square overflow-hidden rounded-lg sm:rounded-xl ${img.contain ? "bg-charcoal-50" : ""}`}>
                 <Image
                   src={img.src}
-                  alt="Lotus Craft work"
+                  alt={t("images.work")}
                   fill
                   className={`${img.contain ? "object-contain p-1" : "object-cover"} hover:scale-105 transition-transform duration-500`}
                   sizes="25vw"
@@ -214,7 +133,7 @@ export default function ServicesPage() {
       {/* ── Laundry & Dry Cleaning ───────────────────────────── */}
       <section id="laundry-section" className="pt-8 sm:pt-12 pb-12 sm:pb-20 scroll-mt-20">
         <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-8 sm:mb-12">
+          <div className="flex items-center gap-3 mb-4 sm:mb-6">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-charcoal-900 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0">
               <Droplets className="text-gold-400 w-5 h-5 sm:w-6 sm:h-6" />
             </div>
@@ -228,14 +147,22 @@ export default function ServicesPage() {
             </div>
           </div>
 
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 sm:mb-12">
+            {["mattopesu", "kuivapesu", "hotellipesula"].map((key) => (
+              <Link
+                key={key}
+                href={`/${key}`}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-gold-700 hover:text-gold-600"
+              >
+                {t(`servicePages.${key}.nav`)}
+                <ArrowRight size={16} />
+              </Link>
+            ))}
+          </div>
+
           <div className="space-y-10 sm:space-y-14">
             {laundryCategories.map((category) => (
-              <CategorySection
-                key={category.id}
-                category={category}
-                icons={laundryIcons}
-                t={t}
-              />
+              <CategorySection key={category.id} category={category} />
             ))}
           </div>
 

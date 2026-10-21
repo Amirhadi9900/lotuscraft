@@ -306,5 +306,121 @@
     "view_pricing": "Katso kaikki hinnat",
     "get_quote": "Pyydä tarjous",
     "book_now": "Varaa aika"
+  },
+  "seo": {
+    "site_name": "Lotus Craft",
+    "default_title": "Ompelimo ja pesula Helsingissä | Lotus Craft",
+    "default_description": "Ompelimo, korjausompelu, mattopesu ja kuivapesu Helsingin Kalliossa. Läpinäkyvät hinnat ja ilmainen arvio. Helsinginkatu 11, ma–pe 10–18.",
+    "business_description": "Lotus Craft on ompelimo ja pesula Helsingin Kalliossa. Tarjoamme korjaus- ja muokkausompelua, mittatilaustyöt, mattopesun, kuivapesun sekä hotellien, hostellien ja ravintoloiden sopimuspesulan.",
+    "catalog_name": "Palvelut ja hinnat",
+    "pages": {
+      "home": {
+        "title": "Ompelimo ja pesula Helsingissä | Lotus Craft",
+        "description": "Korjausompelua, vaatteiden muokkausta, mattopesua ja kuivapesua Helsingin Kalliossa. Pyydä tarjousta tai tule käymään: Helsinginkatu 11, ma–pe 10–18."
+      },
+      "services": {
+        "title": "Korjausompelu, mattopesu & kuivapesu – hinnat | Lotus Craft",
+        "description": "Selkeät alkaen-hinnat: housujen lyhennys 25 €, vetoketjun vaihto 45 €, mattopesu 16 €/m², hääpuvun pesu 110 €. Katso koko hintalista."
+      },
+      "about": {
+        "title": "Meistä – ompelimo ja pesula Kalliossa | Lotus Craft",
+        "description": "Lotus Craft syntyi intohimosta ompeluun. Tapaamme verstaallamme Kalliossa, jossa perinteinen käsityötaito kohtaa modernit tekniikat."
+      },
+      "gallery": {
+        "title": "Valmiit työt: ompelu, matot ja käsityöt | Lotus Craft",
+        "description": "Kuvia viimeisimmistä töistämme Helsingissä: korjausompelua, pestyt matot ja mittatilauskäsityöt."
+      },
+      "contact": {
+        "title": "Yhteystiedot ja aukioloajat – Helsinginkatu 11 | Lotus Craft",
+        "description": "Soita +358 40 681 2264 tai lähetä viesti. Helsinginkatu 11, 00500 Helsinki. Ma–pe 10–18, la 10–17, su kiinni."
+      },
+      "korjausompelu": {
+        "title": "Korjausompelu ja muokkaus Helsinki | Lotus Craft",
+        "description": "Vaatteiden lyhennys, kaventaminen ja vetoketjun vaihto Helsingin Kalliossa. Housut alkaen 25 €, takin vetoketju 45 €, hääpuvun korjaus 80 €. Ilmainen arvio."
+      },
+      "mattopesu": {
+        "title": "Mattopesu Helsinki – alkaen 16 €/m² | Lotus Craft",
+        "description": "Matonpesu materiaalin mukaan: puuvilla- ja räsymatot 16 €/m², persialaiset 19 €/m², villa ja ryijyt 31 €/m². Helsinginkatu 11, Kallio."
+      },
+      "kuivapesu": {
+        "title": "Kuivapesu Helsinki – puvut ja takit | Lotus Craft",
+        "description": "Puvun kuivapesu 42 €, paita 10 € (6 kpl paketti 48 €), untuvatakki 38–44 € ja merkkitalkkia 58–68 €. Ammattipesu Helsingin Kalliossa."
+      },
+      "hotellipesula": {
+        "title": "Sopimuspesula hotelleille Helsinki | Lotus Craft",
+        "description": "Sopimusperusteista pesua hotelleille, hostelleille ja ravintoloille: lakanat 7,50 €/kg, verhot ja matot. Pyydä tarjous soittamalla tai lomakkeella."
+      }
+    }
+  },
+  "images": {
+    "rug_washing": "Ammattimaista mattopesua Helsingissä",
+    "rug_cleaning": "Pesty itämainen matto – Lotus Craft mattopesu",
+    "sewing_work": "Ammattitaitoista ompelu- ja korjaustyötä",
+    "sewing_home": "Lotus Craftin ompelutyö Helsingissä",
+    "candles": "Käsin valutetut kynttilät tarjottimella",
+    "craft": "Mittatilauskäsityö Lotus Craft",
+    "decor": "Käsin tehty koriste-esine",
+    "handmade_creation": "Lotus Craftin käsin tekemä tuote",
+    "work": "Lotus Craftin työ"
+  },
+  "servicePages": {
+    "shared": {
+      "prices": "Palvelut ja hinnat",
+      "price_note": "Kaikki hinnat ovat alkaen-hintoja. Lopullinen hinta voi vaihdella työn vaativuuden ja materiaalien mukaan.",
+      "faq": "Usein kysyttyä",
+      "visit": "Tule käymään verstaallamme",
+      "related": "Muut palvelut",
+      "all_prices": "Katso kaikki palvelut ja hinnat"
+    },
+    "korjausompelu": {
+      "nav": "Korjausompelu ja muokkaukset",
+      "h1": "Korjausompelu ja vaatteiden muokkaus Helsingissä",
+      "intro": "Lyhennämme housut ja hameet, kavennamme vyötäröä ja lahkeita, parsimme taskut ja vaihdamme vetoketjut. Kaikki työt tehdään verstaallamme Helsingin Kalliossa.",
+      "intro2": "Otamme vastaan myös mittatilaustöitä: naisten ja tyttöjen vaatteet, tyynyliinat, päiväpeitteet ja verhot."
+    },
+    "mattopesu": {
+      "nav": "Mattopesu",
+      "h1": "Mattopesu Helsingissä – alkaen 16 €/m²",
+      "intro": "Peseemme matot materiaalin mukaan ohuista puuvilla- ja räsymatoista käsin solmittuihin silkkimattoihin. Hinta on aina neliöhinta, joten isonkin maton hintaa on helppo arvioida.",
+      "intro2": "Käsittelyymme kuuluvat ryijyt, persialaiset matot, jutti- ja sisalimatot sekä turkikset ja nahkamatot."
+    },
+    "kuivapesu": {
+      "nav": "Kuivapesu",
+      "h1": "Kuivapesu Helsingissä – puvut, takit ja ulkoiluvaatteet",
+      "intro": "Puvut, paidat, takit ja ulkoiluvaatteet pestään kunkin materiaalin vaatimalla tavalla. Herkimmät silkki- ja juhlavaatteet käsitellään omana ryhmänään.",
+      "intro2": "Käsittelemme myös vaativat merkit ja materiaalit: Canada Goose -takit, Gore-Tex-vaatteet ja hiihtoasut."
+    },
+    "hotellipesula": {
+      "nav": "Hotellien ja yritysten pesula",
+      "h1": "Sopimuspesula hotelleille ja yrityksille Helsingissä",
+      "intro": "Teemme sopimusperusteista pesupalvelua hotelleille, hostelleille ja motelleille sekä ravintoloille, spa-kohteille ja terveysalan yrityksille. Sopimuksen piiriin kuuluvat lakanat, tyynyliinat, verhot ja matot.",
+      "intro2": "Pyydä tarjous yhteydenottolomakkeella valitsemalla yhteydenottotyypiksi yritys."
+    },
+    "faq": {
+      "korjausompelu_q1": "Paljonko housujen lyhennys maksaa?",
+      "korjausompelu_a1": "Lyhennys alkuperäiseen helmaan alkaen 25 €. Nahkahousujen lyhennys alkaen 30 € ja sivusauman kaventaminen alkaen 30 €.",
+      "korjausompelu_q2": "Vaihdatteko vetoketjun takkiin?",
+      "korjausompelu_a2": "Kyllä. Lyhyen takin vetoketju alkaen 45 €, pitkän takin 55 €, nahkatakin 65 € ja untuvatakin 48 €.",
+      "korjausompelu_q3": "Korjaatteko hääpuvun tai iltapuvun?",
+      "korjausompelu_a3": "Kyllä. Iltapuvun ja hääpuvun korjaus alkaen 80 € ja iltapuvun mitoitus alkaen 100 €. Puvun pesu on oma palvelunsa: hääpuvun pesu 110–155 €.",
+      "mattopesu_q1": "Miten mattopesun hinta määräytyy?",
+      "mattopesu_a1": "Hinta on euroissa neliömetriä kohti: 16 €/m² ohuet matot, 19 €/m² paksut ja persialaiset matot sekä 31 €/m² villa-, ryijy- ja silkkimatot.",
+      "mattopesu_q2": "Paljonko 3 × 2 metrin maton pesu maksaa?",
+      "mattopesu_a2": "Pinta-ala on 6 neliömetriä, joten ohuen maton hinta on 6 × 16 € = 96 € ja villa- tai ryijymaton 6 × 31 € = 186 €. Lopullinen hinta voi nousta materiaalin ja maton kunnon mukaan.",
+      "mattopesu_q3": "Peseettekö ryijyn tai persialaisen maton?",
+      "mattopesu_a3": "Kyllä. Ryijyt, käsin solmitut matot ja turkikset kuuluvat 31 €/m² ryhmään, persialaiset matot 19 €/m² ryhmään.",
+      "kuivapesu_q1": "Paljonko puvun kuivapesu maksaa?",
+      "kuivapesu_a1": "Puku 42 €, bleiseri 24 €, housut 20 € ja paita 10 €. Kuuden paidan pakettihinta on 48 €.",
+      "kuivapesu_q2": "Pesettekö Canada Goose -takin tai Gore-Tex-vaatteen?",
+      "kuivapesu_a2": "Kyllä. Merkkitakit kuten Canada Goose 58–68 €, Gore-Tex-vaatteet 40 € ja untuvatakki 38–44 €.",
+      "kuivapesu_q3": "Mitä hääpuvun tai silkkipuvun pesu maksaa?",
+      "kuivapesu_a3": "Hääpuvun pesu 110–155 €, pitkä iltapuku 55–78 € ja silkkipuku 55 €. Kastemekko 28 €.",
+      "hotellipesula_q1": "Miten pesusopimus tehdään?",
+      "hotellipesula_a1": "Täytä yhteydenottolomake ja valitse yhteydenottotyypiksi yritys. Kerro toimialanne ja haluamasi palvelu, niin olemme sinuun yhteyksissä.",
+      "hotellipesula_q2": "Paljonko lakanapesu yrityksille maksaa?",
+      "hotellipesula_a2": "Lakanat yli 5 kg erissä 7,50 €/kg. Verhot 25 € ja vuoratut verhot 48 €.",
+      "hotellipesula_q3": "Pesettekö hotellien matot?",
+      "hotellipesula_a3": "Kyllä. Matot pestään neliöhinnan mukaan 16–31 €/m² mattotyypistä riippuen."
+    }
   }
 }

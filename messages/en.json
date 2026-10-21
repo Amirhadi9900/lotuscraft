@@ -306,5 +306,121 @@
     "view_pricing": "View Full Pricing",
     "get_quote": "Get a Quote",
     "book_now": "Book Now"
+  },
+  "seo": {
+    "site_name": "Lotus Craft",
+    "default_title": "Alterations, Rug Washing & Laundry in Helsinki | Lotus Craft",
+    "default_description": "Clothing alterations, rug washing and dry cleaning in Kallio, Helsinki. Transparent starting prices and a free consultation. Walk in: Helsinginkatu 11, Mon–Fri 10–18.",
+    "business_description": "Lotus Craft is a sewing workshop and laundry in Kallio, Helsinki, offering clothing alterations and repairs, custom sewing, rug washing, dry cleaning and contract laundry for hotels, hostels and restaurants.",
+    "catalog_name": "Services & Pricing",
+    "pages": {
+      "home": {
+        "title": "Alterations, Rug Washing & Laundry in Helsinki | Lotus Craft",
+        "description": "Clothing alterations, zipper and hem repairs, rug washing from €16/m² and dry cleaning in Kallio, Helsinki. Free consultation: Helsinginkatu 11, Mon–Fri 10–18."
+      },
+      "services": {
+        "title": "Alterations, Dry Cleaning & Rug Washing Prices | Lotus Craft",
+        "description": "Transparent starting prices: trouser hemming €25, zipper replacement €45, rug washing from €16/m², wedding dress cleaning €110. See the full price list."
+      },
+      "about": {
+        "title": "About Our Helsinki Workshop in Kallio | Lotus Craft",
+        "description": "Lotus Craft was born from a passion for sewing. Visit our workshop in Kallio, where traditional craftsmanship meets modern techniques."
+      },
+      "gallery": {
+        "title": "Sewing, Rug Cleaning & Craft Gallery | Lotus Craft",
+        "description": "Recent work from our Helsinki workshop: garment alterations, freshly washed rugs and custom-made crafts."
+      },
+      "contact": {
+        "title": "Contact & Opening Hours – Helsinginkatu 11 | Lotus Craft",
+        "description": "Call +358 40 681 2264 or send a message. Find us at Helsinginkatu 11, 00500 Helsinki. Mon–Fri 10–18, Sat 10–17, Sun closed."
+      },
+      "korjausompelu": {
+        "title": "Clothing Alterations & Repairs in Helsinki | Lotus Craft",
+        "description": "Hemming, tapering, pocket repairs and zipper replacement in Kallio, Helsinki. Trouser hemming from €25, jacket zipper from €45, wedding dress repair from €80."
+      },
+      "mattopesu": {
+        "title": "Rug Cleaning in Helsinki – from €16/m² | Lotus Craft",
+        "description": "Rug washing priced by material: cotton and rag rugs €16/m², Persian rugs €19/m², wool, ryijy and silk rugs €31/m². Helsinginkatu 11, Kallio."
+      },
+      "kuivapesu": {
+        "title": "Dry Cleaning in Helsinki – Suits & Coats | Lotus Craft",
+        "description": "Suit dry cleaning €42, shirts €10 (six for €48), down jacket €38–44, premium brand jackets €58–68. Professional cleaning in Kallio, Helsinki."
+      },
+      "hotellipesula": {
+        "title": "Hotel & Business Laundry Contracts in Helsinki | Lotus Craft",
+        "description": "Contract laundry for hotels, hostels and restaurants: sheets €7.50/kg, curtains and rugs washed for the business. Request a quote by phone or form."
+      }
+    }
+  },
+  "images": {
+    "rug_washing": "Professional rug washing in Helsinki",
+    "rug_cleaning": "Cleaned oriental rug – Lotus Craft rug washing",
+    "sewing_work": "Professional sewing and alteration work",
+    "sewing_home": "Sewing work by Lotus Craft in Helsinki",
+    "candles": "Hand-poured candles on a serving tray",
+    "craft": "Custom-made craft by Lotus Craft",
+    "decor": "Handmade decorative piece",
+    "handmade_creation": "Handmade creation by Lotus Craft",
+    "work": "Work by Lotus Craft"
+  },
+  "servicePages": {
+    "shared": {
+      "prices": "Services and prices",
+      "price_note": "All prices are starting prices. The final cost may vary depending on the complexity and materials involved.",
+      "faq": "Frequently asked questions",
+      "visit": "Visit our workshop",
+      "related": "Other services",
+      "all_prices": "See all services and prices"
+    },
+    "korjausompelu": {
+      "nav": "Sewing & alterations",
+      "h1": "Clothing Alterations and Repairs in Helsinki",
+      "intro": "We hem trousers and skirts, taper waists and legs, mend pockets and replace zippers. Every job is done in our own workshop in Kallio, Helsinki.",
+      "intro2": "We also take custom orders: women's and girls' clothing, pillowcases, bedspreads and curtains."
+    },
+    "mattopesu": {
+      "nav": "Rug washing",
+      "h1": "Rug Cleaning in Helsinki – from €16/m²",
+      "intro": "We wash rugs according to their material, from thin cotton and rag rugs to hand-knotted silk. The price is always per square metre, so even a large rug is easy to estimate.",
+      "intro2": "We handle Finnish ryijy rugs, Persian rugs, jute and sisal, as well as fur and hide rugs."
+    },
+    "kuivapesu": {
+      "nav": "Laundry & dry cleaning",
+      "h1": "Dry Cleaning in Helsinki – Suits, Coats and Outdoor Wear",
+      "intro": "Suits, shirts, coats and outdoor wear are cleaned the way each material requires. The most delicate silk and formal garments are handled as their own group.",
+      "intro2": "We also handle demanding brands and materials: Canada Goose jackets, Gore-Tex garments and ski wear."
+    },
+    "hotellipesula": {
+      "nav": "Hotel & business laundry",
+      "h1": "Contract Laundry for Hotels and Businesses in Helsinki",
+      "intro": "We provide contract-based washing for hotels, hostels and motels, as well as restaurants, spas and healthcare businesses. Contracts cover sheets, pillowcases, curtains and carpets.",
+      "intro2": "Request a quote through the contact form by choosing Business as your inquiry type."
+    },
+    "faq": {
+      "korjausompelu_q1": "How much does trouser hemming cost?",
+      "korjausompelu_a1": "Shortening with the original hem starts at €25. Leather trouser shortening starts at €30, as does a side seam adjustment.",
+      "korjausompelu_q2": "Do you replace a jacket zipper?",
+      "korjausompelu_a2": "Yes. A jacket zipper starts at €45, a long jacket at €55, leather at €65 and a down jacket at €48.",
+      "korjausompelu_q3": "Do you alter wedding and evening dresses?",
+      "korjausompelu_a3": "Yes. Evening and wedding dress repair starts at €80 and evening gown tailoring at €100. Cleaning is a separate service: a wedding dress is €110–155.",
+      "mattopesu_q1": "How is the rug washing price calculated?",
+      "mattopesu_a1": "The price is per square metre: €16/m² for thin rugs, €19/m² for thick and Persian rugs, and €31/m² for wool, ryijy and silk rugs.",
+      "mattopesu_q2": "What does a 3 × 2 metre rug cost to wash?",
+      "mattopesu_a2": "That is 6 square metres, so a thin rug comes to 6 × €16 = €96 and a wool or ryijy rug to 6 × €31 = €186. The final price can rise with the material and condition.",
+      "mattopesu_q3": "Do you wash Persian or hand-knotted rugs?",
+      "mattopesu_a3": "Yes. Persian rugs fall in the €19/m² group, while hand-knotted and fine wool and silk rugs, fur rugs and ryijys fall in the €31/m² group.",
+      "kuivapesu_q1": "How much does suit dry cleaning cost?",
+      "kuivapesu_a1": "A suit is €42, a blazer €24, trousers €20 and a shirt €10. A package of six shirts is €48.",
+      "kuivapesu_q2": "Do you clean Canada Goose or Gore-Tex?",
+      "kuivapesu_a2": "Yes. Premium brand jackets such as Canada Goose are €58–68, Gore-Tex clothing €40 and a down jacket €38–44.",
+      "kuivapesu_q3": "What does wedding or silk dress cleaning cost?",
+      "kuivapesu_a3": "A wedding dress is €110–155, a long evening gown €55–78 and a silk suit €55. A christening gown is €28.",
+      "hotellipesula_q1": "How do we set up a laundry contract?",
+      "hotellipesula_a1": "Fill in the contact form and choose Business as your inquiry type. Tell us your industry and the service you need, and we will get back to you.",
+      "hotellipesula_q2": "What does business sheet washing cost?",
+      "hotellipesula_a2": "Sheets are €7.50 per kg for loads over 5 kg. Curtains are €25 and lined curtains €48.",
+      "hotellipesula_q3": "Do you wash hotel carpets and rugs?",
+      "hotellipesula_a3": "Yes. Rugs are washed at €16–31 per square metre depending on the rug type."
+    }
   }
 }
