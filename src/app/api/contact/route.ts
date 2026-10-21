@@ -7,7 +7,7 @@
  *  3. Origin/Referer validation (CSRF protection)
  *  4. Per-instance rate limit backstop (the enforced limit is the edge rule below)
  *  5. Honeypot field detection (silent rejection)
- *  6. Security token validation (time-based + nonce)
+ *  6. Signed, single-use form token issued when the page renders
  *  7. Input type & length validation
  *  8. Input sanitization (XSS prevention)
  *  9. Spam content analysis (URLs, keywords, injection, patterns)
@@ -24,10 +24,10 @@ import {
   isValidMessage,
   detectSpam,
   checkRateLimit,
-  validateSecurityToken,
   validateRequestHeaders,
   validateOrigin,
 } from "@/lib/security";
+import { verifyFormToken } from "@/lib/form-token";
 import { sendContactEmail } from "@/lib/email";
 
 function getClientIp(request: NextRequest): string {
@@ -49,16 +49,19 @@ export async function POST(request: NextRequest) {
     // ── Layer 1: Rate limiting (per-instance backstop) ──────────
     // The enforced limit is a Vercel Firewall rule at the edge:
     //   If      Path equals /api/contact  AND  Method equals POST
-    //   Then    Rate Limit — Fixed window · 600s · 5 requests · key: IP
-    //   Action  429 (default)
+    //   Then    Rate Limit — Fixed window · 600s · 10 requests · key: IP
+    //   Action  429
     // Hobby permits one rate-limit rule, so it is spent on this endpoint.
     //
-    // This in-memory counter is only a backstop: every serverless isolate keeps
-    // its own Map, so it cannot constrain an attacker across instances.
+    // This in-memory counter must stay strictly LOOSER than the edge rule.
+    // It previously allowed 5 per 15 minutes, which tripped before the edge's
+    // 10 per 10 minutes and made an unpredictable per-isolate limit the de
+    // facto control. Kept at 6× the edge budget it only blunts a flood that
+    // repeatedly reaches one warm isolate.
     //
     // `ip` is a usable key only because Vercel's edge overwrites
     // x-forwarded-for. Revisit if this is ever self-hosted behind a proxy.
-    const rateCheck = checkRateLimit(ip, 5, 15 * 60 * 1000);
+    const rateCheck = checkRateLimit(ip, 60, 10 * 60 * 1000);
     if (!rateCheck.allowed) {
       return NextResponse.json(
         {
@@ -120,8 +123,8 @@ export async function POST(request: NextRequest) {
       return silentSuccess();
     }
 
-    // ── Layer 6: Security Token Validation ──────────────────────
-    const tokenCheck = validateSecurityToken(body._token);
+    // ── Layer 6: Signed token validation ────────────────────────
+    const tokenCheck = verifyFormToken(body._token);
     if (!tokenCheck.valid) {
       console.warn(`[Contact] Token validation failed: ${tokenCheck.reason}`, { ip });
       if (tokenCheck.reason === "too_fast") {

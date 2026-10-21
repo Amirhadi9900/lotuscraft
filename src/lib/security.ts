@@ -182,53 +182,6 @@ export function checkRateLimit(
   };
 }
 
-// ─── Security Token Validation ─────────────────────────────────────
-
-export interface TokenValidation {
-  valid: boolean;
-  reason?: string;
-}
-
-export function validateSecurityToken(token: unknown): TokenValidation {
-  if (!token || typeof token !== "string") {
-    return { valid: false, reason: "missing_token" };
-  }
-
-  try {
-    const dotIndex = token.indexOf(".");
-    if (dotIndex === -1) {
-      return { valid: false, reason: "invalid_format" };
-    }
-
-    const timestampStr = token.substring(0, dotIndex);
-    const randomPart = token.substring(dotIndex + 1);
-
-    const timestamp = parseInt(timestampStr, 10);
-    if (isNaN(timestamp) || timestamp <= 0) {
-      return { valid: false, reason: "invalid_timestamp" };
-    }
-
-    const now = Date.now();
-    const age = now - timestamp;
-
-    if (age < 3000) {
-      return { valid: false, reason: "too_fast" };
-    }
-
-    if (age > 60 * 60 * 1000) {
-      return { valid: false, reason: "token_expired" };
-    }
-
-    if (!/^[a-f0-9]{32,64}$/.test(randomPart)) {
-      return { valid: false, reason: "invalid_nonce" };
-    }
-
-    return { valid: true };
-  } catch {
-    return { valid: false, reason: "parse_error" };
-  }
-}
-
 // ─── Request Header Validation ─────────────────────────────────────
 
 export function validateRequestHeaders(headers: Headers): {

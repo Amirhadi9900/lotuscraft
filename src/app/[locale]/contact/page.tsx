@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { pageMetadata, resolveLocale } from "@/lib/seo";
+import { issueFormToken } from "@/lib/form-token";
 import ContactForm from "@/components/ContactForm";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
@@ -41,7 +42,7 @@ export default function ContactPage() {
                 <h2 className="text-xl sm:text-2xl font-bold text-charcoal-900 mb-5 sm:mb-8">
                   {t("form_title")}
                 </h2>
-                <ContactForm />
+                <ContactForm token={issueFormToken()} />
               </div>
             </div>
 

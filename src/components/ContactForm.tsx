@@ -21,16 +21,6 @@ import { FIELD_LIMITS } from "@/lib/security";
 
 // ─── Client-side security helpers ──────────────────────────────────
 
-function generateSecurityToken(): string {
-  const timestamp = Date.now().toString();
-  const array = new Uint8Array(16);
-  crypto.getRandomValues(array);
-  const nonce = Array.from(array)
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-  return `${timestamp}.${nonce}`;
-}
-
 function clientSanitize(input: string): string {
   return input.replace(/<[^>]*>/g, "").replace(/[<>]/g, "");
 }
@@ -82,7 +72,7 @@ const CONTACT_METHOD_OPTIONS = ["email", "phone", "either"] as const;
 
 // ─── Component ─────────────────────────────────────────────────────
 
-export default function ContactForm() {
+export default function ContactForm({ token }: { token: string }) {
   const t = useTranslations("contact");
 
   const [submitted, setSubmitted] = useState(false);
@@ -100,7 +90,7 @@ export default function ContactForm() {
   const [selectedService, setSelectedService] = useState("");
   const [preferredContact, setPreferredContact] = useState("");
 
-  const [securityToken, setSecurityToken] = useState("");
+  const [securityToken] = useState(token);
   const [honeypot1, setHoneypot1] = useState("");
   const [honeypot2, setHoneypot2] = useState("");
   const formLoadTime = useRef(0);
@@ -109,7 +99,6 @@ export default function ContactForm() {
 
   useEffect(() => {
     formLoadTime.current = Date.now();
-    setSecurityToken(generateSecurityToken());
   }, []);
 
   const handleInquirySwitch = (type: InquiryType) => {
@@ -253,9 +242,9 @@ export default function ContactForm() {
         return;
       }
       if (response.status === 403) {
-        setSecurityToken(generateSecurityToken());
-        formLoadTime.current = Date.now();
-        setErrors({ general: t("validation.security_error") });
+        // The token is issued when the page renders and cannot be minted in
+        // the browser, so a rejected one means the page must be reloaded.
+        setErrors({ general: t("validation.security_expired") });
         return;
       }
       if (!response.ok) {

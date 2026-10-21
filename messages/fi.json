@@ -267,6 +267,7 @@
       "too_many_attempts": "Liian monta yritystä. Päivitä sivu ja yritä uudelleen",
       "rate_limited": "Liian monta lähetystä. Yritä uudelleen {minutes} minuutin kuluttua",
       "security_error": "Turvatarkistus vanhentui. Yritä lähettää uudelleen",
+      "security_expired": "Lomake on ollut auki liian kauan. Päivitä sivu ja lähetä viesti uudelleen.",
       "server_error": "Jokin meni pieleen. Yritä myöhemmin uudelleen",
       "server_invalid_name": "Antamasi nimi ei kelpaa",
       "server_invalid_email": "Antamasi sähköpostiosoite ei kelpaa",

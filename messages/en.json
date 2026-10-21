@@ -267,6 +267,7 @@
       "too_many_attempts": "Too many attempts. Please refresh the page and try again",
       "rate_limited": "Too many submissions. Please try again in {minutes} minutes",
       "security_error": "Security check expired. Please try submitting again",
+      "security_expired": "This form has been open too long. Please reload the page and send your message again.",
       "server_error": "Something went wrong. Please try again later",
       "server_invalid_name": "The name you entered is not valid",
       "server_invalid_email": "The email address you entered is not valid",
