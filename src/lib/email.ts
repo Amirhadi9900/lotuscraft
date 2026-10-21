@@ -1,4 +1,5 @@
 import { createTransport, type Transporter } from "nodemailer";
+import { escapeHtml } from "@/lib/security";
 
 // ─── SMTP Transporter (singleton) ──────────────────────────────
 
@@ -73,16 +74,13 @@ const INDUSTRY_LABELS: Record<string, string> = {
 // ─── Build HTML email ──────────────────────────────────────────
 
 function buildEmailHtml(data: ContactSubmission): string {
+  const esc = escapeHtml;
   const serviceLabel = SERVICE_LABELS[data.service] || "Not specified";
   const contactLabel = CONTACT_LABELS[data.preferredContact] || "Not specified";
   const industryLabel = INDUSTRY_LABELS[data.industry] || "";
   const isB2B = data.inquiryType === "business";
   const inquiryLabel = isB2B ? "Business (B2B)" : "Individual (B2C)";
-  const escapedMessage = data.message
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\n/g, "<br>");
+  const escapedMessage = esc(data.message).replace(/\n/g, "<br>");
 
   return `
 <!DOCTYPE html>
@@ -130,7 +128,7 @@ function buildEmailHtml(data: ContactSubmission): string {
                 ${isB2B && data.businessName ? `<tr>
                   <td style="padding:14px 16px;background-color:#eef0f5;border-left:3px solid #4a5568;border-radius:6px;">
                     <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Business Name</p>
-                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:500;">${data.businessName}</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:500;">${esc(data.businessName)}</p>
                   </td>
                 </tr>
                 <tr><td style="height:8px;"></td></tr>` : ""}
@@ -144,7 +142,7 @@ function buildEmailHtml(data: ContactSubmission): string {
                 <tr>
                   <td style="padding:14px 16px;background-color:#faf8f5;border-left:3px solid #d4a843;border-radius:6px;">
                     <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Name</p>
-                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:500;">${data.name}</p>
+                    <p style="margin:0;font-size:15px;color:#1a1625;font-weight:500;">${esc(data.name)}</p>
                   </td>
                 </tr>
                 <tr><td style="height:8px;"></td></tr>
@@ -152,7 +150,7 @@ function buildEmailHtml(data: ContactSubmission): string {
                   <td style="padding:14px 16px;background-color:#faf8f5;border-left:3px solid #d4a843;border-radius:6px;">
                     <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Email</p>
                     <p style="margin:0;font-size:15px;color:#1a1625;">
-                      <a href="mailto:${data.email}" style="color:#d4a843;text-decoration:none;">${data.email}</a>
+                      <a href="mailto:${esc(data.email)}" style="color:#d4a843;text-decoration:none;">${esc(data.email)}</a>
                     </p>
                   </td>
                 </tr>
@@ -161,7 +159,7 @@ function buildEmailHtml(data: ContactSubmission): string {
                   <td style="padding:14px 16px;background-color:#faf8f5;border-left:3px solid #d4a843;border-radius:6px;">
                     <p style="margin:0 0 2px;font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:#8a8698;font-weight:600;">Phone</p>
                     <p style="margin:0;font-size:15px;color:#1a1625;">
-                      <a href="tel:${data.phone}" style="color:#d4a843;text-decoration:none;">${data.phone}</a>
+                      <a href="tel:${esc(data.phone)}" style="color:#d4a843;text-decoration:none;">${esc(data.phone)}</a>
                     </p>
                   </td>
                 </tr>
@@ -193,8 +191,8 @@ function buildEmailHtml(data: ContactSubmission): string {
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;">
                 <tr>
                   <td align="center">
-                    <a href="mailto:${data.email}?subject=Re: Your inquiry to Lotus Craft" style="display:inline-block;padding:12px 32px;background-color:#d4a843;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;border-radius:50px;">
-                      Reply to ${data.name}
+                    <a href="mailto:${esc(data.email)}?subject=Re: Your inquiry to Lotus Craft" style="display:inline-block;padding:12px 32px;background-color:#d4a843;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;border-radius:50px;">
+                      Reply to ${esc(data.name)}
                     </a>
                   </td>
                 </tr>

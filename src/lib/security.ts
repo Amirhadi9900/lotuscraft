@@ -5,7 +5,11 @@
 
 // ─── Input Sanitization ────────────────────────────────────────────
 
-/** Escape HTML entities to prevent XSS */
+/**
+ * Escape HTML entities. Apply this where a value is rendered into HTML, never
+ * to input on its way in — escaping early and again at render is what produced
+ * the double-encoded text customers currently receive.
+ */
 export function escapeHtml(input: string): string {
   return input
     .replace(/&/g, "&amp;")
@@ -15,14 +19,16 @@ export function escapeHtml(input: string): string {
     .replace(/'/g, "&#x27;");
 }
 
-/** Strip all HTML tags from input */
-export function stripHtml(input: string): string {
-  return input.replace(/<[^>]*>/g, "");
-}
+// Drops control characters that corrupt mail headers and log lines, keeping
+// tab and newline because they are legitimate inside a message.
+const CONTROL_CHARS = /[\u0000-\u0008\u000B\u000C\r\u000E-\u001F\u007F]/g;
 
-/** Sanitize and normalize input: strip HTML then escape residuals */
+/**
+ * Normalise untrusted input: strip control characters and surrounding
+ * whitespace. Output escaping is each renderer's job.
+ */
 export function sanitizeInput(input: string): string {
-  return escapeHtml(stripHtml(input)).trim();
+  return input.replace(CONTROL_CHARS, "").trim();
 }
 
 // ─── Field Limits (single source of truth) ─────────────────────────
