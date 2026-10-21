@@ -80,7 +80,15 @@ const INDUSTRY_LABELS: Record<string, string> = {
 
 // ─── Build HTML email ──────────────────────────────────────────
 
-function buildEmailHtml(data: ContactSubmission): string {
+function quarantineBanner(reason: string): string {
+  return `
+              <div style="margin:0 0 24px;padding:16px 18px;background-color:#fdf3e3;border-left:4px solid #d08b2d;border-radius:8px;">
+                <p style="margin:0 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:0.8px;color:#995420;font-weight:700;">Flagged by the automated filter — please review</p>
+                <p style="margin:0;font-size:14px;color:#4a4458;line-height:1.6;">Reason: ${escapeHtml(reason)}. This message was <strong>not discarded</strong>, because the filter also catches genuine enquiries. Check it before ignoring it.</p>
+              </div>`;
+}
+
+function buildEmailHtml(data: ContactSubmission, quarantine?: string): string {
   const esc = escapeHtml;
   const serviceLabel = SERVICE_LABELS[data.service] || "Not specified";
   const contactLabel = CONTACT_LABELS[data.preferredContact] || "Not specified";
@@ -117,7 +125,7 @@ function buildEmailHtml(data: ContactSubmission): string {
           <!-- Body -->
           <tr>
             <td style="background-color:#ffffff;padding:36px 40px;">
-
+              ${quarantine ? quarantineBanner(quarantine) : ""}
               <!-- Greeting -->
               <p style="margin:0 0 24px;font-size:15px;color:#4a4458;line-height:1.6;">
                 You have received a new message from the Lotus Craft website contact form.
@@ -231,7 +239,7 @@ function buildEmailHtml(data: ContactSubmission): string {
 
 // ─── Build plain text fallback ─────────────────────────────────
 
-function buildEmailText(data: ContactSubmission): string {
+function buildEmailText(data: ContactSubmission, quarantine?: string): string {
   const serviceLabel = SERVICE_LABELS[data.service] || "Not specified";
   const contactLabel = CONTACT_LABELS[data.preferredContact] || "Not specified";
   const industryLabel = INDUSTRY_LABELS[data.industry] || "";
@@ -241,6 +249,13 @@ function buildEmailText(data: ContactSubmission): string {
     "NEW CONTACT FORM SUBMISSION — Lotus Craft",
     "━".repeat(48),
     "",
+    quarantine
+      ? `** FLAGGED BY THE AUTOMATED FILTER: ${quarantine}`
+      : null,
+    quarantine
+      ? "   Not discarded — please review before ignoring it. **"
+      : null,
+    quarantine ? "" : null,
     `Inquiry Type:       ${isB2B ? "Business (B2B)" : "Individual (B2C)"}`,
     isB2B && data.businessName ? `Business Name:      ${data.businessName}` : null,
     isB2B && industryLabel ? `Industry:           ${industryLabel}` : null,
@@ -267,7 +282,8 @@ function buildEmailText(data: ContactSubmission): string {
 // ─── Send contact email ────────────────────────────────────────
 
 export async function sendContactEmail(
-  data: ContactSubmission
+  data: ContactSubmission,
+  quarantine?: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const transport = getTransporter();
@@ -286,9 +302,9 @@ export async function sendContactEmail(
       from: `"Lotus Craft Website" <${process.env.SMTP_USER}>`,
       to,
       replyTo: data.email,
-      subject: `${subjectPrefix}: ${serviceLabel} — from ${data.name}${businessSuffix}`,
-      text: buildEmailText(data),
-      html: buildEmailHtml(data),
+      subject: `${quarantine ? "[SPAM CHECK] " : ""}${subjectPrefix}: ${serviceLabel} — from ${data.name}${businessSuffix}`,
+      text: buildEmailText(data, quarantine),
+      html: buildEmailHtml(data, quarantine),
     });
 
     return { success: true };

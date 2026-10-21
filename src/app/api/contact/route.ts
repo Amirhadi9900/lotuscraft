@@ -6,11 +6,11 @@
  *  2. Request header validation (Content-Type, User-Agent, bot detection)
  *  3. Origin/Referer validation (CSRF protection)
  *  4. Per-instance rate limit backstop (the enforced limit is the edge rule below)
- *  5. Honeypot field detection (silent rejection)
+ *  5. Honeypot field detection (the only silent discard)
  *  6. Signed, single-use form token issued when the page renders
  *  7. Input type & length validation
- *  8. Input sanitization (XSS prevention)
- *  9. Spam content analysis (URLs, keywords, injection, patterns)
+ *  8. Input sanitization (control-character removal)
+ *  9. Spam content analysis — flags for review, never discards
  * 10. Structured logging for monitoring
  * 11. Email delivery via Nodemailer (Gmail SMTP)
  */
@@ -119,24 +119,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ── Layer 5: Honeypot Detection ─────────────────────────────
-    // If bot filled hidden fields, silently accept (don't tip off the bot)
+    // ── Layer 5: Honeypot detection ─────────────────────────────
+    // The only signal that still discards silently. The fields are hidden from
+    // sight and keyboard, so a human cannot fill them: a value here is proof of
+    // an automated client, with no realistic false positive.
     if (body.website || body.company || body.url || body.fax) {
       logEvent("warn", "contact_rejected", { requestId, stage: "honeypot" });
       return silentSuccess();
     }
 
     // ── Layer 6: Signed token validation ────────────────────────
+    let quarantine: string | undefined;
+
     const tokenCheck = verifyFormToken(body._token);
     if (!tokenCheck.valid) {
-      logEvent("warn", "contact_rejected", { requestId, stage: "token", reason: tokenCheck.reason });
       if (tokenCheck.reason === "too_fast") {
-        return silentSuccess();
+        // Suspicious timing is not proof of a bot — browser autofill can beat
+        // the minimum age — so keep the enquiry and flag it for review.
+        quarantine = "sent less than three seconds after the page opened";
+        logEvent("warn", "contact_quarantined", {
+          requestId,
+          stage: "token",
+          reason: tokenCheck.reason,
+        });
+      } else {
+        logEvent("warn", "contact_rejected", { requestId, stage: "token", reason: tokenCheck.reason });
+        return NextResponse.json(
+          { error: "security_check_failed" },
+          { status: 403 }
+        );
       }
-      return NextResponse.json(
-        { error: "security_check_failed" },
-        { status: 403 }
-      );
     }
 
     // ── Layer 7: Extract & Type-Check Fields ────────────────────
@@ -220,17 +232,31 @@ export async function POST(request: NextRequest) {
       industry: safeIndustry,
     };
 
-    // ── Layer 10: Spam Detection ────────────────────────────────
+    // ── Layer 10: Spam detection ────────────────────────────────
+    // Flagged rather than discarded. A developer's enquiry can quote a tag
+    // containing "javascript:", and a hotel can legitimately write the words
+    // "SEO services" — silently throwing those away loses customers without
+    // anyone ever knowing.
     const messageSpam = detectSpam(sanitized.message);
     if (messageSpam.isSpam) {
-      logEvent("warn", "contact_rejected", { requestId, stage: "spam", where: "message", reason: messageSpam.reason });
-      return silentSuccess();
+      quarantine ??= `message matched "${messageSpam.reason}"`;
+      logEvent("warn", "contact_quarantined", {
+        requestId,
+        stage: "spam",
+        where: "message",
+        reason: messageSpam.reason,
+      });
     }
 
     const nameSpam = detectSpam(sanitized.name);
     if (nameSpam.isSpam) {
-      logEvent("warn", "contact_rejected", { requestId, stage: "spam", where: "name", reason: nameSpam.reason });
-      return silentSuccess();
+      quarantine ??= `name matched "${nameSpam.reason}"`;
+      logEvent("warn", "contact_quarantined", {
+        requestId,
+        stage: "spam",
+        where: "name",
+        reason: nameSpam.reason,
+      });
     }
 
     // ── Layer 11: Send Email ─────────────────────────────────────
@@ -244,7 +270,7 @@ export async function POST(request: NextRequest) {
       messageLength: sanitized.message.length,
     });
 
-    const emailResult = await sendContactEmail(sanitized);
+    const emailResult = await sendContactEmail(sanitized, quarantine);
 
     if (!emailResult.success) {
       logEvent("error", "contact_delivery_failed", {
@@ -257,7 +283,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    logEvent("info", "contact_delivered", { requestId });
+    logEvent("info", "contact_delivered", {
+      requestId,
+      quarantined: quarantine !== undefined,
+    });
 
     return NextResponse.json(
       { success: true },
