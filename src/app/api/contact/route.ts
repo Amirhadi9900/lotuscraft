@@ -28,6 +28,7 @@ import {
   validateOrigin,
 } from "@/lib/security";
 import { verifyFormToken } from "@/lib/form-token";
+import { logEvent, newRequestId } from "@/lib/log";
 import { sendContactEmail } from "@/lib/email";
 
 function getClientIp(request: NextRequest): string {
@@ -44,6 +45,7 @@ function silentSuccess(): NextResponse {
 
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request);
+  const requestId = newRequestId();
 
   try {
     // ── Layer 1: Rate limiting (per-instance backstop) ──────────
@@ -82,7 +84,7 @@ export async function POST(request: NextRequest) {
     // ── Layer 2: Request Header Validation ──────────────────────
     const headerCheck = validateRequestHeaders(request.headers);
     if (!headerCheck.valid) {
-      console.warn(`[Contact] Header validation failed: ${headerCheck.reason}`, { ip });
+      logEvent("warn", "contact_rejected", { requestId, stage: "headers", reason: headerCheck.reason });
       return NextResponse.json(
         { error: "invalid_request" },
         { status: 400 }
@@ -90,8 +92,9 @@ export async function POST(request: NextRequest) {
     }
 
     // ── Layer 3: Origin Validation (CSRF) ───────────────────────
-    if (!validateOrigin(request.headers)) {
-      console.warn("[Contact] Origin mismatch", { ip });
+    const originCheck = validateOrigin(request.headers);
+    if (!originCheck.allowed) {
+      logEvent("warn", "contact_rejected", { requestId, stage: "origin", reason: originCheck.reason });
       return NextResponse.json(
         { error: "invalid_origin" },
         { status: 403 }
@@ -119,14 +122,14 @@ export async function POST(request: NextRequest) {
     // ── Layer 5: Honeypot Detection ─────────────────────────────
     // If bot filled hidden fields, silently accept (don't tip off the bot)
     if (body.website || body.company || body.url || body.fax) {
-      console.warn("[Contact] Honeypot triggered", { ip });
+      logEvent("warn", "contact_rejected", { requestId, stage: "honeypot" });
       return silentSuccess();
     }
 
     // ── Layer 6: Signed token validation ────────────────────────
     const tokenCheck = verifyFormToken(body._token);
     if (!tokenCheck.valid) {
-      console.warn(`[Contact] Token validation failed: ${tokenCheck.reason}`, { ip });
+      logEvent("warn", "contact_rejected", { requestId, stage: "token", reason: tokenCheck.reason });
       if (tokenCheck.reason === "too_fast") {
         return silentSuccess();
       }
@@ -220,42 +223,41 @@ export async function POST(request: NextRequest) {
     // ── Layer 10: Spam Detection ────────────────────────────────
     const messageSpam = detectSpam(sanitized.message);
     if (messageSpam.isSpam) {
-      console.warn(`[Contact] Spam detected in message: ${messageSpam.reason}`, { ip });
+      logEvent("warn", "contact_rejected", { requestId, stage: "spam", where: "message", reason: messageSpam.reason });
       return silentSuccess();
     }
 
     const nameSpam = detectSpam(sanitized.name);
     if (nameSpam.isSpam) {
-      console.warn(`[Contact] Spam detected in name: ${nameSpam.reason}`, { ip });
+      logEvent("warn", "contact_rejected", { requestId, stage: "spam", where: "name", reason: nameSpam.reason });
       return silentSuccess();
     }
 
     // ── Layer 11: Send Email ─────────────────────────────────────
-    console.log("[Contact] Valid submission — sending email...", {
-      timestamp: new Date().toISOString(),
-      ip,
+    // Operational metadata only — no name, email, phone or business name, and
+    // no IP. The submission goes to the business inbox and nowhere else.
+    logEvent("info", "contact_accepted", {
+      requestId,
       inquiryType: sanitized.inquiryType,
-      name: sanitized.name,
-      email: sanitized.email,
-      phone: sanitized.phone || "(not provided)",
-      businessName: sanitized.businessName || "(not provided)",
-      industry: sanitized.industry || "(not selected)",
-      service: sanitized.service || "(not selected)",
-      preferredContact: sanitized.preferredContact || "(not selected)",
+      industry: sanitized.industry || undefined,
+      service: sanitized.service,
       messageLength: sanitized.message.length,
     });
 
     const emailResult = await sendContactEmail(sanitized);
 
     if (!emailResult.success) {
-      console.error("[Contact] Email delivery failed:", emailResult.error);
+      logEvent("error", "contact_delivery_failed", {
+        requestId,
+        reason: emailResult.error,
+      });
       return NextResponse.json(
         { error: "email_failed" },
         { status: 500 }
       );
     }
 
-    console.log("[Contact] Email sent successfully to", process.env.CONTACT_EMAIL_TO);
+    logEvent("info", "contact_delivered", { requestId });
 
     return NextResponse.json(
       { success: true },
@@ -266,7 +268,10 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
-    console.error("[Contact] Unexpected server error", { ip, error });
+    logEvent("error", "contact_error", {
+      requestId,
+      message: error instanceof Error ? error.message : "unknown",
+    });
     return NextResponse.json(
       { error: "server_error" },
       { status: 500 }

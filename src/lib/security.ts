@@ -225,11 +225,33 @@ export function validateRequestHeaders(headers: Headers): {
 
 // ─── Origin Validation ─────────────────────────────────────────────
 
-export function validateOrigin(headers: Headers): boolean {
-  const origin = headers.get("origin");
+function hostOnly(value: string): string {
+  return value.replace(/^[a-z][a-z0-9+.-]*:\/\//i, "").split("/")[0].split(":")[0];
+}
+
+/**
+ * Same-origin check for the contact form. This fails CLOSED: a request that
+ * cannot show it came from this site is rejected. It previously returned true
+ * whenever Origin or Host was absent, so any non-browser client could simply
+ * omit the header and walk past the CSRF layer.
+ */
+export function validateOrigin(headers: Headers): {
+  allowed: boolean;
+  reason?: string;
+} {
   const host = headers.get("host");
-  if (!origin || !host) return true;
-  const originHost = origin.replace(/^https?:\/\//, "").split(":")[0];
-  const requestHost = host.split(":")[0];
-  return originHost === requestHost;
+  if (!host) return { allowed: false, reason: "missing_host" };
+
+  // Browsers send Origin on cross-origin POSTs; Referer is the fallback for
+  // the clients that omit it.
+  const candidate = headers.get("origin") ?? headers.get("referer");
+
+  if (!candidate) return { allowed: false, reason: "missing_origin" };
+
+  // Sandboxed frames and some privacy configurations report an opaque origin.
+  if (candidate === "null") return { allowed: false, reason: "opaque_origin" };
+
+  return hostOnly(candidate) === hostOnly(host)
+    ? { allowed: true }
+    : { allowed: false, reason: "origin_mismatch" };
 }

@@ -1,5 +1,6 @@
 import { createTransport, type Transporter } from "nodemailer";
 import { escapeHtml } from "@/lib/security";
+import { logEvent } from "@/lib/log";
 
 // ─── SMTP Transporter (singleton) ──────────────────────────────
 
@@ -24,6 +25,12 @@ function getTransporter(): Transporter {
       port,
       secure,
       auth: { user, pass },
+      // Without these, a Gmail endpoint that accepts the connection but stops
+      // talking holds the serverless function open until the platform kills it,
+      // turning one slow upstream into a pool of stuck request slots.
+      connectionTimeout: 10_000,
+      greetingTimeout: 5_000,
+      socketTimeout: 15_000,
     });
   }
   return transporter;
@@ -287,7 +294,7 @@ export async function sendContactEmail(
     return { success: true };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown email error";
-    console.error("[Email] Failed to send:", message);
+    logEvent("error", "email_send_failed", { message });
     return { success: false, error: message };
   }
 }
