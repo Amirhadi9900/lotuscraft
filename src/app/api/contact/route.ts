@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
         return silentSuccess();
       }
       return NextResponse.json(
-        { error: "security_check_failed", detail: tokenCheck.reason },
+        { error: "security_check_failed" },
         { status: 403 }
       );
     }
