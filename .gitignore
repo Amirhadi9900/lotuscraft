@@ -38,6 +38,12 @@ yarn-error.log*
 /*.docx
 /logo.png
 
+# local security test tooling: SMTP capture sink and its output.
+# Accepts mail on 127.0.0.1:2525 and writes it to disk instead of sending it.
+/smtp-capture.mjs
+/smtp-capture.log
+/sink.out
+
 # vercel
 .vercel
 
