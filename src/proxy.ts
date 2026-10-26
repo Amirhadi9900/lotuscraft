@@ -35,10 +35,25 @@ function buildCsp(nonce: string): string {
 }
 
 export default function proxy(request: NextRequest) {
-  const response = nextIntlMiddleware(request);
   const nonce = createNonce();
 
+  // The root layout owns <html lang>, including for routes outside [locale]
+  // such as the 404 page, so it needs the locale resolved before rendering.
+  // An unprefixed or unknown path is the default locale, which is what
+  // next-intl's as-needed prefix scheme serves.
+  const firstSegment = request.nextUrl.pathname.split("/").filter(Boolean)[0];
+  const locale = (routing.locales as readonly string[]).includes(firstSegment ?? "")
+    ? firstSegment!
+    : routing.defaultLocale;
+
+  // Both headers must be set before handing the request to next-intl: its
+  // middleware forwards a cloned header set, so anything written afterwards is
+  // dropped before the renderer sees it.
   request.headers.set("x-nonce", nonce);
+  request.headers.set("x-locale", locale);
+
+  const response = nextIntlMiddleware(request);
+
   response.headers.set("x-nonce", nonce);
   response.headers.set("Content-Security-Policy", buildCsp(nonce));
 

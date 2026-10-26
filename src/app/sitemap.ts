@@ -20,12 +20,11 @@ const paths: {
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
+  // No lastModified: this file is generated per request, so any value here
+  // would read as "changed a moment ago" on every crawl and carry no signal.
   return paths.flatMap(({ pathname, priority, changeFrequency }) =>
     locales.map((locale) => ({
       url: absolute(localePath(locale as Locale, pathname)),
-      lastModified,
       changeFrequency,
       priority,
       alternates: { languages: hreflang(pathname) },

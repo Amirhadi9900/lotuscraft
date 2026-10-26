@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
-import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 import {
   alternates,
   business,
@@ -15,12 +15,6 @@ import {
   resolveLocale,
   siteUrl,
 } from "@/lib/seo";
-import "../globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export async function generateMetadata({
   params,
@@ -81,12 +75,6 @@ export async function generateMetadata({
   };
 }
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  themeColor: "#1a1a2e",
-};
-
 type Props = {
   children: ReactNode;
   params: Promise<{ locale: string }>;
@@ -103,20 +91,17 @@ export default async function LocaleLayout({ children, params }: Props) {
   const jsonLd = await businessJsonLd(resolveLocale(locale));
 
   return (
-    <html lang={locale} className={inter.className} suppressHydrationWarning>
-      <body className="antialiased" suppressHydrationWarning>
-        <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
-            }}
-          />
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <Header />
+      <main className="min-h-screen">{children}</main>
+      <Footer />
+      <BackToTop />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+    </NextIntlClientProvider>
   );
 }
