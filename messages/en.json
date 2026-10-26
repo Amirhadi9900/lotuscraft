@@ -4,7 +4,9 @@
     "services": "Services & Pricing",
     "about": "About",
     "gallery": "Gallery",
-    "contact": "Contact"
+    "contact": "Contact",
+    "switch_to_fi": "Switch to Finnish",
+    "switch_to_en": "Switch to English"
   },
   "hero": {
     "title_part1": "Crafting Elegance,",

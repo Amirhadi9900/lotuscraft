@@ -4,7 +4,9 @@
     "services": "Palvelut ja hinnat",
     "about": "Meistä",
     "gallery": "Galleria",
-    "contact": "Yhteystiedot"
+    "contact": "Yhteystiedot",
+    "switch_to_fi": "Vaihda suomeksi",
+    "switch_to_en": "Vaihda englanniksi"
   },
   "hero": {
     "title_part1": "Taidokasta käsityötä,",
