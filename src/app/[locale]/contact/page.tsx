@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { pageMetadata, resolveLocale } from "@/lib/seo";
 import { issueFormToken } from "@/lib/form-token";
 import ContactForm from "@/components/ContactForm";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, CreditCard } from "lucide-react";
 
 export async function generateMetadata({
   params,
@@ -100,6 +100,21 @@ export default function ContactPage() {
                 >
                   lotuscraft.fin@gmail.com
                 </a>
+              </div>
+
+              {/* Payment */}
+              <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-8 shadow-sm border border-gold-100">
+                <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gold-50 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
+                    <CreditCard size={18} className="text-gold-600 sm:w-5 sm:h-5" />
+                  </div>
+                  <h3 className="font-semibold text-charcoal-900 text-sm sm:text-base">
+                    {t("payment_title")}
+                  </h3>
+                </div>
+                <p className="text-charcoal-600 text-sm pl-12 sm:pl-[52px]">
+                  {t("payment_value")}
+                </p>
               </div>
 
               {/* Hours */}

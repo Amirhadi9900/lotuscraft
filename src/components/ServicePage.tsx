@@ -51,6 +51,23 @@ export function ServicePage({
     answer: t(`servicePages.faq.${pageKey}_a${n}`),
   }));
 
+  // Pages only state the facts the business has confirmed, so empty values are
+  // dropped rather than rendered as blank promises.
+  const facts = [
+    {
+      label: t("servicePages.shared.turnaround_label"),
+      value: t(`servicePages.${pageKey}.turnaround`),
+    },
+    {
+      label: t("servicePages.shared.delivery_label"),
+      value: t(`servicePages.${pageKey}.delivery`),
+    },
+    {
+      label: t("servicePages.shared.payment_label"),
+      value: t("servicePages.shared.payment_value"),
+    },
+  ].filter((fact) => fact.value.length > 0);
+
   const breadcrumb = breadcrumbJsonLd(locale, [
     { name: t("navigation.home"), path: "/" },
     { name: t("navigation.services"), path: "/services" },
@@ -139,12 +156,30 @@ export function ServicePage({
         </div>
       )}
 
-      {/* Intro detail */}
+      {/* Intro detail + confirmed service facts */}
       <section className="py-10 sm:py-16">
         <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-charcoal-600 text-sm sm:text-base leading-relaxed max-w-3xl">
             {t(`servicePages.${pageKey}.intro2`)}
           </p>
+
+          {facts.length > 0 && (
+            <dl className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 sm:mt-10">
+              {facts.map((fact) => (
+                <div
+                  key={fact.label}
+                  className="bg-white rounded-xl border border-gold-100 px-4 sm:px-5 py-3 sm:py-4"
+                >
+                  <dt className="text-xs uppercase tracking-wider text-gold-700 font-semibold">
+                    {fact.label}
+                  </dt>
+                  <dd className="text-charcoal-800 text-sm sm:text-base mt-1 leading-snug">
+                    {fact.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )}
         </div>
       </section>
 

@@ -275,11 +275,13 @@
       "server_invalid_message": "Antamasi viesti ei kelpaa"
     },
     "address_title": "Osoite",
+    "payment_title": "Maksutavat",
+    "payment_value": "Käteinen ja kortti",
     "phone_title": "Puhelin",
     "email_title": "Sähköposti",
     "hours_title": "Aukioloajat",
     "hours_weekday": "Ma – Pe: 10:00 – 18:00",
-    "hours_saturday": "La: 10:00 – 17:00",
+    "hours_saturday": "La: 10:00 – 16:00",
     "hours_sunday": "Su: Suljettu"
   },
   "footer": {
@@ -289,7 +291,7 @@
     "follow_us": "Seuraa meitä",
     "hours_title": "Aukioloajat",
     "hours_weekday": "Ma – Pe: 10:00 – 18:00",
-    "hours_saturday": "La: 10:00 – 17:00",
+    "hours_saturday": "La: 10:00 – 16:00",
     "hours_sunday": "Su: Suljettu",
     "copyright": "© 2026 Lotus Craft. Kaikki oikeudet pidätetään."
   },
@@ -333,15 +335,15 @@
       },
       "contact": {
         "title": "Yhteystiedot ja aukioloajat – Helsinginkatu 11 | Lotus Craft",
-        "description": "Soita +358 40 681 2264 tai lähetä viesti. Helsinginkatu 11, 00500 Helsinki. Ma–pe 10–18, la 10–17, su kiinni."
+        "description": "Soita +358 40 681 2264 tai lähetä viesti. Helsinginkatu 11, 00500 Helsinki. Ma–pe 10–18, la 10–16, su kiinni."
       },
       "korjausompelu": {
         "title": "Korjausompelu ja muokkaus Helsinki | Lotus Craft",
-        "description": "Vaatteiden lyhennys, kaventaminen ja vetoketjun vaihto Helsingin Kalliossa. Housut alkaen 25 €, takin vetoketju 45 €, hääpuvun korjaus 80 €. Ilmainen arvio."
+        "description": "Vaatteiden lyhennys, kaventaminen ja vetoketjun vaihto Helsingin Kalliossa. Housut alkaen 25 €, vetoketju 45 €. Muokkaus usein valmis 2–3 päivässä."
       },
       "mattopesu": {
         "title": "Mattopesu Helsinki – alkaen 16 €/m² | Lotus Craft",
-        "description": "Matonpesu materiaalin mukaan: puuvilla- ja räsymatot 16 €/m², persialaiset 19 €/m², villa ja ryijyt 31 €/m². Helsinginkatu 11, Kallio."
+        "description": "Mattopesu materiaalin mukaan: räsymatot 16 €/m², persialaiset 19 €/m², villa ja ryijyt 31 €/m². Valmis yleensä 7–10 päivässä. Kallio, Helsinki."
       },
       "kuivapesu": {
         "title": "Kuivapesu Helsinki – puvut ja takit | Lotus Craft",
@@ -371,31 +373,43 @@
       "faq": "Usein kysyttyä",
       "visit": "Tule käymään verstaallamme",
       "related": "Muut palvelut",
-      "all_prices": "Katso kaikki palvelut ja hinnat"
+      "all_prices": "Katso kaikki palvelut ja hinnat",
+      "turnaround_label": "Valmistumisaika",
+      "delivery_label": "Nouto ja toimitus",
+      "payment_label": "Maksutavat",
+      "payment_value": "Käteinen ja kortti"
     },
     "korjausompelu": {
       "nav": "Korjausompelu ja muokkaukset",
       "h1": "Korjausompelu ja vaatteiden muokkaus Helsingissä",
       "intro": "Lyhennämme housut ja hameet, kavennamme vyötäröä ja lahkeita, parsimme taskut ja vaihdamme vetoketjut. Kaikki työt tehdään verstaallamme Helsingin Kalliossa.",
-      "intro2": "Otamme vastaan myös mittatilaustöitä: naisten ja tyttöjen vaatteet, tyynyliinat, päiväpeitteet ja verhot."
+      "intro2": "Otamme vastaan myös mittatilaustöitä: naisten ja tyttöjen vaatteet, tyynyliinat, päiväpeitteet ja verhot.",
+      "turnaround": "Muokkaukset ja korjaukset valmistuvat yleensä 2–3 päivässä. Mittatilaustyöt vievät tavallisesti 2–3 viikkoa.",
+      "delivery": ""
     },
     "mattopesu": {
       "nav": "Mattopesu",
       "h1": "Mattopesu Helsingissä – alkaen 16 €/m²",
       "intro": "Peseemme matot materiaalin mukaan ohuista puuvilla- ja räsymatoista käsin solmittuihin silkkimattoihin. Hinta on aina neliöhinta, joten isonkin maton hintaa on helppo arvioida.",
-      "intro2": "Käsittelyymme kuuluvat ryijyt, persialaiset matot, jutti- ja sisalimatot sekä turkikset ja nahkamatot."
+      "intro2": "Käsittelyymme kuuluvat ryijyt, persialaiset matot, jutti- ja sisalimatot sekä turkikset ja nahkamatot.",
+      "turnaround": "Maton pesu ja kuivaus kestää tavallisesti 7–10 päivää.",
+      "delivery": "Mattojen nouto ja toimitus ovat käytettävissä. Ota yhteyttä ja sovitaan aika."
     },
     "kuivapesu": {
       "nav": "Kuivapesu",
       "h1": "Kuivapesu Helsingissä – puvut, takit ja ulkoiluvaatteet",
       "intro": "Puvut, paidat, takit ja ulkoiluvaatteet pestään kunkin materiaalin vaatimalla tavalla. Herkimmät silkki- ja juhlavaatteet käsitellään omana ryhmänään.",
-      "intro2": "Käsittelemme myös vaativat merkit ja materiaalit: Canada Goose -takit, Gore-Tex-vaatteet ja hiihtoasut."
+      "intro2": "Käsittelemme myös vaativat merkit ja materiaalit: Canada Goose -takit, Gore-Tex-vaatteet ja hiihtoasut.",
+      "turnaround": "",
+      "delivery": "Nouto ja toimitus ovat käytettävissä. Ota yhteyttä ja sovitaan aika."
     },
     "hotellipesula": {
       "nav": "Hotellien ja yritysten pesula",
       "h1": "Sopimuspesula hotelleille ja yrityksille Helsingissä",
-      "intro": "Teemme sopimusperusteista pesupalvelua hotelleille, hostelleille ja motelleille sekä ravintoloille, spa-kohteille ja terveysalan yrityksille. Sopimuksen piiriin kuuluvat lakanat, tyynyliinat, verhot ja matot.",
-      "intro2": "Pyydä tarjous yhteydenottolomakkeella valitsemalla yhteydenottotyypiksi yritys."
+      "intro": "Teemme sopimusperusteista pesupalvelua hotelleille, hostelleille ja motelleille sekä ravintoloille, spa-kohteille ja terveysalan yrityksille. Peseemme liinavaatteet, pyyhkeet, tyynyliinat, huovat, verhot sekä kaikenlaiset matot.",
+      "intro2": "Pyydä tarjous yhteydenottolomakkeella valitsemalla yhteydenottotyypiksi yritys.",
+      "turnaround": "",
+      "delivery": "Sopimusasiakkaille palveluun sisältyy nouto ja toimitus."
     },
     "faq": {
       "korjausompelu_q1": "Paljonko housujen lyhennys maksaa?",

@@ -275,11 +275,13 @@
       "server_invalid_message": "The message you entered is not valid"
     },
     "address_title": "Address",
+    "payment_title": "Payment",
+    "payment_value": "Cash and card",
     "phone_title": "Phone",
     "email_title": "Email",
     "hours_title": "Business Hours",
     "hours_weekday": "Mon – Fri: 10:00 AM – 6:00 PM",
-    "hours_saturday": "Sat: 10:00 AM – 5:00 PM",
+    "hours_saturday": "Sat: 10:00 AM – 4:00 PM",
     "hours_sunday": "Sun: Closed"
   },
   "footer": {
@@ -289,7 +291,7 @@
     "follow_us": "Follow Us",
     "hours_title": "Business Hours",
     "hours_weekday": "Mon – Fri: 10:00 – 18:00",
-    "hours_saturday": "Sat: 10:00 – 17:00",
+    "hours_saturday": "Sat: 10:00 – 16:00",
     "hours_sunday": "Sun: Closed",
     "copyright": "© 2026 Lotus Craft. All rights reserved."
   },
@@ -333,15 +335,15 @@
       },
       "contact": {
         "title": "Contact & Opening Hours – Helsinginkatu 11 | Lotus Craft",
-        "description": "Call +358 40 681 2264 or send a message. Find us at Helsinginkatu 11, 00500 Helsinki. Mon–Fri 10–18, Sat 10–17, Sun closed."
+        "description": "Call +358 40 681 2264 or send a message. Find us at Helsinginkatu 11, 00500 Helsinki. Mon–Fri 10–18, Sat 10–16, Sun closed."
       },
       "korjausompelu": {
         "title": "Clothing Alterations & Repairs in Helsinki | Lotus Craft",
-        "description": "Hemming, tapering, pocket repairs and zipper replacement in Kallio, Helsinki. Trouser hemming from €25, jacket zipper from €45, wedding dress repair from €80."
+        "description": "Hemming, tapering, pocket repairs and zipper replacement in Kallio, Helsinki. Trouser hemming from €25, jacket zipper from €45. Usually ready in 2–3 days."
       },
       "mattopesu": {
         "title": "Rug Cleaning in Helsinki – from €16/m² | Lotus Craft",
-        "description": "Rug washing priced by material: cotton and rag rugs €16/m², Persian rugs €19/m², wool, ryijy and silk rugs €31/m². Helsinginkatu 11, Kallio."
+        "description": "Rug washing priced by material: cotton and rag rugs €16/m², Persian rugs €19/m², wool, ryijy and silk rugs €31/m². Usually ready in 7–10 days. Kallio, Helsinki."
       },
       "kuivapesu": {
         "title": "Dry Cleaning in Helsinki – Suits & Coats | Lotus Craft",
@@ -371,31 +373,43 @@
       "faq": "Frequently asked questions",
       "visit": "Visit our workshop",
       "related": "Other services",
-      "all_prices": "See all services and prices"
+      "all_prices": "See all services and prices",
+      "turnaround_label": "Turnaround",
+      "delivery_label": "Pickup & delivery",
+      "payment_label": "Payment",
+      "payment_value": "Cash and card"
     },
     "korjausompelu": {
       "nav": "Sewing & alterations",
       "h1": "Clothing Alterations and Repairs in Helsinki",
       "intro": "We hem trousers and skirts, taper waists and legs, mend pockets and replace zippers. Every job is done in our own workshop in Kallio, Helsinki.",
-      "intro2": "We also take custom orders: women's and girls' clothing, pillowcases, bedspreads and curtains."
+      "intro2": "We also take custom orders: women's and girls' clothing, pillowcases, bedspreads and curtains.",
+      "turnaround": "Alterations and repairs are usually ready in 2–3 days. Custom-made garments normally take 2–3 weeks.",
+      "delivery": ""
     },
     "mattopesu": {
       "nav": "Rug washing",
       "h1": "Rug Cleaning in Helsinki – from €16/m²",
       "intro": "We wash rugs according to their material, from thin cotton and rag rugs to hand-knotted silk. The price is always per square metre, so even a large rug is easy to estimate.",
-      "intro2": "We handle Finnish ryijy rugs, Persian rugs, jute and sisal, as well as fur and hide rugs."
+      "intro2": "We handle Finnish ryijy rugs, Persian rugs, jute and sisal, as well as fur and hide rugs.",
+      "turnaround": "Washing and drying usually takes 7–10 days.",
+      "delivery": "Rug pickup and delivery is available. Contact us to arrange a time."
     },
     "kuivapesu": {
       "nav": "Laundry & dry cleaning",
       "h1": "Dry Cleaning in Helsinki – Suits, Coats and Outdoor Wear",
       "intro": "Suits, shirts, coats and outdoor wear are cleaned the way each material requires. The most delicate silk and formal garments are handled as their own group.",
-      "intro2": "We also handle demanding brands and materials: Canada Goose jackets, Gore-Tex garments and ski wear."
+      "intro2": "We also handle demanding brands and materials: Canada Goose jackets, Gore-Tex garments and ski wear.",
+      "turnaround": "",
+      "delivery": "Pickup and delivery is available. Contact us to arrange a time."
     },
     "hotellipesula": {
       "nav": "Hotel & business laundry",
       "h1": "Contract Laundry for Hotels and Businesses in Helsinki",
-      "intro": "We provide contract-based washing for hotels, hostels and motels, as well as restaurants, spas and healthcare businesses. Contracts cover sheets, pillowcases, curtains and carpets.",
-      "intro2": "Request a quote through the contact form by choosing Business as your inquiry type."
+      "intro": "We provide contract-based washing for hotels, hostels and motels, as well as restaurants, spas and healthcare businesses. We wash bed linen, towels, pillowcases, blankets, curtains and every kind of rug.",
+      "intro2": "Request a quote through the contact form by choosing Business as your inquiry type.",
+      "turnaround": "",
+      "delivery": "Contract customers get pickup and delivery as part of the service."
     },
     "faq": {
       "korjausompelu_q1": "How much does trouser hemming cost?",

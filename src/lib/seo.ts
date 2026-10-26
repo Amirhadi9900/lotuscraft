@@ -84,7 +84,7 @@ const openingHours = [
     "@type": "OpeningHoursSpecification",
     dayOfWeek: "Saturday",
     opens: "10:00",
-    closes: "17:00",
+    closes: "16:00",
   },
 ];
 
@@ -204,6 +204,7 @@ export async function businessJsonLd(locale: Locale) {
     email: business.email,
     priceRange,
     currenciesAccepted: "EUR",
+    paymentAccepted: "Cash, Credit Card, Debit Card",
     address: {
       "@type": "PostalAddress",
       streetAddress: business.streetAddress,
