@@ -101,6 +101,7 @@ export type PageKey =
   | "about"
   | "gallery"
   | "contact"
+  | "tietosuoja"
   | ServicePageKey;
 
 export function breadcrumbJsonLd(
@@ -178,6 +179,9 @@ export async function businessJsonLd(locale: Locale) {
     namespace: "services.category_descriptions",
   });
 
+  // The whole catalogue, on every page: this node describes the business
+  // entity, and the layout that renders it is reused across client-side
+  // navigations, so anything scoped to one page would go stale in the DOM.
   const catalog = [...sewingCategories, ...laundryCategories].map(
     (category) => ({
       "@type": "Offer",
@@ -199,7 +203,10 @@ export async function businessJsonLd(locale: Locale) {
     alternateName: business.alternateName,
     description: t("business_description"),
     url: absolute(localePath(locale)),
-    image: absolute("/images/logo.png"),
+    // A dedicated 512px rendition: /images/logo.png is the 688KB master the
+    // components feed to next/image, not something crawlers should fetch raw.
+    image: absolute("/icons/logo-512.png"),
+    logo: absolute("/icons/logo-512.png"),
     telephone: business.phone,
     email: business.email,
     priceRange,

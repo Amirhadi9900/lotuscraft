@@ -8,10 +8,171 @@
     "switch_to_fi": "Vaihda suomeksi",
     "switch_to_en": "Vaihda englanniksi",
     "back_to_top": "Takaisin sivun alkuun",
+    "privacy": "Tietosuoja",
     "menu_toggle": "Avaa tai sulje valikko",
     "main_nav": "Päävalikko",
     "breadcrumb": "Murupolku"
   },
+  "privacy": {
+    "title": "Tietosuojaseloste",
+    "intro": "Näin käsittelemme henkilötietojasi, kun vierailet tällä sivustolla tai otat meihin yhteyttä.",
+    "questions": "Kysyttävää tietosuojasta? Ota yhteyttä:",
+    "updated": "Voimassa 26.10.2026 alkaen",
+    "sections": [
+      {
+        "heading": "Rekisterinpitäjä",
+        "paragraphs": [
+          "Lotus Craft, Helsinginkatu 11 / Kustaankatu 1, 00500 Helsinki, on tämän sivuston tietojen käsittelystä vastaava rekisterinpitäjä. Kysymykset: +358 40 681 2264 tai lotuscraft.fin@gmail.com.",
+          "Emme ole nimittäneet tietosuojavastaavaa, eikä sellaista toimintamme laajuus huomioon ottaen tarvita. Henkilötietojasi koskevat pyynnöt osoitetaan suoraan edellä oleviin yhteystietoihin."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Mitä tietoja käsittelemme",
+        "paragraphs": [
+          "Yhteydenottolomakkeessa käsitellään seuraavat tiedot:"
+        ],
+        "bullets": [
+          "nimesi ja sähköpostiosoitteesi",
+          "puhelinnumerosi, jos täytät sen",
+          "viestisi sisältö",
+          "valintasi yksityis- tai yritysasiakkaasta sekä mahdollisen yrityksen nimi ja toimiala",
+          "valitsemasi palvelu ja haluttu yhteydenottotapa"
+        ]
+      },
+      {
+        "heading": "Tietojen antaminen on vapaaehtoista",
+        "paragraphs": [
+          "Et ole velvollinen antamaan tietojasi. Ilman niitä emme kuitenkaan voi vastata yhteydenottoosi tai antaa palvelutarjousta.",
+          "Emme pyydä emmekä vastaanota arkaluonteisia henkilötietoja, kuten terveyttä, uskontoa tai henkilötunnusta koskevia tietoja. Älä lähetä sellaisia lomakkeella."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Miten tiedot kerätään ja mitä tapahtuu automaattisesti",
+        "paragraphs": [],
+        "bullets": [
+          "Saat tiedot suoraan sinulta yhteydenottolomakkeella.",
+          "Sivusto asettaa vain yhden evästeen, NEXT_LOCALE, joka tallentaa kielivalintasi. Se on istuntokohtainen ja poistuu, kun suljet selaimen.",
+          "Automaattisten ja vahingollisten yhteydenottojen estämiseksi käsittelemme pyynnön IP-osoitetta tilapäisesti palvelimen muistissa. Emme tallenna sitä emmekä kirjoita sitä lokitiedostoihin.",
+          "Palvelinlokimme sisältävät vain teknisiä tietoja, kuten lähetyksen onnistumisen tai hylkäämisen sekä viestin pituuden. Emme lokita nimiä, sähköpostiosoitteita, puhelinnumeroita emmekä viestien sisältöä."
+        ]
+      },
+      {
+        "heading": "Käsittelyn tarkoitukset ja oikeusperusteet",
+        "paragraphs": [],
+        "bullets": [
+          "Suostumus (GDPR 6 artikla 1 kohdan a alakohta): vastaanotamme ja hoidamme yhteydenottoosi, kun olet antanut suostumuksesi lomakkeessa.",
+          "Sopimuksen täyttäminen (6 artikla 1 kohdan b alakohta): jos yhteydenotostasi syntyy tilaus tai palvelusopimus, käsittelemme tietoja sen hoitamiseksi.",
+          "Oikeutettu etu (6 artikla 1 kohdan f alakohta): estämme automaattista väärinkäyttöä ja pidämme huolta sivuston tietoturvasta."
+        ]
+      },
+      {
+        "heading": "Säilytysajat",
+        "paragraphs": [
+          "Yhteydenottoviesti säilyy sähköpostilaatikossamme niin kauan kuin se tarvitaan yhteydenottoosi vastaamiseen ja mahdollisen asiakkuuden hoitamiseen.",
+          "Jos yhteydenotosta syntyy kirjanpitoon kuuluva tosite, säilytämme tarvittavia tietoja kirjanpitolain mukaisesti kuusi vuotta.",
+          "Emme ylläpidä erillistä asiakasrekisteriä. Emme myy emmekä luovuta antamiasi tietoja markkinointiin."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Tietojen vastaanottajat",
+        "paragraphs": [
+          "Käsittelemme tietojasi itse. Ainoat palveluntarjoajat, jotka osallistuvat käsittelyyn, ovat:"
+        ],
+        "bullets": [
+          "Google (Gmail): lähetämme yhteydenottoviestit SMTP:n kautta omaan Gmail-postilaatikkoonsa, joten viestin sisältö kulkee ja säilyy Googlen palveluissa.",
+          "Vercel Inc.: sivusto ja sen palvelinlogiikka toimivat Vercelin alustalla, joka myös rajoittaa automatisoitujen lähetysten määrää."
+        ]
+      },
+      {
+        "heading": "Seuranta ja kolmannet osapuolet",
+        "paragraphs": [],
+        "bullets": [
+          "Emme käytä mainosevästeitä, analytiikka- tai mainontapalveluita, seurantapikseleitä emmekä sosiaalisen median liitännäisiä.",
+          "Sivuston Inter-fontti on tallennettu omalle palvelimellemme, joten selaimesi ei lataa fontteja Google Fonts -palvelusta.",
+          "Sivuston ulkoiset linkit (Instagram, Google Maps ja tietosuojaviranomaisen sivusto tietosuoja.fi) ovat tavallisia verkkosivulinkkejä. Tietojasi siirtyy näille palveluille vasta, kun klikkaat linkkiä ja siirryt niihin."
+        ]
+      },
+      {
+        "heading": "Siirrot EU:n ja ETA:n ulkopuolelle",
+        "paragraphs": [
+          "Google ja Vercel voivat käsitellä tietoja Euroopan unionin tai ETA-alueen ulkopuolella, esimerkiksi Yhdysvalloissa. Tällöin siirto perustuu GDPR:n viidenteen lukuun: palveluntarjoajat nojaavat tyypillisesti EU–Yhdysvaltain tietosuojakehyksen (Data Privacy Framework) sertifiointiin tai EU:n mallisopimuslausekkeisiin."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Oikeutesi",
+        "paragraphs": [
+          "Sinulla on oikeus:"
+        ],
+        "bullets": [
+          "tarkastaa, käsittelemmekö henkilötietojasi, ja saada jäljennös niistä",
+          "vaatia virheellisten tietojen oikaisua ja puutteellisten täydentämistä",
+          "vaatia tietojen poistamista, jos niitä ei enää tarvita alkuperäiseen tarkoitukseen",
+          "vaatia käsittelyn rajoittamista tai vastustaa käsittelyä",
+          "siirtää antamasi tiedot toiselle palveluntarjoajalle, jos käsittely perustuu suostumukseen ja se tapahtuu automaattisesti",
+          "peruuttaa suostumuksesi milloin tahansa; peruutus ei vaikuta ennen peruutusta tehdyn käsittelyn laillisuuteen"
+        ]
+      },
+      {
+        "heading": "Näin käytät oikeuksiasi",
+        "paragraphs": [
+          "Ota yhteyttä edellä olevaan puhelinnumeroon tai sähköpostiosoitteeseen. Pyynnön esittäminen on maksutonta, ja vastaamme siihen kuukauden kuluessa vastaanottamisesta. Voimme pyytää sinua varmistamaan henkilöllisyytesi, jotta luovutamme tietoja vain oikealle henkilölle."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Valvontaviranomainen",
+        "paragraphs": [
+          "Jos katsot, että käsittelemme henkilötietojasi lainvastaisesti, voit valittaa valvontaviranomaiselle: Tietosuojavaltuutetun toimisto (Office of the Data Protection Ombudsman), Suomi. Lisätietoja osoitteessa https://tietosuoja.fi"
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Automaattinen päätöksenteko ja profilointi",
+        "paragraphs": [
+          "Emme käytä automaattista päätöksentekoa emmekä profiloi sivuston vieraita."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Lasten henkilötiedot",
+        "paragraphs": [
+          "Palvelumme ei ole suunnattu lapsille, emmekä tietoisesti kerää alle 16-vuotiaiden henkilötietoja. Jos huomaamme saaneemme sellaisia, poistamme ne."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Tietojen turvallisuus",
+        "paragraphs": [],
+        "bullets": [
+          "Liikenne salataan HTTPS-yhteydellä.",
+          "Poistamme syötteestä ohjausmerkit ja käsittelemme näytettävän sisällön turvallisesti, jotta lomakkeen sisältö ei voi suorittaa koodia.",
+          "Yhteydenottolomake tarkistaa kertakäyttöisen, allekirjoitetun tunnisteen, joka varmistaa että lomake on ladattu tältä sivustolta.",
+          "Rajoitamme automatisoitujen lähetysten määrää."
+        ]
+      },
+      {
+        "heading": "Selosteen päivitykset",
+        "paragraphs": [
+          "Päivitämme tätä selostetta, kun palvelumme tai lainsäädäntö muuttuu. Voimassa oleva versio on aina tämän sivun sisältö, ja sen voimassaoloajankohta näkyy sivun alussa."
+        ],
+        "bullets": []
+      }
+    ]
+  },
+  "notFound": {
+  "meta_title": "404 – Sivua ei löytynyt | Lotus Craft",
+  "heading": "Sivua ei löytynyt",
+  "intro": "Valitettavasti tätä sivua ei löydy. Se on saattanut siirtyä tai olla koskaan ollemassa.",
+  "home_note": "Korjausompelu, mattopesu ja kuivapesu Helsingin Kalliossa.",
+  "services_note": "Kaikki palvelut ja hinnat yhdellä sivulla.",
+  "contact_note": "Soita, lähetä viesti tai tule käymään.",
+  "visit_heading": "Poikkeaminen ei haittaa — käy meillä",
+  "cta": "Ota yhteyttä"
+},
   "hero": {
     "title_part1": "Taidokasta käsityötä,",
     "title_part2": "tikki tikiltä",
@@ -288,6 +449,8 @@
       "security_expired": "Lomake on ollut auki liian kauan. Päivitä sivu ja lähetä viesti uudelleen.",
       "server_error": "Jokin meni pieleen. Yritä myöhemmin uudelleen",
       "server_invalid_name": "Antamasi nimi ei kelpaa",
+      "consent_required": "Sinun täytyy antaa suostumus ennen lähettämistä",
+      "server_consent_required": "Anna suostumus tietojen käsittelylle",
       "server_invalid_email": "Antamasi sähköpostiosoite ei kelpaa",
       "server_invalid_phone": "Antamasi puhelinnumero ei kelpaa",
       "server_invalid_message": "Antamasi viesti ei kelpaa"
@@ -300,7 +463,10 @@
     "hours_title": "Aukioloajat",
     "hours_weekday": "Ma – Pe: 10:00 – 18:00",
     "hours_saturday": "La: 10:00 – 16:00",
-    "hours_sunday": "Su: Suljettu"
+    "hours_sunday": "Su: Suljettu",
+    "maps_link": "Avaa Google Maps",
+    "form_consent": "Olen lukenut tietosuojaselosteen ja annan suostumukseni siihen, että Lotus Craft kerää ja säilyttää ilmoittamani tiedot yhteydenottoni hoitamista varten.",
+    "form_privacy_link": "Tietosuojaseloste"
   },
   "footer": {
     "tagline": "Laadukasta käsityötä Helsingissä. Ammattitaitoista ompelu-, muokkaus- ja pesulapalvelua — huolenpitoa vaatteillesi ja tekstiileillesi.",
@@ -334,7 +500,10 @@
     "default_description": "Ompelimo, korjausompelu, mattopesu ja kuivapesu Helsingin Kalliossa. Läpinäkyvät hinnat ja ilmainen arvio. Helsinginkatu 11, ma–pe 10–18.",
     "business_description": "Lotus Craft on ompelimo ja pesula Helsingin Kalliossa. Tarjoamme korjaus- ja muokkausompelua, mittatilaustyöt, mattopesun, kuivapesun sekä hotellien, hostellien ja ravintoloiden sopimuspesulan.",
     "catalog_name": "Palvelut ja hinnat",
-    "pages": {
+    "pages": {      "tietosuoja": {
+        "title": "Tietosuojaseloste | Lotus Craft",
+        "description": "Mitä henkilötietoja keräämme, mihin ja mille oikeusperusteelle, kuinka kauan säilytämme ja mitkä ovat oikeutesi. Lotus Craft, Helsinki."
+      },
       "home": {
         "title": "Ompelimo ja pesula Helsingissä | Lotus Craft",
         "description": "Korjausompelua, vaatteiden muokkausta, mattopesua ja kuivapesua Helsingin Kalliossa. Pyydä tarjousta tai tule käymään: Helsinginkatu 11, ma–pe 10–18."

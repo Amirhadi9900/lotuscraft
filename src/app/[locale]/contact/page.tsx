@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { pageMetadata, resolveLocale } from "@/lib/seo";
 import { issueFormToken } from "@/lib/form-token";
 import ContactForm from "@/components/ContactForm";
-import { MapPin, Phone, Mail, Clock, CreditCard } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, CreditCard, ArrowUpRight } from "lucide-react";
 
 export async function generateMetadata({
   params,
@@ -64,6 +64,15 @@ export default function ContactPage() {
                   Kustaankatu 1<br />
                   00500 Helsinki
                 </p>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Helsinginkatu+11%2C+00500+Helsinki"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 ml-12 sm:ml-[52px] inline-flex items-center gap-1.5 text-sm font-medium text-gold-700 hover:underline"
+                >
+                  {t("maps_link")}
+                  <ArrowUpRight size={13} aria-hidden="true" />
+                </a>
               </div>
 
               {/* Phone */}

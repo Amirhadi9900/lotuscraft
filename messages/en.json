@@ -8,10 +8,171 @@
     "switch_to_fi": "Switch to Finnish",
     "switch_to_en": "Switch to English",
     "back_to_top": "Back to top",
+    "privacy": "Privacy",
     "menu_toggle": "Open or close the menu",
     "main_nav": "Main navigation",
     "breadcrumb": "Breadcrumb"
   },
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "How we handle personal data when you visit this site or contact us.",
+    "questions": "Questions about this policy? Get in touch:",
+    "updated": "Effective 26 October 2026",
+    "sections": [
+      {
+        "heading": "Data controller",
+        "paragraphs": [
+          "Lotus Craft, Helsinginkatu 11 / Kustaankatu 1, 00500 Helsinki, is the data controller for this website. Questions: +358 40 681 2264 or lotuscraft.fin@gmail.com.",
+          "We have not appointed a data protection officer, and given the scale of our operations one is not required. Requests about your personal data should be sent to the contact details above."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "What data we process",
+        "paragraphs": [
+          "The contact form processes the following:"
+        ],
+        "bullets": [
+          "your name and email address",
+          "your phone number, if you provide one",
+          "the content of your message",
+          "whether you write as an individual or a business, plus your company name and industry if you choose business",
+          "the service you select and how you would like us to contact you"
+        ]
+      },
+      {
+        "heading": "Giving your data is voluntary",
+        "paragraphs": [
+          "You are not obliged to provide your details. Without them, however, we cannot answer your enquiry or give you a quote.",
+          "We do not ask for, and do not accept, special categories of data such as information about health, religion or your personal identity code. Please do not send any in the form."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "How data is collected, and what happens automatically",
+        "paragraphs": [],
+        "bullets": [
+          "We receive the data directly from you through the contact form.",
+          "The site sets one cookie only, NEXT_LOCALE, which remembers your language choice. It lasts for the browsing session and is removed when you close the browser.",
+          "To guard against abuse we hold the request's IP address temporarily in server memory. We do not store it and we do not write it to log files.",
+          "Our server logs contain technical facts only, such as whether a submission succeeded or was rejected and the length of the message. We do not log names, email addresses, phone numbers or message content."
+        ]
+      },
+      {
+        "heading": "Purposes and legal basis",
+        "paragraphs": [],
+        "bullets": [
+          "Consent (Article 6(1)(a) GDPR): we receive and handle your enquiry after you tick the consent box on the form.",
+          "Performance of a contract (Article 6(1)(b) GDPR): if your enquiry leads to an order or a service agreement, we process your details to carry it out.",
+          "Legitimate interest (Article 6(1)(f) GDPR): we prevent automated abuse and keep the site secure."
+        ]
+      },
+      {
+        "heading": "How long we keep data",
+        "paragraphs": [
+          "Your message stays in our mailbox for as long as it takes to answer the enquiry and to serve you as a customer if that follows.",
+          "If an enquiry produces an accounting document, we keep the necessary details for six years as the Finnish Accounting Act requires.",
+          "We do not maintain a separate customer register, and we neither sell nor share your details for marketing."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Who receives the data",
+        "paragraphs": [
+          "We process your data ourselves. The only services that take part are:"
+        ],
+        "bullets": [
+          "Google (Gmail): enquiry messages are sent over SMTP to our Gmail mailbox, so the content of a message passes through and is stored in Google's services.",
+          "Vercel Inc.: the website and its server-side logic run on Vercel's platform, which also enforces the limit on automated submissions."
+        ]
+      },
+      {
+        "heading": "Tracking and third parties",
+        "paragraphs": [],
+        "bullets": [
+          "We use no advertising cookies, no analytics or advertising services, no tracking pixels and no social media plugins.",
+          "The Inter font used by the site is hosted on our own server, so your browser never requests fonts from Google Fonts.",
+          "Our external links (Instagram, Google Maps and the data protection authority at tietosuoja.fi) are ordinary hyperlinks. No data reaches those services unless you click through to them."
+        ]
+      },
+      {
+        "heading": "Transfers outside the EU and EEA",
+        "paragraphs": [
+          "Google and Vercel may process data outside the European Union or the EEA, for example in the United States. Where they do, the transfer relies on Chapter V of the GDPR: the providers typically use the EU-U.S. Data Privacy Framework certification or the EU standard contractual clauses."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Your rights",
+        "paragraphs": [
+          "You have the right to:"
+        ],
+        "bullets": [
+          "check whether we process your personal data and obtain a copy of it",
+          "have inaccurate data corrected and incomplete data completed",
+          "have data erased where it is no longer needed for the purpose it was collected for",
+          "obtain restriction of processing, or object to processing",
+          "receive the data you gave us in a structured, machine-readable format and transfer it elsewhere, where processing is based on consent and carried out automatically",
+          "withdraw your consent at any time; withdrawing it does not affect the lawfulness of processing before the withdrawal"
+        ]
+      },
+      {
+        "heading": "How to exercise your rights",
+        "paragraphs": [
+          "Contact us using the phone number or email address above. Making a request is free of charge and we will answer within one month of receiving it. We may ask you to verify your identity so that we disclose data only to the right person."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Supervisory authority",
+        "paragraphs": [
+          "If you believe we process your personal data unlawfully, you may lodge a complaint with the supervisory authority: the Office of the Data Protection Ombudsman (Tietosuojavaltuutetun toimisto), Finland. More information at https://tietosuoja.fi"
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Automated decision-making and profiling",
+        "paragraphs": [
+          "We do not make automated decisions and we do not profile visitors to this site."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Children's data",
+        "paragraphs": [
+          "Our services are not directed at children, and we do not knowingly collect personal data from anyone under 16. If we become aware that we have, we delete it."
+        ],
+        "bullets": []
+      },
+      {
+        "heading": "Security",
+        "paragraphs": [],
+        "bullets": [
+          "Traffic to and from the site is encrypted with HTTPS.",
+          "We strip control characters from what you type and render submitted content safely, so form input cannot execute code.",
+          "The contact form checks a single-use signed token that confirms the form was loaded from this site.",
+          "We limit how many messages can be sent automatically."
+        ]
+      },
+      {
+        "heading": "Changes to this policy",
+        "paragraphs": [
+          "We update this policy when our services or the law change. The version in force is always the content of this page, and its effective date appears at the top."
+        ],
+        "bullets": []
+      }
+    ]
+  },
+  "notFound": {
+  "meta_title": "404 – Page not found | Lotus Craft",
+  "heading": "Page not found",
+  "intro": "The page you were looking for has moved, or may never have existed.",
+  "home_note": "Alterations, rug washing and dry cleaning in Kallio, Helsinki.",
+  "services_note": "Every service and price on one page.",
+  "contact_note": "Call, write or drop by.",
+  "visit_heading": "Still nearby — come and see us",
+  "cta": "Contact us"
+},
   "hero": {
     "title_part1": "Crafting Elegance,",
     "title_part2": "Stitch by Stitch",
@@ -288,6 +449,8 @@
       "security_expired": "This form has been open too long. Please reload the page and send your message again.",
       "server_error": "Something went wrong. Please try again later",
       "server_invalid_name": "The name you entered is not valid",
+      "consent_required": "Please give your consent before sending",
+      "server_consent_required": "Please consent to your data being processed",
       "server_invalid_email": "The email address you entered is not valid",
       "server_invalid_phone": "The phone number you entered is not valid",
       "server_invalid_message": "The message you entered is not valid"
@@ -298,9 +461,12 @@
     "phone_title": "Phone",
     "email_title": "Email",
     "hours_title": "Business Hours",
-    "hours_weekday": "Mon – Fri: 10:00 AM – 6:00 PM",
-    "hours_saturday": "Sat: 10:00 AM – 4:00 PM",
-    "hours_sunday": "Sun: Closed"
+    "hours_weekday": "Mon – Fri: 10:00 – 18:00",
+    "hours_saturday": "Sat: 10:00 – 16:00",
+    "hours_sunday": "Sun: Closed",
+    "maps_link": "Open in Google Maps",
+    "form_consent": "I have read the privacy policy and consent to Lotus Craft collecting and storing the details I gave in order to handle my enquiry.",
+    "form_privacy_link": "Privacy Policy"
   },
   "footer": {
     "tagline": "Handcrafted quality in Helsinki. Professional sewing, alteration, and laundry services — caring for your garments and textiles since day one.",
@@ -334,10 +500,13 @@
     "default_description": "Clothing alterations, rug washing and dry cleaning in Kallio, Helsinki. Transparent starting prices and a free consultation. Walk in: Helsinginkatu 11, Mon–Fri 10–18.",
     "business_description": "Lotus Craft is a sewing workshop and laundry in Kallio, Helsinki, offering clothing alterations and repairs, custom sewing, rug washing, dry cleaning and contract laundry for hotels, hostels and restaurants.",
     "catalog_name": "Services & Pricing",
-    "pages": {
+    "pages": {      "tietosuoja": {
+        "title": "Privacy Policy | Lotus Craft",
+        "description": "What personal data we collect, why, the legal basis, how long we keep it and your rights. Lotus Craft, Kallio, Helsinki."
+      },
       "home": {
         "title": "Alterations, Rug Washing & Laundry in Helsinki | Lotus Craft",
-        "description": "Clothing alterations, zipper and hem repairs, rug washing from €16/m² and dry cleaning in Kallio, Helsinki. Free consultation: Helsinginkatu 11, Mon–Fri 10–18."
+        "description": "Alterations, rug washing from €16/m² and dry cleaning in Kallio, Helsinki. Free consultation at Helsinginkatu 11, Mon–Fri 10–18."
       },
       "services": {
         "title": "Alterations, Dry Cleaning & Rug Washing Prices | Lotus Craft",
@@ -361,7 +530,7 @@
       },
       "mattopesu": {
         "title": "Rug Cleaning in Helsinki – from €16/m² | Lotus Craft",
-        "description": "Rug washing priced by material: cotton and rag rugs €16/m², Persian rugs €19/m², wool, ryijy and silk rugs €31/m². Usually ready in 7–10 days. Kallio, Helsinki."
+        "description": "Rug washing priced by material: cotton and rag €16/m², Persian €19/m², wool, ryijy and silk €31/m². Ready in 7–10 days. Kallio, Helsinki."
       },
       "kuivapesu": {
         "title": "Dry Cleaning in Helsinki – Suits & Coats | Lotus Craft",

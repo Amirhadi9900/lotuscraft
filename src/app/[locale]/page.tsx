@@ -1,9 +1,10 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { Metadata } from "next";
 import { pageMetadata, resolveLocale } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import Hero from "@/components/Hero";
+import { priceFormatter } from "@/components/PriceTable";
 import { sewingCategories, laundryCategories } from "@/data/pricing";
 import type { Category } from "@/data/pricing";
 import {
@@ -37,7 +38,7 @@ const laundryIcons: Record<string, typeof Scissors> = {
   bedding_home: Home,
 };
 
-// Categories with a dedicated landing page link there; the rest stay anchored on the hub.
+// Every category id maps to a dedicated landing page; `/services` hosts the full price tables.
 const categoryPages: Record<string, string> = {
   general: "/korjausompelu",
   jackets_dresses: "/korjausompelu",
@@ -47,26 +48,26 @@ const categoryPages: Record<string, string> = {
   everyday_garments: "/kuivapesu",
   outerwear_jackets: "/kuivapesu",
   formal_silk: "/kuivapesu",
+  bedding_home: "/hotellipesula",
 };
 
 function ServiceCard({
   category,
   icons,
   t,
-  anchor,
 }: {
   category: Category;
   icons: Record<string, typeof Scissors>;
   t: ReturnType<typeof useTranslations>;
-  anchor: string;
 }) {
   const IconComponent = icons[category.id] || Scissors;
+  const locale = useLocale();
   const lowestPrice = Math.min(...category.services.map((s) => s.price));
   const unitLabel = category.unit === "m2" ? ` ${t("services.per_m2")}` : "";
 
   return (
     <Link
-      href={categoryPages[category.id] ?? `/services#${anchor}`}
+      href={categoryPages[category.id]}
       className="group bg-white rounded-2xl p-5 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gold-100 hover:border-gold-300"
     >
       <div className="flex items-start justify-between mb-3 sm:mb-4">
@@ -74,7 +75,8 @@ function ServiceCard({
           <IconComponent className="text-gold-700 w-5 h-5 sm:w-7 sm:h-7" />
         </div>
         <span className="text-xs sm:text-sm text-gold-700 font-semibold bg-gold-50 px-2.5 py-1 rounded-full">
-          {t("services.from")} {lowestPrice} {t("services.currency")}
+          {t("services.from")} {priceFormatter(locale, lowestPrice).format(lowestPrice)}{" "}
+          {t("services.currency")}
           {unitLabel}
         </span>
       </div>
@@ -140,7 +142,6 @@ export default function HomePage() {
                 category={category}
                 icons={sewingIcons}
                 t={t}
-                anchor={category.id}
               />
             ))}
           </div>
@@ -206,7 +207,6 @@ export default function HomePage() {
                 category={category}
                 icons={laundryIcons}
                 t={t}
-                anchor={category.id}
               />
             ))}
           </div>

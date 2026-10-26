@@ -24,6 +24,16 @@ export const categoryIcons: Record<string, IconType> = {
   bedding_home: Home,
 };
 
+// A raw JS number prints "7.5" on both locales; prices need the locale's
+// decimal separator, and cents must not be truncated to "7,5".
+export function priceFormatter(locale: string, ...values: number[]) {
+  const cents = values.some((value) => !Number.isInteger(value));
+  return new Intl.NumberFormat(locale, {
+    minimumFractionDigits: cents ? 2 : 0,
+    maximumFractionDigits: 2,
+  });
+}
+
 function PriceDisplay({
   service,
   unit,
@@ -35,9 +45,7 @@ function PriceDisplay({
 }) {
   const locale = useLocale();
   const unitLabel = unit === "m2" ? t("services.per_m2") : "";
-  // Prices such as 7.5 must read as "7,5" in Finnish: a raw JS number always
-  // renders with the decimal point.
-  const amount = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 });
+  const amount = priceFormatter(locale, service.price, service.priceMax ?? service.price);
 
   if (service.priceMax) {
     return (

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import {
   Send,
   CheckCircle,
@@ -58,7 +59,9 @@ const PHONE_RE = /^[+]?[\d\s()\-]{6,20}$/;
 
 type FieldName = "name" | "email" | "phone" | "message";
 type ExtraField = "service" | "businessName" | "industry" | "preferredContact";
-type FormErrors = Partial<Record<FieldName | ExtraField | "general", string>>;
+type FormErrors = Partial<
+  Record<FieldName | ExtraField | "general" | "consent", string>
+>;
 type InquiryType = "individual" | "business";
 
 const SERVICE_OPTIONS_B2C = ["sewing", "laundry", "rug_washing", "crafts", "other"] as const;
@@ -85,6 +88,7 @@ export default function ContactForm({ token }: { token: string }) {
   const [industry, setIndustry] = useState("");
   const [selectedService, setSelectedService] = useState("");
   const [preferredContact, setPreferredContact] = useState("");
+  const [consent, setConsent] = useState(false);
 
   const [securityToken] = useState(token);
   const [honeypot1, setHoneypot1] = useState("");
@@ -182,6 +186,7 @@ export default function ContactForm({ token }: { token: string }) {
     }
     if (!selectedService) newErrors.service = t("validation.service_required");
     if (!preferredContact) newErrors.preferredContact = t("validation.preferred_contact_required");
+    if (!consent) newErrors.consent = t("validation.consent_required");
     if (inquiryType === "business") {
       if (!businessName.trim()) newErrors.businessName = t("validation.business_name_required");
       if (!industry) newErrors.industry = t("validation.industry_required");
@@ -208,6 +213,7 @@ export default function ContactForm({ token }: { token: string }) {
         preferredContact,
         _hp_website: honeypot1,
         _hp_company: honeypot2,
+        consent,
         _token: securityToken,
       };
 
@@ -324,6 +330,8 @@ export default function ContactForm({ token }: { token: string }) {
   return (
     <form
       onSubmit={handleSubmit}
+      method="post"
+      action="/api/contact"
       className="space-y-5 sm:space-y-6"
       noValidate
       autoComplete="on"
@@ -622,13 +630,58 @@ export default function ContactForm({ token }: { token: string }) {
       </div>
 
       {/* ── Submit ────────────────────────────────────────────── */}
+      <div>
+        <div className="flex items-start gap-3">
+          <input
+            id="consent"
+            name="consent"
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => {
+              setConsent(e.target.checked);
+              if (e.target.checked) {
+                setErrors((prev) => ({ ...prev, consent: undefined }));
+              }
+            }}
+            aria-required="true"
+            aria-invalid={errors.consent ? true : undefined}
+            aria-describedby={errors.consent ? "consent-error" : undefined}
+            className="mt-0.5 h-5 w-5 shrink-0 rounded border-charcoal-300 accent-gold-700 cursor-pointer"
+          />
+          <label
+            htmlFor="consent"
+            className="cursor-pointer text-sm leading-relaxed text-charcoal-700"
+          >
+            {t("form_consent")}
+          </label>
+        </div>
+        {/* The policy link sits outside the label: an interactive descendant of
+            a <label for> risks toggling consent when the visitor only meant to
+            read the policy. */}
+        <p className="mt-2 pl-8 text-sm">
+          <Link
+            href="/tietosuoja"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-gold-700 hover:underline"
+          >
+            {t("form_privacy_link")}
+          </Link>
+        </p>
+        {errors.consent && (
+          <div className="mt-1.5 pl-8">
+            <FieldError field="consent" message={errors.consent} />
+          </div>
+        )}
+      </div>
+
       <div className="pt-2">
         <button
           type="submit"
           disabled={submitting}
           className="group relative flex items-center justify-center gap-2.5 w-full px-6 py-3.5 sm:px-8 sm:py-4 bg-gold-700 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-800 hover:shadow-xl hover:shadow-gold-600/25 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-gold-600/20 overflow-hidden"
         >
-          <span className="absolute inset-0 bg-linear-to-r from-gold-500 to-gold-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <span className="absolute inset-0 bg-linear-to-r from-gold-700 to-gold-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <span className="relative flex items-center gap-2.5">
             {submitting ? (
               <>

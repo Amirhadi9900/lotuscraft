@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter, usePathname } from "@/i18n/navigation";
+import { getPathname, usePathname } from "@/i18n/navigation";
 
 /**
  * Flag geometry taken from the public-domain flag-icons set rather than drawn
@@ -51,23 +51,29 @@ function FlagUnitedKingdom() {
 export default function LanguageSwitcher() {
   const locale = useLocale();
   const t = useTranslations("navigation");
-  const router = useRouter();
   const pathname = usePathname();
 
   // The control advertises the language you would switch TO, not the current one.
   const target = locale === "en" ? "fi" : "en";
 
+  // Resolved by hand instead of passing `locale` to next-intl's Link: an
+  // explicit locale forces the prefix, which sent Finnish links to /fi/contact
+  // and cost every switch a 307 back to /contact.
+  const href = getPathname({ locale: target, href: pathname });
+
+  // A real anchor rather than a click handler: search engines need a crawlable
+  // href to join the two locales, and visitors expect middle-click and
+  // "open in new tab" to work on something that looks like a link.
   return (
-    <button
-      onClick={() => router.replace(pathname, { locale: target })}
-      className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-charcoal-600 hover:text-gold-600 transition-colors rounded-full border border-charcoal-200 hover:border-gold-300"
-      aria-label={
-        target === "fi" ? t("switch_to_fi") : t("switch_to_en")
-      }
+    <a
+      href={href}
+      className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-charcoal-600 hover:text-gold-700 transition-colors rounded-full border border-charcoal-200 hover:border-gold-300"
+      aria-label={target === "fi" ? t("switch_to_fi") : t("switch_to_en")}
       title={target === "fi" ? t("switch_to_fi") : t("switch_to_en")}
+      hrefLang={target}
     >
       {target === "fi" ? <FlagFinland /> : <FlagUnitedKingdom />}
       <span>{target === "fi" ? "FI" : "EN"}</span>
-    </button>
+    </a>
   );
 }

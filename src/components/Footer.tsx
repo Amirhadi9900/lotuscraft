@@ -119,10 +119,16 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-charcoal-800">
-          <p className="text-center text-xs sm:text-sm text-charcoal-400">
+        <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-charcoal-800 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 sm:justify-between">
+          <p className="text-center sm:text-left text-xs sm:text-sm text-charcoal-400">
             {t("copyright")}
           </p>
+          <Link
+            href="/tietosuoja"
+            className="text-xs sm:text-sm text-charcoal-400 hover:text-gold-400 transition-colors"
+          >
+            {nav("privacy")}
+          </Link>
         </div>
       </div>
     </footer>

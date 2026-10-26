@@ -88,6 +88,9 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   const messages = await getMessages();
+  // Everything this node says must hold for the whole site, not just the page
+  // that was loaded: on a client-side navigation Next reuses the cached layout,
+  // so per-page markup here would stay in the DOM after the URL changes.
   const jsonLd = await businessJsonLd(resolveLocale(locale));
 
   return (

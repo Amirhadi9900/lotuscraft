@@ -229,6 +229,9 @@ export async function POST(request: NextRequest) {
 
     if (!safeService) errors.service = "invalid_service";
     if (!safeContact) errors.preferredContact = "invalid_contact";
+    // Enforced here as well as in the form: the checkbox is a legal
+    // precondition for processing, so a client that skips it must be refused.
+    if (body.consent !== true) errors.consent = "consent_required";
     if (safeInquiry === "business") {
       if (!safeBusinessName) errors.businessName = "invalid_business_name";
       if (!safeIndustry) errors.industry = "invalid_industry";
@@ -250,6 +253,9 @@ export async function POST(request: NextRequest) {
       inquiryType: safeInquiry,
       businessName: safeBusinessName,
       industry: safeIndustry,
+      // Article 7(1): the controller must be able to show consent was given, so
+      // the moment of acceptance travels with the submission into the mailbox.
+      consentAt: new Date().toISOString(),
     };
 
     // ── Layer 10: Spam detection ────────────────────────────────
@@ -284,6 +290,7 @@ export async function POST(request: NextRequest) {
     // no IP. The submission goes to the business inbox and nowhere else.
     logEvent("info", "contact_accepted", {
       requestId,
+      consent: true,
       inquiryType: sanitized.inquiryType,
       industry: sanitized.industry || undefined,
       service: sanitized.service,

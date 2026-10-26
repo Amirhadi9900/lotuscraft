@@ -17,6 +17,7 @@ const paths: {
   })),
   { pathname: "/about", priority: 0.7, changeFrequency: "monthly" },
   { pathname: "/gallery", priority: 0.6, changeFrequency: "weekly" },
+  { pathname: "/tietosuoja", priority: 0.3, changeFrequency: "monthly" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

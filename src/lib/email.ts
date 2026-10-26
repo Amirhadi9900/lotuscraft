@@ -48,6 +48,8 @@ interface ContactSubmission {
   inquiryType: string;
   businessName: string;
   industry: string;
+  /** ISO timestamp recorded when the sender accepted the privacy notice. */
+  consentAt: string;
 }
 
 // ─── Label maps ────────────────────────────────────────────────
@@ -202,6 +204,10 @@ function buildEmailHtml(data: ContactSubmission, quarantine?: string): string {
                 </p>
               </div>
 
+              <p style="margin:12px 0 0;font-size:11px;color:#8a8698;">
+                Privacy consent accepted by the sender at ${esc(data.consentAt)}
+              </p>
+
               <!-- Reply Button -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;">
                 <tr>
@@ -274,6 +280,7 @@ function buildEmailText(data: ContactSubmission, quarantine?: string): string {
     "",
     "━".repeat(48),
     `Sent on ${new Date().toLocaleDateString("en-GB")} at ${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}`,
+    `Privacy consent:    accepted by the sender at ${data.consentAt}`,
   ]
     .filter((line) => line !== null)
     .join("\n");
