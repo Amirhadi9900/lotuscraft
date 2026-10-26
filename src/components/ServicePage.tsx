@@ -138,14 +138,14 @@ export function ServicePage({
               images.length >= 4 ? "grid-cols-4" : "grid-cols-3"
             }`}
           >
-            {images.map((src) => (
+            {images.map((image) => (
               <div
-                key={src}
+                key={image.src}
                 className="relative aspect-4/3 overflow-hidden rounded-lg sm:rounded-xl bg-charcoal-50"
               >
                 <Image
-                  src={src}
-                  alt={t(`images.${servicePageConfig[pageKey].altKey}`)}
+                  src={image.src}
+                  alt={t(`images.gallery.${image.alt}`)}
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 1024px) 100vw, 33vw"

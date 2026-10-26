@@ -159,19 +159,24 @@ export default function HomePage() {
       <section className="pb-4 sm:pb-8">
         <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-3 gap-2 sm:gap-4 rounded-xl sm:rounded-2xl overflow-hidden">
-            {["/images/sew-1.jpeg", "/images/sew-2.jpeg", "/images/sew-3.jpeg"].map(
-              (src, i) => (
-                <div key={i} className="relative aspect-4/3 overflow-hidden bg-charcoal-50">
-                  <Image
-                    src={src}
-                    alt={t("images.sewing_home")}
-                    fill
-                    className="object-contain p-1 hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 33vw, 33vw"
-                  />
-                </div>
-              )
-            )}
+            {[
+              { src: "/images/sew-1.jpeg", alt: "i21" },
+              { src: "/images/sew-2.jpeg", alt: "i22" },
+              { src: "/images/sew-3.jpeg", alt: "i23" },
+            ].map((image) => (
+              <div
+                key={image.src}
+                className="relative aspect-4/3 overflow-hidden bg-charcoal-50"
+              >
+                <Image
+                  src={image.src}
+                  alt={t(`images.gallery.${image.alt}`)}
+                  fill
+                  className="object-contain p-1 hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 33vw, 33vw"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>

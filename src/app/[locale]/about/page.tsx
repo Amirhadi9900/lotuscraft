@@ -58,7 +58,7 @@ export default function AboutPage() {
                 <div className="relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden">
                   <Image
                     src="/images/craft-1.jpeg"
-                    alt={t("images.handmade_creation")}
+                    alt={t("images.gallery.i10")}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 50vw, 25vw"
@@ -67,7 +67,7 @@ export default function AboutPage() {
                 <div className="relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden mt-6 sm:mt-8">
                   <Image
                     src="/images/rug-7.jpeg"
-                    alt={t("images.rug_washing")}
+                    alt={t("images.gallery.i7")}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 50vw, 25vw"
@@ -76,7 +76,7 @@ export default function AboutPage() {
                 <div className="relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden">
                   <Image
                     src="/images/rug-4.jpeg"
-                    alt={t("images.rug_washing")}
+                    alt={t("images.gallery.i4")}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 50vw, 25vw"
@@ -85,7 +85,7 @@ export default function AboutPage() {
                 <div className="relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden mt-6 sm:mt-8">
                   <Image
                     src="/images/craft-5.jpeg"
-                    alt={t("images.handmade_creation")}
+                    alt={t("images.gallery.i14")}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 50vw, 25vw"

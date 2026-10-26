@@ -111,15 +111,15 @@ export default function ServicesPage() {
       <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10">
         <div className="grid grid-cols-4 gap-2 sm:gap-3 rounded-xl sm:rounded-2xl overflow-hidden">
           {[
-            { src: "/images/sew-4.jpeg", contain: true },
-            { src: "/images/craft-3.jpeg", contain: false },
-            { src: "/images/rug-6.jpeg", contain: false },
-            { src: "/images/craft-7.jpeg", contain: false },
+            { src: "/images/sew-4.jpeg", alt: "i24", contain: true },
+            { src: "/images/craft-3.jpeg", alt: "i12", contain: false },
+            { src: "/images/rug-6.jpeg", alt: "i6", contain: false },
+            { src: "/images/craft-7.jpeg", alt: "i16", contain: false },
           ].map((img, i) => (
               <div key={i} className={`relative aspect-square overflow-hidden rounded-lg sm:rounded-xl ${img.contain ? "bg-charcoal-50" : ""}`}>
                 <Image
                   src={img.src}
-                  alt={t("images.work")}
+                  alt={t(`images.gallery.${img.alt}`)}
                   fill
                   className={`${img.contain ? "object-contain p-1" : "object-cover"} hover:scale-105 transition-transform duration-500`}
                   sizes="25vw"

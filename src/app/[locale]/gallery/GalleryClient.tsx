@@ -9,35 +9,34 @@ type GalleryItem = {
   id: number;
   category: string;
   src: string;
-  altKey: string;
   contain?: boolean;
 };
 
 const galleryItems: GalleryItem[] = [
-  { id: 1, category: "laundry", src: "/images/rug-1.jpeg", altKey: "rug_cleaning" },
-  { id: 2, category: "laundry", src: "/images/rug-2.jpeg", altKey: "rug_cleaning" },
-  { id: 3, category: "laundry", src: "/images/rug-3.jpeg", altKey: "rug_washing" },
-  { id: 4, category: "laundry", src: "/images/rug-4.jpeg", altKey: "rug_washing" },
-  { id: 5, category: "laundry", src: "/images/rug-5.jpeg", altKey: "rug_washing" },
-  { id: 6, category: "laundry", src: "/images/rug-6.jpeg", altKey: "rug_washing" },
-  { id: 7, category: "laundry", src: "/images/rug-7.jpeg", altKey: "rug_washing" },
-  { id: 8, category: "laundry", src: "/images/rug-8.jpeg", altKey: "rug_washing" },
-  { id: 9, category: "laundry", src: "/images/rug-9.jpeg", altKey: "rug_washing" },
-  { id: 10, category: "crafts", src: "/images/craft-1.jpeg", altKey: "candles" },
-  { id: 11, category: "crafts", src: "/images/craft-2.jpeg", altKey: "craft" },
-  { id: 12, category: "crafts", src: "/images/craft-3.jpeg", altKey: "craft" },
-  { id: 13, category: "crafts", src: "/images/craft-4.jpeg", altKey: "decor" },
-  { id: 14, category: "crafts", src: "/images/craft-5.jpeg", altKey: "craft" },
-  { id: 15, category: "crafts", src: "/images/craft-6.jpeg", altKey: "decor" },
-  { id: 16, category: "crafts", src: "/images/craft-7.jpeg", altKey: "craft" },
-  { id: 17, category: "crafts", src: "/images/craft-8.jpeg", altKey: "decor" },
-  { id: 18, category: "crafts", src: "/images/craft-9.jpeg", altKey: "craft" },
-  { id: 19, category: "crafts", src: "/images/craft-10.jpeg", altKey: "decor" },
-  { id: 20, category: "crafts", src: "/images/craft-11.jpeg", altKey: "craft" },
-  { id: 21, category: "sewing", src: "/images/sew-1.jpeg", altKey: "sewing_work", contain: true },
-  { id: 22, category: "sewing", src: "/images/sew-2.jpeg", altKey: "sewing_work", contain: true },
-  { id: 23, category: "sewing", src: "/images/sew-3.jpeg", altKey: "sewing_work", contain: true },
-  { id: 24, category: "sewing", src: "/images/sew-4.jpeg", altKey: "sewing_work", contain: true },
+  { id: 1, category: "laundry", src: "/images/rug-1.jpeg" },
+  { id: 2, category: "laundry", src: "/images/rug-2.jpeg" },
+  { id: 3, category: "laundry", src: "/images/rug-3.jpeg" },
+  { id: 4, category: "laundry", src: "/images/rug-4.jpeg" },
+  { id: 5, category: "laundry", src: "/images/rug-5.jpeg" },
+  { id: 6, category: "laundry", src: "/images/rug-6.jpeg" },
+  { id: 7, category: "laundry", src: "/images/rug-7.jpeg" },
+  { id: 8, category: "laundry", src: "/images/rug-8.jpeg" },
+  { id: 9, category: "laundry", src: "/images/rug-9.jpeg" },
+  { id: 10, category: "crafts", src: "/images/craft-1.jpeg" },
+  { id: 11, category: "crafts", src: "/images/craft-2.jpeg" },
+  { id: 12, category: "crafts", src: "/images/craft-3.jpeg" },
+  { id: 13, category: "crafts", src: "/images/craft-4.jpeg" },
+  { id: 14, category: "crafts", src: "/images/craft-5.jpeg" },
+  { id: 15, category: "crafts", src: "/images/craft-6.jpeg" },
+  { id: 16, category: "crafts", src: "/images/craft-7.jpeg" },
+  { id: 17, category: "crafts", src: "/images/craft-8.jpeg" },
+  { id: 18, category: "crafts", src: "/images/craft-9.jpeg" },
+  { id: 19, category: "crafts", src: "/images/craft-10.jpeg" },
+  { id: 20, category: "crafts", src: "/images/craft-11.jpeg" },
+  { id: 21, category: "sewing", src: "/images/sew-1.jpeg", contain: true },
+  { id: 22, category: "sewing", src: "/images/sew-2.jpeg", contain: true },
+  { id: 23, category: "sewing", src: "/images/sew-3.jpeg", contain: true },
+  { id: 24, category: "sewing", src: "/images/sew-4.jpeg", contain: true },
 ];
 
 const categories = ["all", "sewing", "laundry", "crafts"];
@@ -111,7 +110,7 @@ export default function GalleryClient() {
                 >
                   <Image
                     src={item.src}
-                    alt={ti(item.altKey)}
+                    alt={ti(`gallery.i${item.id}`)}
                     fill
                     className={`${item.contain ? "object-contain p-1" : "object-cover"} group-hover:scale-105 transition-transform duration-500`}
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"

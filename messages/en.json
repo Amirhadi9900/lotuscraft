@@ -358,15 +358,32 @@
     }
   },
   "images": {
-    "rug_washing": "Professional rug washing in Helsinki",
-    "rug_cleaning": "Cleaned oriental rug – Lotus Craft rug washing",
-    "sewing_work": "Professional sewing and alteration work",
-    "sewing_home": "Sewing work by Lotus Craft in Helsinki",
-    "candles": "Hand-poured candles on a serving tray",
-    "craft": "Custom-made craft by Lotus Craft",
-    "decor": "Handmade decorative piece",
-    "handmade_creation": "Handmade creation by Lotus Craft",
-    "work": "Work by Lotus Craft"
+    "gallery": {
+      "i1": "Blue oriental medallion rug with a gold border",
+      "i2": "Floral oriental rug in yellow and green tones",
+      "i3": "Patterned oriental rug laid out on a living room floor",
+      "i4": "Red medallion rug in a sitting room with dark leather chairs",
+      "i5": "Red floral textile held up for display",
+      "i6": "Green floral textile with bird motifs",
+      "i7": "Close-up of a hand-knotted blue rug",
+      "i8": "Medallion rug in a light-coloured salon",
+      "i9": "Beige and green medallion rug in front of a lounge suite",
+      "i10": "Hand-poured figure candle with a red tealight cup",
+      "i11": "Cream candle shaped as two embracing figures",
+      "i12": "Red pomegranate-shaped candle with dried orange slices",
+      "i13": "White and pale blue shaped candle held in hand",
+      "i14": "White relief pillar candle on a beaded tray",
+      "i15": "Shell-shaped candle cup with blue wax and dried flowers",
+      "i16": "Brown candle of two embracing figures",
+      "i17": "Red pomegranate candle with a relief-patterned surface",
+      "i18": "Pale candle of a seated figure resting on lace",
+      "i19": "Three blue and white star-shaped candle holders",
+      "i20": "Two female figure candles, one pink and one cream",
+      "i21": "Grey evening gown with a lace-trimmed cape",
+      "i22": "Dark green straight-cut dress in plain fabric",
+      "i23": "Navy dress with a lace bodice and satin skirt",
+      "i24": "Pale dress with floral lace sleeves"
+    }
   },
   "servicePages": {
     "shared": {

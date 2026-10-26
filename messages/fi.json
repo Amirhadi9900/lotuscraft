@@ -358,15 +358,32 @@
     }
   },
   "images": {
-    "rug_washing": "Ammattimaista mattopesua Helsingissä",
-    "rug_cleaning": "Pesty itämainen matto – Lotus Craft mattopesu",
-    "sewing_work": "Ammattitaitoista ompelu- ja korjaustyötä",
-    "sewing_home": "Lotus Craftin ompelutyö Helsingissä",
-    "candles": "Käsin valutetut kynttilät tarjottimella",
-    "craft": "Mittatilauskäsityö Lotus Craft",
-    "decor": "Käsin tehty koriste-esine",
-    "handmade_creation": "Lotus Craftin käsin tekemä tuote",
-    "work": "Lotus Craftin työ"
+    "gallery": {
+      "i1": "Sininen itämainen medalliomatto kullanvärisin reunuksin",
+      "i2": "Kukallinen itämainen matto keltaisin ja vihrein sävyin",
+      "i3": "Kuvioitu itämainen matto asetettuna olohuoneen lattialle",
+      "i4": "Punainen medalliomatto olohuoneessa, jossa on tummat nahkatuolit",
+      "i5": "Punainen kukallinen tekstiili näytille nostettuna",
+      "i6": "Vihreä kukallinen tekstiili lintukuvioineen",
+      "i7": "Lähikuva käsin solmitusta sinisestä matosta",
+      "i8": "Medalliomatto vaaleassa salongissa",
+      "i9": "Beige-vihreä medalliomatto istuskeluryhmän edessä",
+      "i10": "Käsin valutettu hahmokynttilä ja punainen tuikkukippo",
+      "i11": "Kermanvärinen halaavia hahmoja esittävä kynttilä",
+      "i12": "Punainen granaattiomenan muotoinen kynttilä kuivattujen appelsiiniviipaleiden kanssa",
+      "i13": "Valko-sininen muotokynttilä kädessä",
+      "i14": "Reliefikuvioitu valkoinen pylväskynttilä helmikkolautasella",
+      "i15": "Kotilon muotoinen kynttiläkippo sinisellä vahalla ja kuivakukilla",
+      "i16": "Ruskea halaavia hahmoja esittävä kynttilä",
+      "i17": "Punainen granaattiomenakynttilä reliefikuviolla",
+      "i18": "Istuvaa hahmoa esittävä vaalea kynttilä pitsin päällä",
+      "i19": "Kolme sinivalkoista tähtimuotoista kynttiläalustaa",
+      "i20": "Kaksi naishahmoa esittävää kynttilää, toinen vaaleanpunainen ja toinen kermanvärinen",
+      "i21": "Harmaa iltapuku pitsireunuksellisella viitalla",
+      "i22": "Tummanvihreä suora mekko ilman kuviointa",
+      "i23": "Tummansininen mekko pitsikuvioineen ja satiinihelmoineen",
+      "i24": "Vaalea mekko kukallisine pitsihioineen"
+    }
   },
   "servicePages": {
     "shared": {
