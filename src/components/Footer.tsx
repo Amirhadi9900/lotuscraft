@@ -32,9 +32,9 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
               {t("quick_links")}
-            </h3>
+            </h2>
             <ul className="space-y-3">
               {[
                 { href: "/" as const, label: nav("home") },
@@ -57,9 +57,9 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
               {t("contact_info")}
-            </h3>
+            </h2>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin
@@ -94,7 +94,7 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Instagram size={18} className="text-gold-500 shrink-0" />
                 <a
-                  href="https://www.instagram.com/ompelimo_lotuscrafted/?g=5"
+                  href="https://www.instagram.com/ompelimo_lotuscrafted/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-charcoal-300 hover:text-gold-400 text-sm transition-colors"
@@ -107,9 +107,9 @@ export default function Footer() {
 
           {/* Business Hours */}
           <div>
-            <h3 className="text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
+            <h2 className="text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
               {t("hours_title")}
-            </h3>
+            </h2>
             <ul className="space-y-3 text-sm text-charcoal-300">
               <li>{t("hours_weekday")}</li>
               <li>{t("hours_saturday")}</li>
@@ -120,7 +120,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-charcoal-800">
-          <p className="text-center text-xs sm:text-sm text-charcoal-500">
+          <p className="text-center text-xs sm:text-sm text-charcoal-400">
             {t("copyright")}
           </p>
         </div>

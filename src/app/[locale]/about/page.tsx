@@ -125,12 +125,12 @@ export default function AboutPage() {
                   className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-8 text-center shadow-sm border border-gold-100"
                 >
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gold-50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-6">
-                    <IconComponent className="text-gold-600 w-5 h-5 sm:w-7 sm:h-7" />
+                    <IconComponent className="text-gold-700 w-5 h-5 sm:w-7 sm:h-7" />
                   </div>
                   <h3 className="text-sm sm:text-lg font-semibold text-charcoal-900 mb-1.5 sm:mb-3">
                     {t(`about.values.${value.key}.title`)}
                   </h3>
-                  <p className="text-charcoal-500 text-xs sm:text-sm">
+                  <p className="text-charcoal-600 text-xs sm:text-sm">
                     {t(`about.values.${value.key}.description`)}
                   </p>
                 </div>
@@ -146,12 +146,12 @@ export default function AboutPage() {
           <h2 className="text-2xl sm:text-3xl font-bold text-charcoal-900 mb-3 sm:mb-4">
             {t("cta.about_cta_title")}
           </h2>
-          <p className="text-charcoal-500 text-sm sm:text-base mb-6 sm:mb-8">
+          <p className="text-charcoal-600 text-sm sm:text-base mb-6 sm:mb-8">
             {t("cta.about_cta_subtitle")}
           </p>
           <Link
             href="/contact"
-            className="group inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gold-600 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-500 transition-all shadow-lg shadow-gold-600/25"
+            className="group inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gold-700 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-800 transition-all shadow-lg shadow-gold-600/25"
           >
             {t("common.get_quote")}
             <ArrowRight

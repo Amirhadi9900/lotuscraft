@@ -6,7 +6,11 @@
     "gallery": "Gallery",
     "contact": "Contact",
     "switch_to_fi": "Switch to Finnish",
-    "switch_to_en": "Switch to English"
+    "switch_to_en": "Switch to English",
+    "back_to_top": "Back to top",
+    "menu_toggle": "Open or close the menu",
+    "main_nav": "Main navigation",
+    "breadcrumb": "Breadcrumb"
   },
   "hero": {
     "title_part1": "Crafting Elegance,",
@@ -27,6 +31,10 @@
     "from": "from",
     "currency": "€",
     "per_m2": "/ m²",
+    "item_one": "service",
+    "item_other": "services",
+    "col_service": "Service",
+    "col_price": "Price",
     "note": "All prices are starting prices. Final cost may vary depending on the complexity and materials involved.",
     "categories": {
       "general": "General Alterations",
@@ -243,6 +251,14 @@
       "either": "No preference"
     },
     "form_message": "Your Message",
+    "form_message_ph_sewing": "I'd like to get a dress altered...",
+    "form_message_ph_laundry": "I need dry cleaning for...",
+    "form_message_ph_rug": "I have a rug that needs professional washing...",
+    "form_message_ph_crafts": "I'm interested in a custom craft piece...",
+    "form_message_ph_business": "Tell us about your business needs...",
+    "form_message_ph_b2b": "We'd like to discuss a contract for regular laundry services...",
+    "form_message_ph_default": "Tell us how we can help you...",
+    "form_name_placeholder": "John Doe",
     "form_submit": "Send Message",
     "form_submitting": "Sending...",
     "form_success_title": "Message Sent!",
@@ -448,7 +464,7 @@
       "kuivapesu_q2": "Do you clean Canada Goose or Gore-Tex?",
       "kuivapesu_a2": "Yes. Premium brand jackets such as Canada Goose are €58–68, Gore-Tex clothing €40 and a down jacket €38–44.",
       "kuivapesu_q3": "What does wedding or silk dress cleaning cost?",
-      "kuivapesu_a3": "A wedding dress is €110–155, a long evening gown €55–78 and a silk suit €55. A christening gown is €28.",
+      "kuivapesu_a3": "A wedding dress is €110–155, a long evening gown €55–78, a silk dress €45–60 and a silk suit €55. A christening gown is €28.",
       "hotellipesula_q1": "How do we set up a laundry contract?",
       "hotellipesula_a1": "Fill in the contact form and choose Business as your inquiry type. Tell us your industry and the service you need, and we will get back to you.",
       "hotellipesula_q2": "What does business sheet washing cost?",

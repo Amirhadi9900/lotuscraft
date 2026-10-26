@@ -50,7 +50,7 @@ export default function Hero() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <Link
             href="/services"
-            className="group flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gold-600 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-500 transition-all shadow-lg shadow-gold-600/25 w-full sm:w-auto justify-center"
+            className="group flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gold-700 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-800 transition-all shadow-lg shadow-gold-600/25 w-full sm:w-auto justify-center"
           >
             {t("cta_services")}
             <ArrowRight

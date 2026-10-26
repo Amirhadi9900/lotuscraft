@@ -6,7 +6,11 @@
     "gallery": "Galleria",
     "contact": "Yhteystiedot",
     "switch_to_fi": "Vaihda suomeksi",
-    "switch_to_en": "Vaihda englanniksi"
+    "switch_to_en": "Vaihda englanniksi",
+    "back_to_top": "Takaisin sivun alkuun",
+    "menu_toggle": "Avaa tai sulje valikko",
+    "main_nav": "Päävalikko",
+    "breadcrumb": "Murupolku"
   },
   "hero": {
     "title_part1": "Taidokasta käsityötä,",
@@ -27,6 +31,10 @@
     "from": "alk.",
     "currency": "€",
     "per_m2": "/ m²",
+    "item_one": "palvelu",
+    "item_other": "palvelua",
+    "col_service": "Palvelu",
+    "col_price": "Hinta",
     "note": "Kaikki hinnat ovat alkaen-hintoja. Lopullinen hinta voi vaihdella työn vaativuuden ja materiaalien mukaan.",
     "categories": {
       "general": "Yleiset muokkaukset",
@@ -243,6 +251,14 @@
       "either": "Ei väliä"
     },
     "form_message": "Viestisi",
+    "form_message_ph_sewing": "Haluaisin korjautaa mekon...",
+    "form_message_ph_laundry": "Tarvitsen kuivapesua...",
+    "form_message_ph_rug": "Minulla on matto, joka tarvitsisi ammattipesua...",
+    "form_message_ph_crafts": "Haluaisin teettää mittatilaustyön...",
+    "form_message_ph_business": "Kerro yrityksen tarpeista...",
+    "form_message_ph_b2b": "Haluaisimme sopia säännöllisestä pesulapalvelusta...",
+    "form_message_ph_default": "Kerro, miten voimme auttaa...",
+    "form_name_placeholder": "Matti Meikäläinen",
     "form_submit": "Lähetä viesti",
     "form_submitting": "Lähetetään...",
     "form_success_title": "Viesti lähetetty!",
@@ -349,7 +365,7 @@
       },
       "kuivapesu": {
         "title": "Kuivapesu Helsinki – puvut ja takit | Lotus Craft",
-        "description": "Puvun kuivapesu 42 €, paita 10 € (6 kpl paketti 48 €), untuvatakki 38–44 € ja merkkitalkkia 58–68 €. Ammattipesu Helsingin Kalliossa."
+        "description": "Puvun kuivapesu 42 €, paita 10 € (6 kpl paketti 48 €), untuvatakki 38–44 € ja merkkitakkia 58–68 €. Ammattipesu Helsingin Kalliossa."
       },
       "hotellipesula": {
         "title": "Sopimuspesula hotelleille Helsinki | Lotus Craft",

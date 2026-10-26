@@ -52,7 +52,7 @@ export default function ContactPage() {
               <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-8 shadow-sm border border-gold-100">
                 <div className="flex items-center gap-3 mb-3 sm:mb-4">
                   <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gold-50 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
-                    <MapPin size={18} className="text-gold-600 sm:w-5 sm:h-5" />
+                    <MapPin size={18} className="text-gold-700 sm:w-5 sm:h-5" />
                   </div>
                   <h3 className="font-semibold text-charcoal-900 text-sm sm:text-base">
                     {t("address_title")}
@@ -70,7 +70,7 @@ export default function ContactPage() {
               <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-8 shadow-sm border border-gold-100">
                 <div className="flex items-center gap-3 mb-3 sm:mb-4">
                   <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gold-50 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
-                    <Phone size={18} className="text-gold-600 sm:w-5 sm:h-5" />
+                    <Phone size={18} className="text-gold-700 sm:w-5 sm:h-5" />
                   </div>
                   <h3 className="font-semibold text-charcoal-900 text-sm sm:text-base">
                     {t("phone_title")}
@@ -78,7 +78,7 @@ export default function ContactPage() {
                 </div>
                 <a
                   href="tel:+358406812264"
-                  className="text-charcoal-600 hover:text-gold-600 transition-colors text-sm pl-12 sm:pl-[52px] block"
+                  className="text-charcoal-600 hover:text-gold-700 transition-colors text-sm pl-12 sm:pl-[52px] block"
                 >
                   +358 40 681 2264
                 </a>
@@ -88,7 +88,7 @@ export default function ContactPage() {
               <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-8 shadow-sm border border-gold-100">
                 <div className="flex items-center gap-3 mb-3 sm:mb-4">
                   <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gold-50 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
-                    <Mail size={18} className="text-gold-600 sm:w-5 sm:h-5" />
+                    <Mail size={18} className="text-gold-700 sm:w-5 sm:h-5" />
                   </div>
                   <h3 className="font-semibold text-charcoal-900 text-sm sm:text-base">
                     {t("email_title")}
@@ -96,7 +96,7 @@ export default function ContactPage() {
                 </div>
                 <a
                   href="mailto:lotuscraft.fin@gmail.com"
-                  className="text-charcoal-600 hover:text-gold-600 transition-colors text-sm pl-12 sm:pl-[52px] block break-all"
+                  className="text-charcoal-600 hover:text-gold-700 transition-colors text-sm pl-12 sm:pl-[52px] block break-all"
                 >
                   lotuscraft.fin@gmail.com
                 </a>
@@ -106,7 +106,7 @@ export default function ContactPage() {
               <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-8 shadow-sm border border-gold-100">
                 <div className="flex items-center gap-3 mb-3 sm:mb-4">
                   <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gold-50 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
-                    <CreditCard size={18} className="text-gold-600 sm:w-5 sm:h-5" />
+                    <CreditCard size={18} className="text-gold-700 sm:w-5 sm:h-5" />
                   </div>
                   <h3 className="font-semibold text-charcoal-900 text-sm sm:text-base">
                     {t("payment_title")}
@@ -121,7 +121,7 @@ export default function ContactPage() {
               <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-8 shadow-sm border border-gold-100">
                 <div className="flex items-center gap-3 mb-3 sm:mb-4">
                   <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gold-50 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
-                    <Clock size={18} className="text-gold-600 sm:w-5 sm:h-5" />
+                    <Clock size={18} className="text-gold-700 sm:w-5 sm:h-5" />
                   </div>
                   <h3 className="font-semibold text-charcoal-900 text-sm sm:text-base">
                     {t("hours_title")}

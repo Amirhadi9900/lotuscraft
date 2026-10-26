@@ -71,9 +71,9 @@ function ServiceCard({
     >
       <div className="flex items-start justify-between mb-3 sm:mb-4">
         <div className="w-11 h-11 sm:w-14 sm:h-14 bg-gold-50 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:bg-gold-100 transition-colors">
-          <IconComponent className="text-gold-600 w-5 h-5 sm:w-7 sm:h-7" />
+          <IconComponent className="text-gold-700 w-5 h-5 sm:w-7 sm:h-7" />
         </div>
-        <span className="text-xs sm:text-sm text-gold-600 font-semibold bg-gold-50 px-2.5 py-1 rounded-full">
+        <span className="text-xs sm:text-sm text-gold-700 font-semibold bg-gold-50 px-2.5 py-1 rounded-full">
           {t("services.from")} {lowestPrice} {t("services.currency")}
           {unitLabel}
         </span>
@@ -81,12 +81,14 @@ function ServiceCard({
       <h3 className="text-lg sm:text-xl font-semibold text-charcoal-900 mb-1.5 sm:mb-2">
         {t(`services.categories.${category.id}`)}
       </h3>
-      <p className="text-charcoal-500 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
+      <p className="text-charcoal-600 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
         {t(`services.category_descriptions.${category.id}`)}
       </p>
-      <div className="text-charcoal-400 text-xs">
+      <div className="text-charcoal-600 text-xs">
         {category.services.length}{" "}
-        {category.services.length === 1 ? "service" : "services"}
+        {category.services.length === 1
+          ? t("services.item_one")
+          : t("services.item_other")}
       </div>
     </Link>
   );
@@ -126,7 +128,7 @@ export default function HomePage() {
             <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-bold text-charcoal-900 mb-3 sm:mb-4">
               {t("services.sewing_title")}
             </h2>
-            <p className="text-charcoal-500 max-w-2xl mx-auto text-sm sm:text-base">
+            <p className="text-charcoal-600 max-w-2xl mx-auto text-sm sm:text-base">
               {t("services.sewing_subtitle")}
             </p>
           </div>
@@ -146,7 +148,7 @@ export default function HomePage() {
           {/* Custom sewing notice */}
           <div className="mt-8 sm:mt-12 flex items-start gap-3 sm:gap-4 bg-gold-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gold-200">
             <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gold-100 rounded-xl flex items-center justify-center shrink-0">
-              <Palette className="text-gold-600 w-4 h-4 sm:w-5 sm:h-5" />
+              <Palette className="text-gold-700 w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <p className="text-charcoal-700 text-sm sm:text-base leading-relaxed pt-1.5 sm:pt-1">
               {t("services.custom_sewing")}
@@ -192,7 +194,7 @@ export default function HomePage() {
             <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-bold text-charcoal-900 mb-3 sm:mb-4">
               {t("services.laundry_title")}
             </h2>
-            <p className="text-charcoal-500 max-w-2xl mx-auto text-sm sm:text-base">
+            <p className="text-charcoal-600 max-w-2xl mx-auto text-sm sm:text-base">
               {t("services.laundry_subtitle")}
             </p>
           </div>
@@ -241,7 +243,7 @@ export default function HomePage() {
             <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-bold text-charcoal-900 mb-3 sm:mb-4">
               {t("about.why_choose_title")}
             </h2>
-            <p className="text-charcoal-500 max-w-2xl mx-auto text-sm sm:text-base">
+            <p className="text-charcoal-600 max-w-2xl mx-auto text-sm sm:text-base">
               {t("about.why_choose_subtitle")}
             </p>
           </div>
@@ -252,12 +254,12 @@ export default function HomePage() {
               return (
                 <div key={value.key} className="text-center">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gold-50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <IconComponent className="text-gold-600 w-5 h-5 sm:w-7 sm:h-7" />
+                    <IconComponent className="text-gold-700 w-5 h-5 sm:w-7 sm:h-7" />
                   </div>
                   <h3 className="text-sm sm:text-lg font-semibold text-charcoal-900 mb-1 sm:mb-2">
                     {t(`about.values.${value.key}.title`)}
                   </h3>
-                  <p className="text-charcoal-500 text-xs sm:text-sm">
+                  <p className="text-charcoal-600 text-xs sm:text-sm">
                     {t(`about.values.${value.key}.description`)}
                   </p>
                 </div>
@@ -283,7 +285,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/contact"
-              className="group flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gold-600 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-500 transition-all shadow-lg shadow-gold-600/25 w-full sm:w-auto justify-center"
+              className="group flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gold-700 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-800 transition-all shadow-lg shadow-gold-600/25 w-full sm:w-auto justify-center"
             >
               {t("common.get_quote")}
               <ArrowRight

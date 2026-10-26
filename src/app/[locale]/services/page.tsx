@@ -70,7 +70,7 @@ export default function ServicesPage() {
               <h2 className="text-2xl sm:text-3xl font-bold text-charcoal-900">
                 {t("services.sewing_title")}
               </h2>
-              <p className="text-charcoal-500 text-xs sm:text-sm">
+              <p className="text-charcoal-600 text-xs sm:text-sm">
                 {t("services.sewing_subtitle")}
               </p>
             </div>
@@ -81,7 +81,7 @@ export default function ServicesPage() {
               <Link
                 key={key}
                 href={`/${key}`}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-gold-700 hover:text-gold-600"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-gold-700 hover:text-gold-700"
               >
                 {t(`servicePages.${key}.nav`)}
                 <ArrowRight size={16} />
@@ -98,7 +98,7 @@ export default function ServicesPage() {
           {/* Custom sewing notice */}
           <div className="mt-10 sm:mt-14 flex items-start gap-3 bg-gold-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gold-200">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gold-100 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0">
-              <Palette className="text-gold-600 w-4 h-4 sm:w-5 sm:h-5" />
+              <Palette className="text-gold-700 w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <p className="text-charcoal-700 text-xs sm:text-sm leading-relaxed pt-1 sm:pt-2">
               {t("services.custom_sewing")}
@@ -141,7 +141,7 @@ export default function ServicesPage() {
               <h2 className="text-2xl sm:text-3xl font-bold text-charcoal-900">
                 {t("services.laundry_title")}
               </h2>
-              <p className="text-charcoal-500 text-xs sm:text-sm">
+              <p className="text-charcoal-600 text-xs sm:text-sm">
                 {t("services.laundry_subtitle")}
               </p>
             </div>
@@ -152,7 +152,7 @@ export default function ServicesPage() {
               <Link
                 key={key}
                 href={`/${key}`}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-gold-700 hover:text-gold-600"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-gold-700 hover:text-gold-700"
               >
                 {t(`servicePages.${key}.nav`)}
                 <ArrowRight size={16} />
@@ -178,7 +178,7 @@ export default function ServicesPage() {
 
           {/* Pricing Note */}
           <div className="mt-6 sm:mt-8 flex items-start gap-3 bg-gold-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gold-200">
-            <Info size={20} className="text-gold-600 mt-0.5 shrink-0" />
+            <Info size={20} className="text-gold-700 mt-0.5 shrink-0" />
             <p className="text-charcoal-600 text-xs sm:text-sm leading-relaxed">
               {t("services.note")}
             </p>
@@ -201,7 +201,7 @@ export default function ServicesPage() {
           </p>
           <Link
             href="/contact"
-            className="group inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gold-600 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-500 transition-all shadow-lg shadow-gold-600/25"
+            className="group inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gold-700 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-800 transition-all shadow-lg shadow-gold-600/25"
           >
             {t("common.get_quote")}
             <ArrowRight
