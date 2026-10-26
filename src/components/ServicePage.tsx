@@ -82,8 +82,8 @@ export function ServicePage({
       {/* Page header */}
       <section className="pt-12 pb-10 sm:pt-20 sm:pb-16 bg-linear-to-b from-charcoal-900 to-charcoal-950">
         <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav aria-label="Breadcrumb" className="mb-5 sm:mb-8">
-            <ol className="flex flex-wrap items-center gap-1.5 text-xs sm:text-sm text-charcoal-400">
+          <nav aria-label={t("navigation.breadcrumb")} className="mb-5 sm:mb-8">
+            <ol className="flex flex-wrap items-center gap-1.5 text-xs sm:text-sm text-charcoal-600">
               <li>
                 <Link href="/" className="hover:text-gold-400">
                   {t("navigation.home")}
@@ -113,7 +113,7 @@ export function ServicePage({
           <div className="flex flex-col sm:flex-row gap-3 mt-8 sm:mt-10">
             <Link
               href="/contact"
-              className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-gold-600 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-500 transition-colors"
+              className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-gold-700 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-800 transition-colors"
             >
               {t("common.get_quote")}
               <ArrowRight
@@ -197,7 +197,7 @@ export function ServicePage({
           </div>
 
           <div className="mt-10 sm:mt-14 flex items-start gap-3 bg-gold-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gold-200">
-            <Info size={20} className="text-gold-600 mt-0.5 shrink-0" />
+            <Info size={20} className="text-gold-700 mt-0.5 shrink-0" />
             <p className="text-charcoal-600 text-xs sm:text-sm leading-relaxed">
               {t("servicePages.shared.price_note")}
             </p>
@@ -222,7 +222,7 @@ export function ServicePage({
                   {item.question}
                   <ArrowRight
                     size={16}
-                    className="text-gold-600 shrink-0 rotate-90 group-open:-rotate-90 transition-transform"
+                    className="text-gold-700 shrink-0 rotate-90 group-open:-rotate-90 transition-transform"
                   />
                 </summary>
                 <p className="mt-3 text-charcoal-600 text-sm sm:text-base leading-relaxed">
@@ -290,13 +290,13 @@ export function ServicePage({
                   <span className="flex items-center gap-3">
                     <CheckCircle2
                       size={18}
-                      className="text-gold-600 shrink-0"
+                      className="text-gold-700 shrink-0"
                     />
                     <span className="text-charcoal-800 text-sm sm:text-base font-medium">
                       {t(`servicePages.${key}.nav`)}
                     </span>
                   </span>
-                  <ArrowRight size={16} className="text-charcoal-400" />
+                  <ArrowRight size={16} className="text-charcoal-600" />
                 </Link>
               ))}
           </div>

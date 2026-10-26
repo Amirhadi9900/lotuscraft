@@ -34,19 +34,22 @@ export default function Header() {
               className="object-contain w-9 h-9 sm:w-[50px] sm:h-[50px]"
             />
             <span className="text-lg sm:text-xl font-bold text-charcoal-900">
-              Lotus <span className="text-gold-600">Craft</span>
+              Lotus <span className="text-gold-700">Craft</span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
+          <nav
+            aria-label={t("main_nav")}
+            className="hidden lg:flex items-center gap-5 xl:gap-8"
+          >
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-gold-600 whitespace-nowrap ${
+                className={`text-sm font-medium transition-colors hover:text-gold-700 whitespace-nowrap ${
                   pathname === link.href
-                    ? "text-gold-600"
+                    ? "text-gold-700"
                     : "text-charcoal-700"
                 }`}
               >
@@ -60,14 +63,16 @@ export default function Header() {
             <LanguageSwitcher />
             <Link
               href="/contact"
-              className="hidden lg:inline-flex items-center px-5 py-2.5 bg-gold-600 text-white text-sm font-medium rounded-full hover:bg-gold-700 transition-colors whitespace-nowrap"
+              className="hidden lg:inline-flex items-center px-5 py-2.5 bg-gold-700 text-white text-sm font-medium rounded-full hover:bg-gold-800 transition-colors whitespace-nowrap"
             >
               {t("contact")}
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-2 text-charcoal-700"
-              aria-label="Toggle menu"
+              aria-label={t("menu_toggle")}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -77,7 +82,11 @@ export default function Header() {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gold-100">
+        <nav
+          id="mobile-menu"
+          aria-label={t("main_nav")}
+          className="lg:hidden bg-white border-t border-gold-100"
+        >
           <div className="px-4 py-6 space-y-4">
             {navLinks.map((link) => (
               <Link
@@ -86,7 +95,7 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block text-base font-medium transition-colors ${
                   pathname === link.href
-                    ? "text-gold-600"
+                    ? "text-gold-700"
                     : "text-charcoal-700"
                 }`}
               >
@@ -96,12 +105,12 @@ export default function Header() {
             <Link
               href="/contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="block w-full text-center px-5 py-2.5 bg-gold-600 text-white text-sm font-medium rounded-full hover:bg-gold-700 transition-colors"
+              className="block w-full text-center px-5 py-2.5 bg-gold-700 text-white text-sm font-medium rounded-full hover:bg-gold-800 transition-colors"
             >
               {t("contact")}
             </Link>
           </div>
-        </div>
+        </nav>
       )}
     </header>
   );

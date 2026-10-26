@@ -33,6 +33,19 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Tailwind v4's preflight no longer styles button cursors, so clickable
+   controls kept the arrow and read as inert text. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
 body {
   background-color: var(--color-cream);
   color: var(--color-charcoal-900);

@@ -83,15 +83,20 @@ export default function GalleryClient() {
       <section className="py-12 sm:py-24">
         <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 sm:mb-16">
+          <div
+            role="group"
+            aria-label={t("title")}
+            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 sm:mb-16"
+          >
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
+                aria-pressed={activeCategory === category}
                 className={`px-4 py-2 sm:px-6 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all ${
                   activeCategory === category
-                    ? "bg-gold-600 text-white shadow-lg shadow-gold-600/25"
-                    : "bg-white text-charcoal-600 border border-charcoal-200 hover:border-gold-300 hover:text-gold-600"
+                    ? "bg-gold-700 text-white shadow-lg shadow-gold-600/25"
+                    : "bg-white text-charcoal-600 border border-charcoal-200 hover:border-gold-300 hover:text-gold-700"
                 }`}
               >
                 {t(`categories.${category}`)}
@@ -118,7 +123,7 @@ export default function GalleryClient() {
                   <div className="absolute inset-0 bg-linear-to-t from-charcoal-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 rounded-full text-xs font-medium text-charcoal-800">
-                      <Icon size={12} className="text-gold-600" />
+                      <Icon size={12} className="text-gold-700" />
                       {t(`categories.${item.category}`)}
                     </span>
                   </div>
@@ -129,7 +134,7 @@ export default function GalleryClient() {
 
           {/* Coming Soon Note */}
           <div className="text-center mt-10 sm:mt-16">
-            <p className="text-charcoal-400 text-xs sm:text-sm">
+            <p className="text-charcoal-600 text-xs sm:text-sm">
               {t("coming_soon")}
             </p>
           </div>
