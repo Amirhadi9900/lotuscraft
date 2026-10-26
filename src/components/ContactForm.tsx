@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import {
   Send,
@@ -20,10 +20,6 @@ import {
 import { FIELD_LIMITS } from "@/lib/security";
 
 // ─── Client-side security helpers ──────────────────────────────────
-
-function clientSanitize(input: string): string {
-  return input.replace(/<[^>]*>/g, "").replace(/[<>]/g, "");
-}
 
 /**
  * A 429 can originate from Vercel's edge rate limiter rather than our handler,
@@ -93,13 +89,8 @@ export default function ContactForm({ token }: { token: string }) {
   const [securityToken] = useState(token);
   const [honeypot1, setHoneypot1] = useState("");
   const [honeypot2, setHoneypot2] = useState("");
-  const formLoadTime = useRef(0);
   const submitAttempts = useRef(0);
   const lastSubmitTime = useRef(0);
-
-  useEffect(() => {
-    formLoadTime.current = Date.now();
-  }, []);
 
   const handleInquirySwitch = (type: InquiryType) => {
     setInquiryType(type);
@@ -150,8 +141,7 @@ export default function ContactForm({ token }: { token: string }) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    const sanitized = clientSanitize(value);
-    setFormData((prev) => ({ ...prev, [name]: sanitized }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name as FieldName]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -180,11 +170,10 @@ export default function ContactForm({ token }: { token: string }) {
       setErrors({ general: t("validation.too_many_attempts") });
       return;
     }
-    const elapsed = now - formLoadTime.current;
-    if (elapsed < 3000 && formLoadTime.current > 0) {
-      setSubmitted(true);
-      return;
-    }
+    // Deliberately no client-side minimum-age gate: the server's signed token
+    // already decides what an instant submission means, and the browser cannot
+    // verify it anyway. Faking success here told real visitors their message
+    // had been sent when nothing had left the page.
 
     const newErrors: FormErrors = {};
     for (const key of Object.keys(formData) as FieldName[]) {
@@ -217,8 +206,8 @@ export default function ContactForm({ token }: { token: string }) {
         industry: inquiryType === "business" ? industry : "",
         service: selectedService,
         preferredContact,
-        website: honeypot1,
-        company: honeypot2,
+        _hp_website: honeypot1,
+        _hp_company: honeypot2,
         _token: securityToken,
       };
 
@@ -281,7 +270,7 @@ export default function ContactForm({ token }: { token: string }) {
         <h3 className="text-xl sm:text-2xl font-bold text-charcoal-900 mb-2">
           {t("form_success_title")}
         </h3>
-        <p className="text-sm sm:text-base text-charcoal-500 max-w-md mx-auto leading-relaxed">
+        <p className="text-sm sm:text-base text-charcoal-600 max-w-md mx-auto leading-relaxed">
           {t("form_success")}
         </p>
       </div>
@@ -296,33 +285,39 @@ export default function ContactForm({ token }: { token: string }) {
   const fieldClasses = (field: FieldName) =>
     `${inputBase} pl-10 sm:pl-12 pr-3 py-2.5 sm:py-3 ${
       errors[field]
-        ? "border-red-300 focus:ring-2 focus:ring-red-400/30 focus:border-red-400"
-        : "border-charcoal-200 hover:border-charcoal-300 focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500"
+        ? "border-red-300 focus:ring-2 focus:ring-red-600 focus:border-red-600"
+        : "border-charcoal-200 hover:border-charcoal-300 focus:ring-2 focus:ring-gold-700 focus:border-gold-700"
     }`;
 
   const selectClasses = (hasValue: boolean, hasError = false) =>
     `${inputBase} pl-3 sm:pl-4 pr-10 py-2.5 sm:py-3 appearance-none cursor-pointer ${
       hasError
-        ? "border-red-300 focus:ring-2 focus:ring-red-400/30 focus:border-red-400"
-        : "border-charcoal-200 hover:border-charcoal-300 focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500"
-    } ${hasValue ? "text-charcoal-900" : "text-charcoal-400"}`;
+        ? "border-red-300 focus:ring-2 focus:ring-red-600 focus:border-red-600"
+        : "border-charcoal-200 hover:border-charcoal-300 focus:ring-2 focus:ring-gold-700 focus:border-gold-700"
+    } ${hasValue ? "text-charcoal-900" : "text-charcoal-600"}`;
+
+  // Links each control to its own error message for assistive technology.
+  const a11y = (field: keyof FormErrors) => ({
+    "aria-invalid": errors[field] ? true : undefined,
+    "aria-describedby": errors[field] ? `${field}-error` : undefined,
+  });
 
   const serviceOptions = inquiryType === "business" ? SERVICE_OPTIONS_B2B : SERVICE_OPTIONS_B2C;
 
   const messagePlaceholder =
     inquiryType === "business"
       ? selectedService === "b2b_contract"
-        ? "We'd like to discuss a contract for regular laundry services..."
-        : "Tell us about your business needs..."
+        ? t("form_message_ph_b2b")
+        : t("form_message_ph_business")
       : selectedService === "sewing"
-        ? "I'd like to get a dress altered..."
+        ? t("form_message_ph_sewing")
         : selectedService === "laundry"
-          ? "I need dry cleaning for..."
+          ? t("form_message_ph_laundry")
           : selectedService === "rug_washing"
-            ? "I have a rug that needs professional washing..."
+            ? t("form_message_ph_rug")
             : selectedService === "crafts"
-              ? "I'm interested in a custom craft piece..."
-              : "Tell us how we can help you...";
+              ? t("form_message_ph_crafts")
+              : t("form_message_ph_default");
 
   // ─── Render ────────────────────────────────────────────────────
 
@@ -340,9 +335,9 @@ export default function ContactForm({ token }: { token: string }) {
         tabIndex={-1}
       >
         <label htmlFor="_hp_website">Website</label>
-        <input type="text" id="_hp_website" name="website" value={honeypot1} onChange={(e) => setHoneypot1(e.target.value)} tabIndex={-1} autoComplete="off" />
+        <input type="text" id="_hp_website" name="_hp_website" value={honeypot1} onChange={(e) => setHoneypot1(e.target.value)} tabIndex={-1} autoComplete="off" />
         <label htmlFor="_hp_company">Company</label>
-        <input type="text" id="_hp_company" name="company" value={honeypot2} onChange={(e) => setHoneypot2(e.target.value)} tabIndex={-1} autoComplete="off" />
+        <input type="text" id="_hp_company" name="_hp_company" value={honeypot2} onChange={(e) => setHoneypot2(e.target.value)} tabIndex={-1} autoComplete="off" />
       </div>
       <input type="hidden" name="_token" value={securityToken} />
 
@@ -358,11 +353,18 @@ export default function ContactForm({ token }: { token: string }) {
 
       {/* ── B2C / B2B Toggle ──────────────────────────────────── */}
       <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-3">
+        <p
+          id="inquiry-type-label"
+          className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-3"
+        >
           <UserCircle size={14} className="text-gold-500" />
           {t("form_inquiry_type")}
-        </label>
-        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+        </p>
+        <div
+          role="group"
+          aria-labelledby="inquiry-type-label"
+          className="grid grid-cols-2 gap-2 sm:gap-3"
+        >
           {(["individual", "business"] as const).map((type) => {
             const active = inquiryType === type;
             const Icon = type === "individual" ? User : Building2;
@@ -371,13 +373,14 @@ export default function ContactForm({ token }: { token: string }) {
                 key={type}
                 type="button"
                 onClick={() => handleInquirySwitch(type)}
+                aria-pressed={active}
                 className={`flex items-center justify-center gap-2 px-4 py-3 sm:py-3.5 rounded-xl text-sm font-medium transition-all duration-200 border ${
                   active
                     ? "bg-charcoal-900 text-white border-charcoal-900 shadow-md"
                     : "bg-white text-charcoal-600 border-charcoal-200 hover:border-charcoal-300"
                 }`}
               >
-                <Icon size={16} className={active ? "text-gold-400" : "text-charcoal-400"} />
+                <Icon size={16} className={active ? "text-gold-400" : "text-charcoal-600"} />
                 {t(`form_inquiry_${type}`)}
               </button>
             );
@@ -389,11 +392,11 @@ export default function ContactForm({ token }: { token: string }) {
       <div>
         <label htmlFor="service" className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-2">
           <Sparkles size={14} className="text-gold-500" />
-          {t("form_service")} <span className="text-red-400">*</span>
+          {t("form_service")} <span className="text-red-600">*</span>
         </label>
         <div className="relative">
           <select
-            id="service"
+            id="service" {...a11y("service")}
             name="service"
             required
             value={selectedService}
@@ -405,9 +408,9 @@ export default function ContactForm({ token }: { token: string }) {
               <option key={opt} value={opt}>{t(`form_service_options.${opt}`)}</option>
             ))}
           </select>
-          <ChevronDown size={16} className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-charcoal-400 pointer-events-none" />
+          <ChevronDown size={16} className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-charcoal-600 pointer-events-none" />
         </div>
-        {errors.service && <div className="mt-1.5"><FieldError message={errors.service} /></div>}
+        {errors.service && <div className="mt-1.5"><FieldError field="service" message={errors.service} /></div>}
       </div>
 
       {/* ── Business Fields (conditional) ─────────────────────── */}
@@ -416,7 +419,7 @@ export default function ContactForm({ token }: { token: string }) {
           <div>
             <label htmlFor="businessName" className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-2">
               <Building2 size={14} className="text-gold-500" />
-              {t("form_business_name")} <span className="text-red-400">*</span>
+              {t("form_business_name")} <span className="text-red-600">*</span>
             </label>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 sm:pl-4">
@@ -424,30 +427,30 @@ export default function ContactForm({ token }: { token: string }) {
               </div>
               <input
                 type="text"
-                id="businessName"
+                id="businessName" {...a11y("businessName")}
                 required
                 maxLength={100}
                 autoComplete="organization"
                 placeholder={t("form_business_name_placeholder")}
                 value={businessName}
-                onChange={(e) => { setBusinessName(clientSanitize(e.target.value)); setErrors((prev) => ({ ...prev, businessName: undefined })); }}
+                onChange={(e) => { setBusinessName(e.target.value); setErrors((prev) => ({ ...prev, businessName: undefined })); }}
                 className={`${inputBase} pl-10 sm:pl-12 pr-3 py-2.5 sm:py-3 ${
                   errors.businessName
-                    ? "border-red-300 focus:ring-2 focus:ring-red-400/30 focus:border-red-400"
-                    : "border-charcoal-200 hover:border-charcoal-300 focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500"
+                    ? "border-red-300 focus:ring-2 focus:ring-red-600 focus:border-red-600"
+                    : "border-charcoal-200 hover:border-charcoal-300 focus:ring-2 focus:ring-gold-700 focus:border-gold-700"
                 }`}
               />
             </div>
-            {errors.businessName && <div className="mt-1.5"><FieldError message={errors.businessName} /></div>}
+            {errors.businessName && <div className="mt-1.5"><FieldError field="businessName" message={errors.businessName} /></div>}
           </div>
           <div>
             <label htmlFor="industry" className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-2">
               <Sparkles size={14} className="text-gold-500" />
-              {t("form_industry")} <span className="text-red-400">*</span>
+              {t("form_industry")} <span className="text-red-600">*</span>
             </label>
             <div className="relative">
               <select
-                id="industry"
+                id="industry" {...a11y("industry")}
                 required
                 value={industry}
                 onChange={(e) => { setIndustry(e.target.value); setErrors((prev) => ({ ...prev, industry: undefined })); }}
@@ -458,9 +461,9 @@ export default function ContactForm({ token }: { token: string }) {
                   <option key={opt} value={opt}>{t(`form_industry_options.${opt}`)}</option>
                 ))}
               </select>
-              <ChevronDown size={16} className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-charcoal-400 pointer-events-none" />
+              <ChevronDown size={16} className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-charcoal-600 pointer-events-none" />
             </div>
-            {errors.industry && <div className="mt-1.5"><FieldError message={errors.industry} /></div>}
+            {errors.industry && <div className="mt-1.5"><FieldError field="industry" message={errors.industry} /></div>}
           </div>
         </div>
       )}
@@ -469,7 +472,7 @@ export default function ContactForm({ token }: { token: string }) {
       <div>
         <label htmlFor="name" className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-2">
           <User size={14} className="text-gold-500" />
-          {t("form_name")} <span className="text-red-400">*</span>
+          {t("form_name")} <span className="text-red-600">*</span>
         </label>
         <div className="relative">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 sm:pl-4">
@@ -477,12 +480,12 @@ export default function ContactForm({ token }: { token: string }) {
           </div>
           <input
             type="text"
-            id="name"
+            id="name" {...a11y("name")}
             name="name"
             required
             maxLength={FIELD_LIMITS.name.max}
             autoComplete="name"
-            placeholder="John Doe"
+            placeholder={t("form_name_placeholder")}
             value={formData.name}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -490,7 +493,7 @@ export default function ContactForm({ token }: { token: string }) {
           />
         </div>
         <div className="flex items-start justify-between mt-1.5 gap-2">
-          {errors.name ? <FieldError message={errors.name} /> : <span />}
+          {errors.name ? <FieldError field="name" message={errors.name} /> : <span />}
           <CharCounter current={formData.name.length} max={FIELD_LIMITS.name.max} />
         </div>
       </div>
@@ -500,7 +503,7 @@ export default function ContactForm({ token }: { token: string }) {
         <div>
           <label htmlFor="email" className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-2">
             <Mail size={14} className="text-gold-500" />
-            {t("form_email")} <span className="text-red-400">*</span>
+            {t("form_email")} <span className="text-red-600">*</span>
           </label>
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 sm:pl-4">
@@ -508,7 +511,7 @@ export default function ContactForm({ token }: { token: string }) {
             </div>
             <input
               type="email"
-              id="email"
+              id="email" {...a11y("email")}
               name="email"
               required
               maxLength={FIELD_LIMITS.email.max}
@@ -521,7 +524,7 @@ export default function ContactForm({ token }: { token: string }) {
             />
           </div>
           <div className="flex items-start justify-between mt-1.5 gap-2">
-            {errors.email ? <FieldError message={errors.email} /> : <span />}
+            {errors.email ? <FieldError field="email" message={errors.email} /> : <span />}
             <CharCounter current={formData.email.length} max={FIELD_LIMITS.email.max} />
           </div>
         </div>
@@ -536,7 +539,7 @@ export default function ContactForm({ token }: { token: string }) {
             </div>
             <input
               type="tel"
-              id="phone"
+              id="phone" {...a11y("phone")}
               name="phone"
               maxLength={FIELD_LIMITS.phone.max}
               autoComplete="tel"
@@ -548,7 +551,7 @@ export default function ContactForm({ token }: { token: string }) {
             />
           </div>
           <div className="flex items-start justify-between mt-1.5 gap-2">
-            {errors.phone ? <FieldError message={errors.phone} /> : <span />}
+            {errors.phone ? <FieldError field="phone" message={errors.phone} /> : <span />}
             <CharCounter current={formData.phone.length} max={FIELD_LIMITS.phone.max} />
           </div>
         </div>
@@ -556,39 +559,48 @@ export default function ContactForm({ token }: { token: string }) {
 
       {/* ── Preferred Contact ─────────────────────────────────── */}
       <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-2">
+        <p
+          id="preferred-contact-label"
+          className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-2"
+        >
           <MessageSquare size={14} className="text-gold-500" />
-          {t("form_preferred_contact")} <span className="text-red-400">*</span>
-        </label>
-        <div className="flex flex-wrap gap-2 sm:gap-3">
+          {t("form_preferred_contact")} <span aria-hidden="true" className="text-red-600">*</span>
+        </p>
+        <div
+          role="group"
+          aria-labelledby="preferred-contact-label"
+          aria-describedby={errors.preferredContact ? "preferredContact-error" : undefined}
+          className="flex flex-wrap gap-2 sm:gap-3"
+        >
           {CONTACT_METHOD_OPTIONS.map((opt) => (
             <button
               key={opt}
               type="button"
+              aria-pressed={preferredContact === opt}
               onClick={() => { setPreferredContact(opt); setErrors((prev) => ({ ...prev, preferredContact: undefined })); }}
               className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 border ${
                 preferredContact === opt
-                  ? "bg-gold-600 text-white border-gold-600 shadow-md shadow-gold-600/20"
+                  ? "bg-gold-700 text-white border-gold-700 shadow-md shadow-gold-600/20"
                   : errors.preferredContact
                     ? "bg-white text-charcoal-600 border-red-300 hover:border-red-400"
-                    : "bg-white text-charcoal-600 border-charcoal-200 hover:border-gold-300 hover:text-gold-600"
+                    : "bg-white text-charcoal-600 border-charcoal-200 hover:border-gold-300 hover:text-gold-700"
               }`}
             >
               {t(`form_preferred_contact_options.${opt}`)}
             </button>
           ))}
         </div>
-        {errors.preferredContact && <div className="mt-1.5"><FieldError message={errors.preferredContact} /></div>}
+        {errors.preferredContact && <div className="mt-1.5"><FieldError field="preferredContact" message={errors.preferredContact} /></div>}
       </div>
 
       {/* ── Message ───────────────────────────────────────────── */}
       <div>
         <label htmlFor="message" className="flex items-center gap-2 text-sm font-medium text-charcoal-700 mb-2">
           <MessageSquare size={14} className="text-gold-500" />
-          {t("form_message")} <span className="text-red-400">*</span>
+          {t("form_message")} <span className="text-red-600">*</span>
         </label>
         <textarea
-          id="message"
+          id="message" {...a11y("message")}
           name="message"
           required
           rows={5}
@@ -599,12 +611,12 @@ export default function ContactForm({ token }: { token: string }) {
           onBlur={handleBlur}
           className={`${inputBase} px-3 py-2.5 sm:px-4 sm:py-3 resize-none ${
             errors.message
-              ? "border-red-300 focus:ring-2 focus:ring-red-400/30 focus:border-red-400"
-              : "border-charcoal-200 hover:border-charcoal-300 focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500"
+              ? "border-red-300 focus:ring-2 focus:ring-red-600 focus:border-red-600"
+              : "border-charcoal-200 hover:border-charcoal-300 focus:ring-2 focus:ring-gold-700 focus:border-gold-700"
           }`}
         />
         <div className="flex items-start justify-between mt-1.5 gap-2">
-          {errors.message ? <FieldError message={errors.message} /> : <span />}
+          {errors.message ? <FieldError field="message" message={errors.message} /> : <span />}
           <CharCounter current={formData.message.length} max={FIELD_LIMITS.message.max} warnAt={0.9} />
         </div>
       </div>
@@ -614,7 +626,7 @@ export default function ContactForm({ token }: { token: string }) {
         <button
           type="submit"
           disabled={submitting}
-          className="group relative flex items-center justify-center gap-2.5 w-full px-6 py-3.5 sm:px-8 sm:py-4 bg-gold-600 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-500 hover:shadow-xl hover:shadow-gold-600/25 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-gold-600/20 overflow-hidden"
+          className="group relative flex items-center justify-center gap-2.5 w-full px-6 py-3.5 sm:px-8 sm:py-4 bg-gold-700 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-gold-800 hover:shadow-xl hover:shadow-gold-600/25 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-gold-600/20 overflow-hidden"
         >
           <span className="absolute inset-0 bg-linear-to-r from-gold-500 to-gold-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <span className="relative flex items-center gap-2.5">
@@ -634,7 +646,7 @@ export default function ContactForm({ token }: { token: string }) {
       </div>
 
       {/* ── Security badge ────────────────────────────────────── */}
-      <p className="flex items-center justify-center gap-1.5 text-xs text-charcoal-400 select-none pt-1">
+      <p className="flex items-center justify-center gap-1.5 text-xs text-charcoal-600 select-none pt-1">
         <Shield size={13} className="shrink-0" />
         {t("form_secured")}
       </p>
@@ -644,9 +656,9 @@ export default function ContactForm({ token }: { token: string }) {
 
 // ─── Sub-components ─────────────────────────────────────────────
 
-function FieldError({ message }: { message: string }) {
+function FieldError({ field, message }: { field: string; message: string }) {
   return (
-    <p role="alert" className="text-xs sm:text-sm text-red-600 flex items-center gap-1">
+    <p id={`${field}-error`} role="alert" className="text-xs sm:text-sm text-red-600 flex items-center gap-1">
       <AlertCircle size={13} className="shrink-0" />
       {message}
     </p>
@@ -655,7 +667,7 @@ function FieldError({ message }: { message: string }) {
 
 function CharCounter({ current, max, warnAt = 0.8 }: { current: number; max: number; warnAt?: number }) {
   const ratio = current / max;
-  const color = ratio >= 1 ? "text-red-600 font-semibold" : ratio >= warnAt ? "text-red-500 font-medium" : "text-charcoal-400";
+  const color = ratio >= 1 ? "text-red-600 font-semibold" : ratio >= warnAt ? "text-red-500 font-medium" : "text-charcoal-600";
   if (current === 0) return null;
   return <span className={`text-xs shrink-0 tabular-nums transition-colors ${color}`}>{current}/{max}</span>;
 }

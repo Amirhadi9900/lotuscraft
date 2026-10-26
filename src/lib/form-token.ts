@@ -78,6 +78,14 @@ export function verifyFormToken(token: unknown): TokenResult {
     return { valid: false, reason: "invalid_timestamp" };
   }
 
+  // Replay must be checked before the minimum-age rule: a token younger than
+  // MIN_AGE_MS returns early with `too_fast`, so a spent token would otherwise
+  // be accepted again for its first three seconds — which is exactly the window
+  // an automated client submits inside.
+  if (spentNonces.has(nonce)) {
+    return { valid: false, reason: "replayed" };
+  }
+
   const age = Date.now() - issued;
   if (age < MIN_AGE_MS) {
     return { valid: false, reason: "too_fast" };
@@ -86,11 +94,16 @@ export function verifyFormToken(token: unknown): TokenResult {
     return { valid: false, reason: "token_expired" };
   }
 
-  if (spentNonces.has(nonce)) {
-    return { valid: false, reason: "replayed" };
-  }
-
-  rememberNonce(nonce);
-
   return { valid: true };
+}
+
+/**
+ * Marks a token spent. Kept separate from verification so that a submission
+ * rejected by validation leaves the visitor's token usable — spending it there
+ * forced a page reload and lost the message they had just typed. Call this only
+ * once the submission is certain to be delivered.
+ */
+export function consumeFormToken(token: string): void {
+  const nonce = token.split(".")[1];
+  if (nonce) rememberNonce(nonce);
 }

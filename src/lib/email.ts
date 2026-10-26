@@ -309,7 +309,10 @@ export async function sendContactEmail(
 
     return { success: true };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown email error";
+    // SMTP rejections quote the recipient address, so strip addresses before
+    // this string is logged or handed back to the route handler.
+    const raw = err instanceof Error ? err.message : "Unknown email error";
+    const message = raw.replace(/[\w.+-]+@[\w-]+(?:\.[\w-]+)*/g, "[redacted]");
     logEvent("error", "email_send_failed", { message });
     return { success: false, error: message };
   }

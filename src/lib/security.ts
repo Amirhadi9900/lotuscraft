@@ -204,19 +204,24 @@ export function validateRequestHeaders(headers: Headers): {
     return { valid: false, reason: "missing_user_agent" };
   }
 
-  const botPatterns = [
-    /bot(?!.*googlebot)/i,
-    /spider/i,
-    /crawl/i,
-    /scraper/i,
-    /curl/i,
-    /wget/i,
-    /python-requests/i,
-    /http-client/i,
-  ];
-  for (const pattern of botPatterns) {
-    if (pattern.test(userAgent)) {
-      return { valid: false, reason: "bot_user_agent" };
+  // Search-engine crawlers are not the threat this form faces — they do not POST
+  // enquiries — and the previous /bot(?!.*googlebot)/ lookahead never behaved as
+  // it read: it matched the "bot" inside Googlebot's own UA and rejected it.
+  if (!/googlebot|bingbot/i.test(userAgent)) {
+    const botPatterns = [
+      /bot/i,
+      /spider/i,
+      /crawl/i,
+      /scraper/i,
+      /curl/i,
+      /wget/i,
+      /python-requests/i,
+      /http-client/i,
+    ];
+    for (const pattern of botPatterns) {
+      if (pattern.test(userAgent)) {
+        return { valid: false, reason: "bot_user_agent" };
+      }
     }
   }
 
@@ -225,8 +230,22 @@ export function validateRequestHeaders(headers: Headers): {
 
 // ─── Origin Validation ─────────────────────────────────────────────
 
-function hostOnly(value: string): string {
-  return value.replace(/^[a-z][a-z0-9+.-]*:\/\//i, "").split("/")[0].split(":")[0];
+/**
+ * Normalises a Host header or an Origin/Referer URL down to `hostname[:port]`.
+ * Parsing rather than string surgery matters: `http://localhost:3000@evil.example`
+ * and `http://localhost:3000.evil.example` both read as "this host" to a
+ * split-on-slash/split-on-colon routine, while URL() reports the real hostname.
+ * Default ports are dropped so https://example.com matches Host: example.com.
+ */
+function hostAndPort(value: string): string | null {
+  try {
+    const url = new URL(value.includes("://") ? value : `https://${value}`);
+    const defaultPort = url.protocol === "https:" ? "443" : "80";
+    const port = url.port && url.port !== defaultPort ? `:${url.port}` : "";
+    return `${url.hostname.toLowerCase()}${port}`;
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -251,7 +270,14 @@ export function validateOrigin(headers: Headers): {
   // Sandboxed frames and some privacy configurations report an opaque origin.
   if (candidate === "null") return { allowed: false, reason: "opaque_origin" };
 
-  return hostOnly(candidate) === hostOnly(host)
+  const expected = hostAndPort(host);
+  const sent = hostAndPort(candidate);
+
+  if (!expected || !sent) {
+    return { allowed: false, reason: "unparseable_origin" };
+  }
+
+  return sent === expected
     ? { allowed: true }
     : { allowed: false, reason: "origin_mismatch" };
 }

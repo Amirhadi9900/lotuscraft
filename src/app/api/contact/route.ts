@@ -27,7 +27,7 @@ import {
   validateRequestHeaders,
   validateOrigin,
 } from "@/lib/security";
-import { verifyFormToken } from "@/lib/form-token";
+import { consumeFormToken, verifyFormToken } from "@/lib/form-token";
 import { logEvent, newRequestId } from "@/lib/log";
 import { sendContactEmail } from "@/lib/email";
 
@@ -102,6 +102,14 @@ export async function POST(request: NextRequest) {
     }
 
     // ── Layer 4: Parse Request Body ─────────────────────────────
+    // Advisory only — content-length is client-supplied — but it stops a
+    // careless or deliberate multi-megabyte POST from being read into memory.
+    const declaredSize = Number(request.headers.get("content-length"));
+    if (Number.isFinite(declaredSize) && declaredSize > 32 * 1024) {
+      logEvent("warn", "contact_rejected", { requestId, stage: "body_size" });
+      return NextResponse.json({ error: "payload_too_large" }, { status: 413 });
+    }
+
     let body: Record<string, unknown>;
     try {
       body = await request.json();
@@ -112,7 +120,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!body || typeof body !== "object") {
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
       return NextResponse.json(
         { error: "invalid_body" },
         { status: 400 }
@@ -123,7 +131,18 @@ export async function POST(request: NextRequest) {
     // The only signal that still discards silently. The fields are hidden from
     // sight and keyboard, so a human cannot fill them: a value here is proof of
     // an automated client, with no realistic false positive.
-    if (body.website || body.company || body.url || body.fax) {
+    // The rendered fields are named _hp_website/_hp_company so browser autofill
+    // cannot stumble into them and destroy a real enquiry. A payload carrying
+    // the classic honeypot names at all is a generic spam template, since this
+    // form no longer sends those keys.
+    if (
+      body._hp_website ||
+      body._hp_company ||
+      body.website ||
+      body.company ||
+      body.url ||
+      body.fax
+    ) {
       logEvent("warn", "contact_rejected", { requestId, stage: "honeypot" });
       return silentSuccess();
     }
@@ -131,7 +150,8 @@ export async function POST(request: NextRequest) {
     // ── Layer 6: Signed token validation ────────────────────────
     let quarantine: string | undefined;
 
-    const tokenCheck = verifyFormToken(body._token);
+    const tokenValue = typeof body._token === "string" ? body._token : "";
+    const tokenCheck = verifyFormToken(tokenValue);
     if (!tokenCheck.valid) {
       if (tokenCheck.reason === "too_fast") {
         // Suspicious timing is not proof of a bot — browser autofill can beat
@@ -270,11 +290,17 @@ export async function POST(request: NextRequest) {
       messageLength: sanitized.message.length,
     });
 
+    // The token is spent here and nowhere earlier: every check above can still
+    // reject the submission, and a rejected attempt must leave the visitor able
+    // to fix the field and retry without reloading the page.
+    if (tokenValue) consumeFormToken(tokenValue);
+
     const emailResult = await sendContactEmail(sanitized, quarantine);
 
     if (!emailResult.success) {
       logEvent("error", "contact_delivery_failed", {
         requestId,
+        // sendContactEmail already strips addresses from SMTP failures.
         reason: emailResult.error,
       });
       return NextResponse.json(
