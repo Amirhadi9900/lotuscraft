@@ -22,7 +22,7 @@
       {
         "heading": "Rekisterinpitäjä",
         "paragraphs": [
-          "Lotus Craft, Helsinginkatu 11 / Kustaankatu 1, 00500 Helsinki, on tämän sivuston tietojen käsittelystä vastaava rekisterinpitäjä. Kysymykset: +358 40 681 2264 tai lotuscraft.fin@gmail.com.",
+          "Lotus Craft (Y-tunnus 3583247-2), Helsinginkatu 11 / Kustaankatu 1, 00500 Helsinki, on tämän sivuston tietojen käsittelystä vastaava rekisterinpitäjä. Kysymykset: +358 40 681 2264 tai lotuscraft.fin@gmail.com.",
           "Emme ole nimittäneet tietosuojavastaavaa, eikä sellaista toimintamme laajuus huomioon ottaen tarvita. Henkilötietojasi koskevat pyynnöt osoitetaan suoraan edellä oleviin yhteystietoihin."
         ],
         "bullets": []
@@ -477,7 +477,8 @@
     "hours_weekday": "Ma – Pe: 10:00 – 18:00",
     "hours_saturday": "La: 10:00 – 16:00",
     "hours_sunday": "Su: Suljettu",
-    "copyright": "© 2026 Lotus Craft. Kaikki oikeudet pidätetään."
+    "copyright": "© 2026 Lotus Craft. Kaikki oikeudet pidätetään.",
+    "business_id": "Y-tunnus 3583247-2"
   },
   "cta": {
     "title": "Valmiina aloittamaan?",

@@ -11,6 +11,8 @@ export const defaultLocale: Locale = "fi";
 export const business = {
   name: "Lotus Craft",
   alternateName: "ompelimo Lotus Crafted",
+  /** Finnish trade identifier from the YTJ register. */
+  businessId: "3583247-2",
   phone: "+358406812264",
   phoneDisplay: "+358 40 681 2264",
   email: "lotuscraft.fin@gmail.com",
@@ -201,6 +203,13 @@ export async function businessJsonLd(locale: Locale) {
     "@id": `${absolute("/")}/#business`,
     name: business.name,
     alternateName: business.alternateName,
+    // The registration number, not vatID: Y-tunnus is the trade identifier and
+    // says nothing about whether the business is VAT-registered.
+    identifier: {
+      "@type": "PropertyValue",
+      propertyID: "Y-tunnus",
+      value: business.businessId,
+    },
     description: t("business_description"),
     url: absolute(localePath(locale)),
     // A dedicated 512px rendition: /images/logo.png is the 688KB master the

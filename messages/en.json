@@ -22,7 +22,7 @@
       {
         "heading": "Data controller",
         "paragraphs": [
-          "Lotus Craft, Helsinginkatu 11 / Kustaankatu 1, 00500 Helsinki, is the data controller for this website. Questions: +358 40 681 2264 or lotuscraft.fin@gmail.com.",
+          "Lotus Craft (business ID 3583247-2), Helsinginkatu 11 / Kustaankatu 1, 00500 Helsinki, is the data controller for this website. Questions: +358 40 681 2264 or lotuscraft.fin@gmail.com.",
           "We have not appointed a data protection officer, and given the scale of our operations one is not required. Requests about your personal data should be sent to the contact details above."
         ],
         "bullets": []
@@ -477,7 +477,8 @@
     "hours_weekday": "Mon – Fri: 10:00 – 18:00",
     "hours_saturday": "Sat: 10:00 – 16:00",
     "hours_sunday": "Sun: Closed",
-    "copyright": "© 2026 Lotus Craft. All rights reserved."
+    "copyright": "© 2026 Lotus Craft. All rights reserved.",
+    "business_id": "Business ID 3583247-2"
   },
   "cta": {
     "title": "Ready to Get Started?",

@@ -123,6 +123,9 @@ export default function Footer() {
           <p className="text-center sm:text-left text-xs sm:text-sm text-charcoal-400">
             {t("copyright")}
           </p>
+          <p className="text-center sm:text-left text-xs sm:text-sm text-charcoal-400">
+            {t("business_id")}
+          </p>
           <Link
             href="/tietosuoja"
             className="text-xs sm:text-sm text-charcoal-400 hover:text-gold-400 transition-colors"
